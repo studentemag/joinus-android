@@ -17,11 +17,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/meeting_title"
         android:layout_alignParentLeft="true"
-        android:layout_toLeftOf="@+id/time"
-        style="@android:style/Widget.Holo.Spinner" />
+        android:layout_toLeftOf="@+id/picked_time"
+        style="@android:style/Widget.Holo.Spinner"
+        android:onClick="showDatePickerDialog" />
     
     <TextView
-        android:id="@id/time"
+        android:id="@id/picked_time"
         android:layout_width="96dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/meeting_title"
@@ -35,5 +36,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/picked_date"
         android:hint="@string/meeting_address" />
+    
+    <com.google.android.maps.MapView 
+        android:id="@+id/map"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/meeting_address" />
 
 </RelativeLayout>

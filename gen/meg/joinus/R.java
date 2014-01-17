@@ -24,16 +24,17 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_newEvent=0x7f080009;
-        public static final int action_settings=0x7f080008;
-        public static final int firstLine=0x7f080006;
-        public static final int listview=0x7f080005;
+        public static final int action_newEvent=0x7f08000a;
+        public static final int action_settings=0x7f080009;
+        public static final int firstLine=0x7f080007;
+        public static final int listview=0x7f080006;
+        public static final int map=0x7f080005;
         public static final int meeting_address=0x7f080004;
         public static final int meeting_title=0x7f080001;
         public static final int phoneNumber=0x7f080000;
         public static final int picked_date=0x7f080002;
-        public static final int secondLine=0x7f080007;
-        public static final int time=0x7f080003;
+        public static final int picked_time=0x7f080003;
+        public static final int secondLine=0x7f080008;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
