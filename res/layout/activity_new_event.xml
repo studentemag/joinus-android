@@ -4,6 +4,7 @@
     android:layout_height="fill_parent"
     android:paddingLeft="16dp"
     android:paddingRight="16dp" >
+    
     <EditText
         android:id="@+id/meeting_title"
         android:layout_width="fill_parent"
@@ -16,16 +17,18 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/meeting_title"
         android:layout_alignParentLeft="true"
-        android:layout_toLeftOf="@+id/time" 
-        style="@android:style/Widget.Holo.Spinner" 
-        android:onClick="showTimePickerDialog" />
+        android:layout_toLeftOf="@+id/time"
+        style="@android:style/Widget.Holo.Spinner" />
     
-    <Spinner
+    <TextView
         android:id="@id/time"
         android:layout_width="96dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/meeting_title"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        style="@android:style/Widget.Holo.Spinner"
+        android:onClick="showTimePickerDialog" />
+    
     <EditText
         android:id="@+id/meeting_address"
         android:layout_width="fill_parent"

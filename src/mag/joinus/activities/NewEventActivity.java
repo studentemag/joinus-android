@@ -21,8 +21,6 @@ public class NewEventActivity extends FragmentActivity {
 			TimePickerDialog.OnTimeSetListener {
 		
 		private TextView textView;
-
-		public TimePickerFragment(){};
 		
 		public void setTextView(TextView textView) {
 			this.textView = textView;
@@ -42,8 +40,8 @@ public class NewEventActivity extends FragmentActivity {
 
 		public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 			// Do something with the time chosen by the user
-			Log.v("joinUsAndroid", "onTimeSet"+hourOfDay+" "+minute);
-			textView.setText(hourOfDay+" "+minute);
+			Log.v("joinUsAndroid", "onTimeSet " + hourOfDay + ":" + minute);
+			textView.setText(hourOfDay + ":" + minute);
 		}
 	}
 
@@ -63,7 +61,7 @@ public class NewEventActivity extends FragmentActivity {
 	
 	public void showTimePickerDialog(View v) {
 	    TimePickerFragment newFragment = new TimePickerFragment();
-	    newFragment.setTextView((TextView) findViewById(R.id.picked_date));
+	    newFragment.setTextView((TextView) findViewById(R.id.time));
 	    newFragment.show(getSupportFragmentManager(), "timePicker");
 	}
 
