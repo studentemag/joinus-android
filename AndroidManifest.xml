@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="meg.joinus.activities.MainActivity"
+            android:name="mag.joinus.activities.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,14 +22,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="meg.joinus.activities.UpcomingEventsActivity"
+            android:name="mag.joinus.activities.UpcomingEventsActivity"
             android:label="@string/title_activity_upcoming_events"
-            android:parentActivityName="meg.joinus.activities.MainActivity" >
+            android:parentActivityName="mag.joinus.activities.MainActivity" >
         </activity>
         <activity
-            android:name="meg.joinus.activities.NewEventActivity"
+            android:name="mag.joinus.activities.NewEventActivity"
             android:label="@string/title_activity_new_event" 
-            android:parentActivityName="meg.joinus.activities.UpcomingEventsActivity" >
+            android:parentActivityName="mag.joinus.activities.UpcomingEventsActivity" >
         </activity>
     </application>
 

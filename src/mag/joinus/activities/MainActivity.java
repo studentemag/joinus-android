@@ -1,7 +1,7 @@
-package meg.joinus.activities;
+package mag.joinus.activities;
 
+import mag.joinus.service.JoinusServiceImpl;
 import meg.joinus.R;
-import meg.joinus.model.JoinUsServiceUtil;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,7 +32,7 @@ public class MainActivity extends Activity {
 	
 	public void signIn(View view){
 		Log.v("joinUsAndroid", "signIn called");
-		JoinUsServiceUtil.signIn( 
+		JoinusServiceImpl.signIn( 
 				((EditText) findViewById(R.id.phoneNumber))
 				.getText().toString());
 		

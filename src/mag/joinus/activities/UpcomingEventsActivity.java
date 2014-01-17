@@ -1,9 +1,9 @@
-package meg.joinus.activities;
+package mag.joinus.activities;
 
+import mag.joinus.model.Meeting;
+import mag.joinus.model.JoinUs;
+import mag.joinus.service.JoinusServiceImpl;
 import meg.joinus.R;
-import meg.joinus.model.Event;
-import meg.joinus.model.JoinUs;
-import meg.joinus.model.JoinUsServiceUtil;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,7 +28,7 @@ public class UpcomingEventsActivity extends Activity {
 		ListView listview = (ListView) findViewById(R.id.listview);
 		EventArrayAdapter adapter = new EventArrayAdapter(
 				this,android.R.layout.simple_list_item_1, 
-				JoinUsServiceUtil.getUpcomingEvents());
+				JoinusServiceImpl.getUpcomingEvents());
 		listview.setAdapter(adapter);
 		
 		listview.setOnItemClickListener(
@@ -36,7 +36,7 @@ public class UpcomingEventsActivity extends Activity {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view,
 		                  int position, long id) {
-					Event event = (Event) parent.getItemAtPosition(position);
+					Meeting event = (Meeting) parent.getItemAtPosition(position);
 					Log.v("joinUsAndroid", "click on "+event.getTitle());
 				}	
 			}

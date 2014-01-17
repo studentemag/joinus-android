@@ -1,10 +1,10 @@
-package meg.joinus.activities;
+package mag.joinus.activities;
 
 
 import java.util.List;
 
+import mag.joinus.model.Meeting;
 import meg.joinus.R;
-import meg.joinus.model.Event;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,11 +13,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class EventArrayAdapter extends ArrayAdapter<Event>{
+public class EventArrayAdapter extends ArrayAdapter<Meeting>{
 	Context context;
-	List<Event> events;
+	List<Meeting> events;
 	
-	public EventArrayAdapter(Context context, int resource, List<Event> events) {
+	public EventArrayAdapter(Context context, int resource, List<Meeting> events) {
 	    super(context, resource, events);
 	    this.events = events;
 	}
@@ -32,7 +32,7 @@ public class EventArrayAdapter extends ArrayAdapter<Event>{
 	        v = vi.inflate(R.layout.listitem_upcoming_events, null);
 	    }
 		
-		Event e = events.get(position);
+		Meeting e = events.get(position);
 		
 		if (e != null) {
 			TextView tt = (TextView) v.findViewById(R.id.firstLine);

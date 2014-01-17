@@ -10,5 +10,7 @@
     <string name="signIn">Sign In</string>
     <string name="title_activity_new_event">NewEventActivity</string>
     
+    <string name="meeting_title">Meeting Title</string>
+    <string name="meeting_address">Meeting Address</string>
 
 </resources>

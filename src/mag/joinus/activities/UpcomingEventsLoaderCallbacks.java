@@ -1,4 +1,4 @@
-package meg.joinus.activities;
+package mag.joinus.activities;
 
 import android.app.ListActivity;
 import android.app.LoaderManager.LoaderCallbacks;

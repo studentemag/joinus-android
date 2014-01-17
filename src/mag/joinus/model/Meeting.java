@@ -1,13 +1,13 @@
-package meg.joinus.model;
+package mag.joinus.model;
 
 import java.util.Date;
 
-public class Event {
+public class Meeting {
 	String title;
 	Date date;
 	String place;
 	
-	public Event(String title, Date date, String place) {
+	public Meeting(String title, Date date, String place) {
 		super();
 		this.title = title;
 		this.date = date;
