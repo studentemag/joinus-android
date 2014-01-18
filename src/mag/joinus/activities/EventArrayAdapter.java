@@ -3,9 +3,8 @@ package mag.joinus.activities;
 
 import java.util.List;
 
+import mag.joinus.R;
 import mag.joinus.model.Meeting;
-import meg.joinus.R;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

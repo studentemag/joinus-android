@@ -1,9 +1,8 @@
 package mag.joinus.activities;
 
+import mag.joinus.R;
 import mag.joinus.model.Meeting;
-import mag.joinus.model.JoinUs;
 import mag.joinus.service.JoinusServiceImpl;
-import meg.joinus.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

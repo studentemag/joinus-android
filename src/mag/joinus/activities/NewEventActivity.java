@@ -1,7 +1,8 @@
 package mag.joinus.activities;
 
 import java.util.Calendar;
-import meg.joinus.R;
+
+import mag.joinus.R;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
