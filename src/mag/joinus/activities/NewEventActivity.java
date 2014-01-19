@@ -1,8 +1,14 @@
 package mag.joinus.activities;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import mag.joinus.R;
+import mag.joinus.model.Location;
+import mag.joinus.model.User;
+import mag.joinus.service.JoinusServiceImpl;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -11,17 +17,13 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-
-/*import com.google.android.gms.maps.*;
-import com.google.android.gms.maps.model.*;
-import android.app.Activity;
-import android.os.Bundle;
-*/
 
 public class NewEventActivity extends FragmentActivity {
 	
@@ -82,30 +84,6 @@ public class NewEventActivity extends FragmentActivity {
 		}
 	}
 	
-	
-	/*public class MapPane extends Activity {
-
-	    @Override
-	    protected void onCreate(Bundle savedInstanceState) {
-	        super.onCreate(savedInstanceState);
-	        setContentView(R.layout.map_activity);
-
-	        // Get a handle to the Map Fragment
-	        GoogleMap map = ((MapFragment) getFragmentManager()
-	                .findFragmentById(R.id.map)).getMap();
-
-	        LatLng sydney = new LatLng(-33.867, 151.206);
-
-	        map.setMyLocationEnabled(true);
-	        map.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13));
-
-	        map.addMarker(new MarkerOptions()
-	                .title("Sydney")
-	                .snippet("The most populous city in Australia.")
-	                .position(sydney));
-	    }
-	}*/
-	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +97,31 @@ public class NewEventActivity extends FragmentActivity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.new_event, menu);
 		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    // Handle presses on the action bar items
+	    switch (item.getItemId()) {
+	        case R.id.action_done:
+	        	createEvent();
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}
+	
+	public void createEvent(){
+		String title = ((EditText) findViewById(R.id.meeting_title)).toString();
+		Date date = new Date();
+		Location l = new Location(10,10);
+		User mc = new User("mario");
+		List<String> phones = new ArrayList<String>();
+		phones.add("339142143");
+		phones.add("32143545435");
+		
+		Log.v("joinUsAndroid", "creating event");
+		JoinusServiceImpl.getService().createMeeting(title, date, l, mc, phones);
 	}
 	
 	public void showTimePickerDialog(View v) {

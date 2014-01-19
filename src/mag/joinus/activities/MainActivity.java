@@ -1,7 +1,6 @@
 package mag.joinus.activities;
 
 import mag.joinus.R;
-import mag.joinus.service.JoinusServiceImpl;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +9,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 
 public class MainActivity extends Activity {
 	
@@ -31,11 +29,7 @@ public class MainActivity extends Activity {
 	}
 	
 	public void signIn(View view){
-		Log.v("joinUsAndroid", "signIn called");
-		JoinusServiceImpl.signIn( 
-				((EditText) findViewById(R.id.phoneNumber))
-				.getText().toString());
-		
+		Log.v("joinUsAndroid", "signIn called");		
 		Intent intent = new Intent(this, UpcomingEventsActivity.class);
 		startActivity(intent);
 	}

@@ -2,7 +2,6 @@ package mag.joinus.activities;
 
 import mag.joinus.R;
 import mag.joinus.model.Meeting;
-import mag.joinus.service.JoinusServiceImpl;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,10 +24,12 @@ public class UpcomingEventsActivity extends Activity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		ListView listview = (ListView) findViewById(R.id.listview);
+		/*
 		EventArrayAdapter adapter = new EventArrayAdapter(
 				this,android.R.layout.simple_list_item_1, 
 				JoinusServiceImpl.getUpcomingEvents());
 		listview.setAdapter(adapter);
+		*/
 		
 		listview.setOnItemClickListener(
 			new OnItemClickListener(){

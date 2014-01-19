@@ -3,28 +3,20 @@ package mag.joinus.service;
 import java.util.Date;
 import java.util.List;
 
-import mag.joinus.model.JoinUs;
 import mag.joinus.model.Location;
 import mag.joinus.model.Meeting;
 import mag.joinus.model.User;
 
 public class JoinusServiceImpl implements JoinusService{
 
-	private static JoinUs service = null;
+	private static JoinusService service = null;
 	
-	private static JoinUs getService(){
+	public static JoinusService getService(){
 		if (service==null)
-			service = new JoinUs();
+			service = new JoinusServiceImpl();
 		return service;
 	}
 	
-	public static List<Meeting> getUpcomingEvents(){
-		return getService().getUpcomingEvents();
-	}
-	
-	public static void signIn(String userid){
-		getService().signIn(userid);
-	}
 
 	@Override
 	public Location getLocationFromAddress(String address) {
