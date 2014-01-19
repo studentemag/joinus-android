@@ -22,6 +22,7 @@
         android:targetSdkVersion="19" />
 
     <application
+        android:name="mag.joinus.app.JoinusApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -33,10 +34,6 @@
         <activity
             android:name="mag.joinus.activities.MainActivity"
             android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="mag.joinus.activities.UpcomingEventsActivity"
@@ -47,6 +44,10 @@
             android:name="mag.joinus.activities.NewEventActivity"
             android:label="@string/title_activity_new_event" 
             android:parentActivityName="mag.joinus.activities.UpcomingEventsActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         
         
