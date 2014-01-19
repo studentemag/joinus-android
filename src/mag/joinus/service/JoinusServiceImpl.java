@@ -9,6 +9,7 @@ import mag.joinus.model.Location;
 import mag.joinus.model.Meeting;
 import mag.joinus.model.User;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
@@ -51,6 +52,15 @@ public class JoinusServiceImpl implements JoinusService{
 		           @Override
 		           public void onResponse(JSONObject response) {
 		               Log.v("joinusandroid", response.toString());
+		               Meeting me = new Meeting();
+		               try {
+						me.setTitle(response.getString("title"));
+						me.setDate(response.getLong("date"));
+						me.setPlace(response.getString("place"));
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 		           }
 		       }, new Response.ErrorListener() {
 		           @Override

@@ -1,16 +1,23 @@
 package mag.joinus.model;
 
-import java.util.Date;
-
 public class Meeting {
 	String title;
-	Date date;
+	long date;
 	String place;
+
+	public Meeting() {
 	
-	public Meeting(String title, Date date, String place) {
-		super();
+	}
+
+	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public void setDate(long date) {
 		this.date = date;
+	}
+
+	public void setPlace(String place) {
 		this.place = place;
 	}
 
@@ -18,7 +25,7 @@ public class Meeting {
 		return title;
 	}
 
-	public Date getDate() {
+	public long getDate() {
 		return date;
 	}
 
