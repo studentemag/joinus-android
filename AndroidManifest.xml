@@ -42,7 +42,7 @@
         </activity>
         <activity
             android:name="mag.joinus.activities.NewEventActivity"
-            android:label="@string/title_activity_new_event" 
+            android:label="@string/new_event_activity_title" 
             android:parentActivityName="mag.joinus.activities.UpcomingEventsActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

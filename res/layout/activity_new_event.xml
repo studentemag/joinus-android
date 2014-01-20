@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:paddingLeft="16dp"
@@ -8,32 +9,49 @@
         android:id="@+id/meeting_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/meeting_title" />
+        android:layout_marginTop="10dp"
+        android:hint="@string/new_event_meeting_title" />
     
     <TextView
         android:id="@+id/picked_date"
+        style="@android:style/Widget.Holo.Spinner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/meeting_title"
+        android:layout_marginTop="10dp"
         android:layout_alignParentLeft="true"
+        android:layout_below="@id/meeting_title"
         android:layout_toLeftOf="@+id/picked_time"
-        style="@android:style/Widget.Holo.Spinner"
-        android:onClick="showDatePickerDialog" />
+        android:onClick="showDatePickerDialog"
+        android:text="@string/new_event_meeting_date" />
     
     <TextView
         android:id="@id/picked_time"
+        style="@android:style/Widget.Holo.Spinner"
         android:layout_width="96dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/meeting_title"
+        android:layout_marginTop="10dp"
         android:layout_alignParentRight="true"
-        style="@android:style/Widget.Holo.Spinner"
-        android:onClick="showTimePickerDialog" />
+        android:layout_below="@id/meeting_title"
+        android:onClick="showTimePickerDialog"
+        android:text="@string/new_event_meeting_time" />
     
     <EditText
         android:id="@+id/meeting_address"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:layout_below="@id/picked_date"
-        android:hint="@string/meeting_address" />
+        android:hint="@string/new_event_meeting_address" 
+        android:inputType="text"
+        android:imeOptions="actionSearch" />
+    
+    <fragment
+    	android:id="@+id/map"
+    	android:layout_marginTop="10dp"
+    	android:layout_marginBottom="10dp"
+    	android:layout_width="match_parent"
+    	android:layout_height="match_parent"
+    	android:layout_below="@id/meeting_address"
+    	class="com.google.android.gms.maps.SupportMapFragment"/>
     
 </RelativeLayout>

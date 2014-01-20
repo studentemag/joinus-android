@@ -2,12 +2,14 @@ package mag.joinus.model;
 
 import java.util.List;
 
+import android.location.Location;
+
 
 public class User {
 	
 	private int id;
 	
-	private List<UserLocation> locations;
+	private List<Location> locations;
 
 	private List<Meeting> meetingsAsGuest;
 
@@ -30,7 +32,7 @@ public class User {
 		return id;
 	}
 	
-	public List<UserLocation> getLocations() {
+	public List<Location> getLocations() {
 		return locations;
 	}
 	

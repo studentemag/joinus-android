@@ -5,12 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 
 import mag.joinus.app.JoinusApplication;
-import mag.joinus.model.Location;
 import mag.joinus.model.Meeting;
 import mag.joinus.model.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.location.Location;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;

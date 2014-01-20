@@ -3,9 +3,9 @@ package mag.joinus.service;
 import java.util.Date;
 import java.util.List;
 
-import mag.joinus.model.Location;
 import mag.joinus.model.Meeting;
 import mag.joinus.model.User;
+import android.location.Location;
 
 public interface JoinusService {
 	
