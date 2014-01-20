@@ -3,15 +3,13 @@ package mag.joinus.activities;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 import mag.joinus.R;
 import mag.joinus.app.JoinusApplication;
 import mag.joinus.model.Location;
 import mag.joinus.model.Meeting;
 import mag.joinus.model.User;
-
+import mag.joinus.service.JoinusService;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -28,7 +26,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 
-public class NewEventActivity extends FragmentActivity implements Observer {
+public class NewEventActivity extends FragmentActivity implements CreateMeetingListener {
 	
 	public static class TimePickerFragment extends DialogFragment implements
 			TimePickerDialog.OnTimeSetListener {
@@ -93,6 +91,7 @@ public class NewEventActivity extends FragmentActivity implements Observer {
 		super.onCreate(savedInstanceState);		
 		setContentView(R.layout.activity_new_event);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
+		joinusService = JoinusApplication.getInstance().getService();
 	}
 
 	@Override
@@ -116,7 +115,7 @@ public class NewEventActivity extends FragmentActivity implements Observer {
 	
 	public void createEvent() {
 		String title = ((EditText) findViewById(R.id.meeting_title)).toString();
-		long date = 10;//TODO new Date();
+		long date = 10;
 		Location l = new Location(10,10);
 		User mc = new User("mario");
 		List<String> phones = new ArrayList<String>();
@@ -124,10 +123,7 @@ public class NewEventActivity extends FragmentActivity implements Observer {
 		phones.add("32143545435");
 		
 		Log.v("joinUsAndroid", "creating event");
-		JoinusApplication.getInstance().getService().createMeeting(this, title, date, l, mc, phones);
-		//TODO alternativa è avere un membro application oppure:
-		/*JoinusApplication app = JoinusApplication.getInstance();
-		app.getService().createMeeting(title, date, l, mc, phones);*/
+		joinusService.createMeeting(this, title, date, l, mc, phones);
 	}
 	
 	public void showTimePickerDialog(View v) {
@@ -145,13 +141,6 @@ public class NewEventActivity extends FragmentActivity implements Observer {
 	public void onMeetingCreated(Meeting meet) {
 		//Do something
 	}
-
-	@Override
-	public void update(Observable sogg, Object arg) {
-		if (sogg instanceof MeetingWrapper) {
-			meet = ((MeetingWrapper) sogg).getMeeting();
-		}
-	}
 	
-	private Meeting meet;
+	private JoinusService joinusService;
 }

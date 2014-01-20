@@ -32,7 +32,7 @@ public class JoinusApplication extends Application {
 	 */
 	public JoinusService getService() {
 		if (service == null) 
-			service = new JoinusServiceImpl();
+			service = new JoinusServiceImpl();//TODO passare il context
 		
 		return service;
 	}

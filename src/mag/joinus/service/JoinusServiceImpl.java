@@ -2,9 +2,8 @@ package mag.joinus.service;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Observer;
 
-import mag.joinus.activities.MeetingWrapper;
+import mag.joinus.activities.CreateMeetingListener;
 import mag.joinus.app.JoinusApplication;
 import mag.joinus.model.Location;
 import mag.joinus.model.Meeting;
@@ -13,7 +12,6 @@ import mag.joinus.model.User;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -26,8 +24,6 @@ import com.android.volley.toolbox.Volley;
 
 public class JoinusServiceImpl implements JoinusService {
 
-	//TODO se application possiede il service credo non serva il singleton
-	//private static JoinusService service = null;
 	
 	/**
      * Log or request TAG
@@ -38,12 +34,6 @@ public class JoinusServiceImpl implements JoinusService {
      * Global request queue for Volley
      */
     private RequestQueue mRequestQueue;
-	
-	/*public static JoinusService getService() {
-		if (service == null)
-			service = new JoinusServiceImpl();
-		return service;
-	}*/
 	
 	/**
      * @return The Volley Request queue, the queue will be created if it is null
@@ -71,7 +61,6 @@ public class JoinusServiceImpl implements JoinusService {
 
         Log.d("Adding request to queue: %s", req.getUrl());
 
-        //TODO chiamate a metodi propri o Application.getService.metodo() ?!
         getRequestQueue().add(req);
     }
 
@@ -109,11 +98,11 @@ public class JoinusServiceImpl implements JoinusService {
 	}
 
 	@Override
-	public Meeting createMeeting(FragmentActivity fragAct, String title, long date, Location location,
+	public Meeting createMeeting(CreateMeetingListener listener, String title, long date, Location location,
 			User mc, List<String> phones) {
 		
 		final String URL = "http://93.65.216.110:8080/events";
-		final Observer obs = (Observer) fragAct;
+		final CreateMeetingListener finalListener = listener;
 		// Post params to be sent to the server
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("title", "festa di mario");
@@ -125,16 +114,13 @@ public class JoinusServiceImpl implements JoinusService {
 		           public void onResponse(JSONObject response) {
 		               Log.v("joinusandroid", response.toString());
 		               
-		               MeetingWrapper mw = new MeetingWrapper();
-		               mw.addObserver(obs);
-		               
 		               Meeting m = new Meeting();
 		               try {
 						m.setTitle(response.getString("title"));
 						m.setDate(response.getLong("date"));
 						m.setAddress(response.getString("place"));
 						
-						mw.setMeeting(m);
+						finalListener.onMeetingCreated(m);
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

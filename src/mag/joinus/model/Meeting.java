@@ -3,7 +3,6 @@ package mag.joinus.model;
 import java.util.List;
 
 public class Meeting {
-	//TODO siamo sicuri serva l'id nel lato client?
 	private int id;
 	private String address;
 	private long date;
