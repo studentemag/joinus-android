@@ -2,12 +2,14 @@ package mag.joinus.activities;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import mag.joinus.R;
 import mag.joinus.app.JoinusApplication;
 import mag.joinus.model.Location;
+import mag.joinus.model.Meeting;
 import mag.joinus.model.User;
 
 import android.app.DatePickerDialog;
@@ -26,7 +28,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 
-public class NewEventActivity extends FragmentActivity {
+public class NewEventActivity extends FragmentActivity implements Observer {
 	
 	public static class TimePickerFragment extends DialogFragment implements
 			TimePickerDialog.OnTimeSetListener {
@@ -112,9 +114,9 @@ public class NewEventActivity extends FragmentActivity {
 	    }
 	}
 	
-	public void createEvent(){
+	public void createEvent() {
 		String title = ((EditText) findViewById(R.id.meeting_title)).toString();
-		Date date = new Date();
+		long date = 10;//TODO new Date();
 		Location l = new Location(10,10);
 		User mc = new User("mario");
 		List<String> phones = new ArrayList<String>();
@@ -122,7 +124,7 @@ public class NewEventActivity extends FragmentActivity {
 		phones.add("32143545435");
 		
 		Log.v("joinUsAndroid", "creating event");
-		JoinusApplication.getInstance().getService().createMeeting(title, date, l, mc, phones);
+		JoinusApplication.getInstance().getService().createMeeting(this, title, date, l, mc, phones);
 		//TODO alternativa è avere un membro application oppure:
 		/*JoinusApplication app = JoinusApplication.getInstance();
 		app.getService().createMeeting(title, date, l, mc, phones);*/
@@ -140,4 +142,16 @@ public class NewEventActivity extends FragmentActivity {
 	    newFragment.show(getSupportFragmentManager(), "datePicker");
 	}
 
+	public void onMeetingCreated(Meeting meet) {
+		//Do something
+	}
+
+	@Override
+	public void update(Observable sogg, Object arg) {
+		if (sogg instanceof MeetingWrapper) {
+			meet = ((MeetingWrapper) sogg).getMeeting();
+		}
+	}
+	
+	private Meeting meet;
 }

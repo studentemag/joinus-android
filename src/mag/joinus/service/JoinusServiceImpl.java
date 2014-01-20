@@ -1,9 +1,10 @@
 package mag.joinus.service;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Observer;
 
+import mag.joinus.activities.MeetingWrapper;
 import mag.joinus.app.JoinusApplication;
 import mag.joinus.model.Location;
 import mag.joinus.model.Meeting;
@@ -12,6 +13,7 @@ import mag.joinus.model.User;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -107,10 +109,11 @@ public class JoinusServiceImpl implements JoinusService {
 	}
 
 	@Override
-	public Meeting createMeeting(String title, Date date, Location location,
+	public Meeting createMeeting(FragmentActivity fragAct, String title, long date, Location location,
 			User mc, List<String> phones) {
 		
 		final String URL = "http://93.65.216.110:8080/events";
+		final Observer obs = (Observer) fragAct;
 		// Post params to be sent to the server
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("title", "festa di mario");
@@ -121,11 +124,17 @@ public class JoinusServiceImpl implements JoinusService {
 		           @Override
 		           public void onResponse(JSONObject response) {
 		               Log.v("joinusandroid", response.toString());
-		               Meeting me = new Meeting();
+		               
+		               MeetingWrapper mw = new MeetingWrapper();
+		               mw.addObserver(obs);
+		               
+		               Meeting m = new Meeting();
 		               try {
-						me.setTitle(response.getString("title"));
-						me.setDate(response.getLong("date"));
-						me.setAddress(response.getString("place"));
+						m.setTitle(response.getString("title"));
+						m.setDate(response.getLong("date"));
+						m.setAddress(response.getString("place"));
+						
+						mw.setMeeting(m);
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
