@@ -1,14 +1,13 @@
 package mag.joinus.model;
 
-import java.sql.Date;
 
 public class UserLocation extends Location{
 
 	private int id;
-	private Date date;
+	private long date;//TODO sul server si chiama timestamp
 	private User user;
 	
-	public UserLocation(float latitude, float longitude, int id, Date date,
+	public UserLocation(float latitude, float longitude, int id, long date,
 			User user) {
 		super(latitude, longitude);
 		this.id = id;
@@ -19,7 +18,7 @@ public class UserLocation extends Location{
 	public int getId() {
 		return id;
 	}
-	public Date getDate() {
+	public long getDate() {
 		return date;
 	}
 	public User getUser() {

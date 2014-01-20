@@ -11,7 +11,7 @@ public class User {
 
 	private List<Meeting> meetingsAsGuest;
 
-	private List<Meeting> meetingsAsMoc;
+	private List<Meeting> meetingsAsMc;
 
 	private List<Meeting> meetingsAsParticipant;
 
@@ -38,8 +38,8 @@ public class User {
 		return meetingsAsGuest;
 	}
 	
-	public List<Meeting> getMeetingsAsMoc() {
-		return meetingsAsMoc;
+	public List<Meeting> getMeetingsAsMc() {
+		return meetingsAsMc;
 	}
 	
 	public List<Meeting> getMeetingsAsParticipant() {
@@ -62,5 +62,27 @@ public class User {
 		this.id = id;
 	}
 
+	public void setLocations(List<UserLocation> locations) {
+		this.locations = locations;
+	}
 
+	public void setMeetingsAsGuest(List<Meeting> meetingsAsGuest) {
+		this.meetingsAsGuest = meetingsAsGuest;
+	}
+
+	public void setMeetingsAsMc(List<Meeting> meetingsAsMc) {
+		this.meetingsAsMc = meetingsAsMc;
+	}
+
+	public void setMeetingsAsParticipant(List<Meeting> meetingsAsParticipant) {
+		this.meetingsAsParticipant = meetingsAsParticipant;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public void setUsername(String userName) {
+		this.userName = userName;
+	}
 }

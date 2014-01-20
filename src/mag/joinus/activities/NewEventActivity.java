@@ -6,9 +6,10 @@ import java.util.Date;
 import java.util.List;
 
 import mag.joinus.R;
+import mag.joinus.app.JoinusApplication;
 import mag.joinus.model.Location;
 import mag.joinus.model.User;
-import mag.joinus.service.JoinusServiceImpl;
+
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -35,7 +36,7 @@ public class NewEventActivity extends FragmentActivity {
 		public void setTextView(TextView textView) {
 			this.textView = textView;
 		}
-//Perdiamo gli zeri!!!!!!!!!!!
+//TODO Perdiamo gli zeri!!!!!!!!!!!
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 			// Use the current time as the default values for the picker
@@ -64,13 +65,13 @@ public class NewEventActivity extends FragmentActivity {
 		public void setTextView(TextView textView) {
 			this.textView = textView;
 		}
-//Perdiamo gli zeri!!!!!!!!!!!		
+//TODO Perdiamo gli zeri!!!!!!!!!!!		
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 			// Use the current date as the default date in the picker
 			final Calendar c = Calendar.getInstance();
 			int year = c.get(Calendar.YEAR);
-			int month = c.get(Calendar.MONTH);//SERVE +1!!!!!!!!!!!!!!!!!!
+			int month = c.get(Calendar.MONTH);//TODO SERVE +1!!!!!!!!!!!!!!!!!!
 			int day = c.get(Calendar.DAY_OF_MONTH);
 
 			// Create a new instance of DatePickerDialog and return it
@@ -121,7 +122,10 @@ public class NewEventActivity extends FragmentActivity {
 		phones.add("32143545435");
 		
 		Log.v("joinUsAndroid", "creating event");
-		JoinusServiceImpl.getService().createMeeting(title, date, l, mc, phones);
+		JoinusApplication.getInstance().getService().createMeeting(title, date, l, mc, phones);
+		//TODO alternativa è avere un membro application oppure:
+		/*JoinusApplication app = JoinusApplication.getInstance();
+		app.getService().createMeeting(title, date, l, mc, phones);*/
 	}
 	
 	public void showTimePickerDialog(View v) {

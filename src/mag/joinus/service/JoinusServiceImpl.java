@@ -12,23 +12,93 @@ import mag.joinus.model.User;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
-public class JoinusServiceImpl implements JoinusService{
+public class JoinusServiceImpl implements JoinusService {
 
-	private static JoinusService service = null;
+	//TODO se application possiede il service credo non serva il singleton
+	//private static JoinusService service = null;
 	
-	public static JoinusService getService(){
-		if (service==null)
+	/**
+     * Log or request TAG
+     */
+    public static final String TAG = "VolleyPatterns";
+
+    /**
+     * Global request queue for Volley
+     */
+    private RequestQueue mRequestQueue;
+	
+	/*public static JoinusService getService() {
+		if (service == null)
 			service = new JoinusServiceImpl();
 		return service;
-	}
+	}*/
 	
+	/**
+     * @return The Volley Request queue, the queue will be created if it is null
+     */
+    public RequestQueue getRequestQueue() {
+        // lazy initialize the request queue, the queue instance will be
+        // created when it is accessed for the first time
+        if (mRequestQueue == null) {
+            mRequestQueue = Volley.newRequestQueue(JoinusApplication.getInstance().getApplicationContext());
+        }
+
+        return mRequestQueue;
+    }
+
+    /**
+     * Adds the specified request to the global queue, if tag is specified
+     * then it is used else Default TAG is used.
+     * 
+     * @param req
+     * @param tag
+     */
+    public <T> void addToRequestQueue(Request<T> req, String tag) {
+        // set the default tag if tag is empty
+        req.setTag(TextUtils.isEmpty(tag) ? TAG : tag);
+
+        Log.d("Adding request to queue: %s", req.getUrl());
+
+        //TODO chiamate a metodi propri o Application.getService.metodo() ?!
+        getRequestQueue().add(req);
+    }
+
+    /**
+     * Adds the specified request to the global queue using the Default TAG.
+     * 
+     * @param req
+     * @param tag
+     */
+    public <T> void addToRequestQueue(Request<T> req) {
+        // set the default tag if tag is empty
+        req.setTag(TAG);
+
+        Log.d("Adding request to queue: %s", req.getUrl());
+        
+        getRequestQueue().add(req);
+    }
+
+    /**
+     * Cancels all pending requests by the specified TAG, it is important
+     * to specify a TAG so that the pending/ongoing requests can be cancelled.
+     * 
+     * @param tag
+     */
+    public void cancelPendingRequests(Object tag) {
+        if (mRequestQueue != null) {
+            mRequestQueue.cancelAll(tag);
+        }
+    }
 
 	@Override
 	public Location getLocationFromAddress(String address) {
@@ -39,7 +109,6 @@ public class JoinusServiceImpl implements JoinusService{
 	@Override
 	public Meeting createMeeting(String title, Date date, Location location,
 			User mc, List<String> phones) {
-		// TODO Auto-generated method stub
 		
 		final String URL = "http://93.65.216.110:8080/events";
 		// Post params to be sent to the server
@@ -56,7 +125,7 @@ public class JoinusServiceImpl implements JoinusService{
 		               try {
 						me.setTitle(response.getString("title"));
 						me.setDate(response.getLong("date"));
-						me.setPlace(response.getString("place"));
+						me.setAddress(response.getString("place"));
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -70,7 +139,7 @@ public class JoinusServiceImpl implements JoinusService{
 		       });
 
 		// add the request object to the queue to be executed
-		JoinusApplication.getInstance().addToRequestQueue(req);
+		addToRequestQueue(req);
 		
 		return null;
 	}
