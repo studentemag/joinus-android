@@ -1,11 +1,16 @@
 package mag.joinus.activities;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
 import mag.joinus.R;
+import mag.joinus.app.JoinusApplication;
+import mag.joinus.model.Meeting;
+import mag.joinus.model.User;
+import mag.joinus.service.JoinusService;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -46,7 +51,8 @@ public class NewEventActivity extends FragmentActivity implements
 		OnMarkerDragListener, 
 		OnMapLongClickListener,
 		OnMyLocationButtonClickListener,
-		LocationListener {
+		LocationListener,
+		CreateMeetingListener {
 	
     private GoogleMap mMap;
     private LocationManager mLocationManager;
@@ -59,7 +65,7 @@ public class NewEventActivity extends FragmentActivity implements
 		public void setTextView(TextView textView) {
 			this.textView = textView;
 		}
-		
+
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 			// Use the current time as the default values for the picker
@@ -89,13 +95,15 @@ public class NewEventActivity extends FragmentActivity implements
 		public void setTextView(TextView textView) {
 			this.textView = textView;
 		}
-	
+
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 			// Use the current date as the default date in the picker
 			final Calendar c = Calendar.getInstance();
 			int year = c.get(Calendar.YEAR);
+
 			int month = c.get(Calendar.MONTH);
+
 			int day = c.get(Calendar.DAY_OF_MONTH);
 
 			// Create a new instance of DatePickerDialog and return it
@@ -271,6 +279,8 @@ public class NewEventActivity extends FragmentActivity implements
 		
 		setUpMapIfNeeded();
 		
+		joinusService = JoinusApplication.getInstance().getService();
+
 	}
 	
     private void setUpMapIfNeeded() {
@@ -343,16 +353,18 @@ public class NewEventActivity extends FragmentActivity implements
 	    }
 	}
 	
-	public void createEvent(){
-//		String title = ((EditText) findViewById(R.id.meeting_title)).toString();
-//		Date date = new Date();
-//		User mc = new User("mario");
-//		List<String> phones = new ArrayList<String>();
-//		phones.add("339142143");
-//		phones.add("32143545435");
+
+	public void createEvent() {
+		String title = ((EditText) findViewById(R.id.meeting_title)).toString();
+		long date = 10;
+		//Location l = new Location(10,10);
+		User mc = new User("mario");
+		List<String> phones = new ArrayList<String>();
+		phones.add("339142143");
+		phones.add("32143545435");
 		
 		Log.v("joinUsAndroid", "creating event");
-		//JoinusServiceImpl.getService().createMeeting(title, date, l, mc, phones);
+		//joinusService.createMeeting(this, title, date, l, mc, phones);
 	}
 	
 	public void showTimePickerDialog(View v) {
@@ -430,5 +442,11 @@ public class NewEventActivity extends FragmentActivity implements
 		mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
 		mLocationManager.removeUpdates(this);
 	}
+
+	public void onMeetingCreated(Meeting meet) {
+		//Do something
+	}
+	
+	private JoinusService joinusService;
 
 }

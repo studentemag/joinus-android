@@ -38,7 +38,7 @@ public class EventArrayAdapter extends ArrayAdapter<Meeting>{
 	        TextView tt1 = (TextView) v.findViewById(R.id.secondLine);
 	        
 	        tt.setText(e.getTitle());
-	        tt1.setText(e.getDate().toString());
+	        tt1.setText("" + e.getDate());
 		}
 
 		return v;
