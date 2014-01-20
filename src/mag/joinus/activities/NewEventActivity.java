@@ -1,7 +1,6 @@
 package mag.joinus.activities;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -9,7 +8,6 @@ import java.util.Locale;
 import mag.joinus.R;
 import mag.joinus.app.JoinusApplication;
 import mag.joinus.model.Meeting;
-import mag.joinus.model.User;
 import mag.joinus.service.JoinusService;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -53,6 +51,14 @@ public class NewEventActivity extends FragmentActivity implements
 		OnMyLocationButtonClickListener,
 		LocationListener,
 		CreateMeetingListener {
+	
+	/*
+	 * Meeting parameters
+	 */
+	private String title;
+	private String address;
+	private LatLng location;
+	
 	
     private GoogleMap mMap;
     private LocationManager mLocationManager;
@@ -292,8 +298,6 @@ public class NewEventActivity extends FragmentActivity implements
             
             // Acquire a reference to the system Location Manager
             mLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-            
-           
             		
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
@@ -318,6 +322,12 @@ public class NewEventActivity extends FragmentActivity implements
     }
     
     public void setUpMeetingLocation(String address, LatLng latLng){
+    	
+    	this.address = address;
+    	this.location = latLng;
+    	EditText textbox = (EditText) findViewById(R.id.meeting_title);
+    	this.title=textbox.getText().toString();
+    	
     	mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f));
     	((EditText) findViewById(R.id.meeting_address)).setText(address);
     	
@@ -355,16 +365,8 @@ public class NewEventActivity extends FragmentActivity implements
 	
 
 	public void createEvent() {
-		String title = ((EditText) findViewById(R.id.meeting_title)).toString();
-		long date = 10;
-		//Location l = new Location(10,10);
-		User mc = new User("mario");
-		List<String> phones = new ArrayList<String>();
-		phones.add("339142143");
-		phones.add("32143545435");
-		
 		Log.v("joinUsAndroid", "creating event");
-		//joinusService.createMeeting(this, title, date, l, mc, phones);
+		joinusService.createMeeting(this, title, 0, location, null, null);
 	}
 	
 	public void showTimePickerDialog(View v) {
@@ -381,7 +383,6 @@ public class NewEventActivity extends FragmentActivity implements
 
 	@Override
 	public void onMapLongClick(LatLng arg0) {
-		// TODO Auto-generated method stub
 		Log.v("newEventActivity","onMapLongClick"+arg0.toString());
 		Location l = new Location(LocationManager.NETWORK_PROVIDER);
 		l.setLatitude(arg0.latitude);
@@ -445,6 +446,7 @@ public class NewEventActivity extends FragmentActivity implements
 
 	public void onMeetingCreated(Meeting meet) {
 		//Do something
+		Log.v("joinUsAndroid",meet.getTitle());
 	}
 	
 	private JoinusService joinusService;

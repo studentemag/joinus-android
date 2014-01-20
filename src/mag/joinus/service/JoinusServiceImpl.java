@@ -21,6 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.model.LatLng;
 
 public class JoinusServiceImpl implements JoinusService {
 
@@ -98,15 +99,15 @@ public class JoinusServiceImpl implements JoinusService {
 	}
 
 	@Override
-	public Meeting createMeeting(CreateMeetingListener listener, String title, long date, Location location,
+	public Meeting createMeeting(CreateMeetingListener listener, String title, long date, LatLng location,
 			User mc, List<String> phones) {
 		
 		final String URL = "http://93.65.216.110:8080/events";
 		final CreateMeetingListener finalListener = listener;
 		// Post params to be sent to the server
 		HashMap<String, String> params = new HashMap<String, String>();
-		params.put("title", "festa di mario");
-		params.put("latitude","10");
+		params.put("title", title);
+		params.put("latitude",location.latitude+"");
 
 		JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, URL, new JSONObject(params),
 		       new Response.Listener<JSONObject>() {
@@ -116,11 +117,13 @@ public class JoinusServiceImpl implements JoinusService {
 		               
 		               Meeting m = new Meeting();
 		               try {
-						m.setTitle(response.getString("title"));
-						m.setDate(response.getLong("date"));
-						m.setAddress(response.getString("place"));
+		            	   m.setId(response.getInt("id"));
+		            	   m.setTitle(response.getString("title"));
+		            	   m.setDate(response.getLong("date"));
+		            	   m.setAddress(response.getString("address"));		            	   
+		            	   m.setLatitude( (float)response.getDouble("latitude"));
 						
-						finalListener.onMeetingCreated(m);
+		            	   finalListener.onMeetingCreated(m);
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

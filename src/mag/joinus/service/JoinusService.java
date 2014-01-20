@@ -7,6 +7,8 @@ import mag.joinus.model.Meeting;
 import mag.joinus.model.User;
 import android.location.Location;
 
+import com.google.android.gms.maps.model.LatLng;
+
 public interface JoinusService {
 	
 	public Location getLocationFromAddress(String address);
@@ -14,7 +16,7 @@ public interface JoinusService {
 				CreateMeetingListener listener,
 				String title, 
 				long timestamp, 
-				Location location, 
+				LatLng location, 
 				User mc, 
 				List<String> phones);
 
