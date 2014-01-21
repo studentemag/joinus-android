@@ -1,13 +1,16 @@
 package mag.joinus.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import mag.joinus.activities.CreateMeetingListener;
+import mag.joinus.activities.GetMeetingListListener;
 import mag.joinus.app.JoinusApplication;
 import mag.joinus.model.Meeting;
 import mag.joinus.model.User;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,6 +22,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.model.LatLng;
@@ -139,7 +143,70 @@ public class JoinusServiceImpl implements JoinusService {
 		// add the request object to the queue to be executed
 		addToRequestQueue(req);
 		
-		return null;
+		return null; // TODO cosa dobbiamo ritornare?
+	}
+
+	public List<Meeting> getUpcomingEvents(int userId) {
+		final String URL = "http://93.65.216.110:8080/users/" + userId + "/events";
+
+		//Default method is GET
+		JsonArrayRequest req = new JsonArrayRequest(URL,
+		       new Response.Listener<JSONArray>() {
+		           @Override
+		           public void onResponse(JSONArray response) {
+		               Log.v("joinusandroid", response.toString());
+		               
+		               List<Meeting> mList = new ArrayList<Meeting>();
+		               try {
+		            	   if (response != null) { 
+		            	      for (int i = 0; i < response.length(); i++) {
+		            	    	  Meeting m = new Meeting();
+
+		            	    	  JSONObject jo = response.getJSONObject(i);
+		            	    	  
+		            	    	  m.setId(jo.getInt("id"));
+		            	    	  m.setAddress(jo.getString("address"));
+		            	    	  m.setDate(jo.getLong("date"));
+		            	    	  //guests
+		            	    	  m.setLatitude((float) jo.getDouble("latitude"));
+				            	  m.setLongitude((float) jo.getDouble("longitude"));
+				            	  //user mc
+				            	  //participants
+		            	    	  m.setTitle(jo.getString("title"));
+				            	  
+				            	  mList.add(m);
+		            	      } 
+		            	   }
+						
+		            	   getMeetingListListener.onMeetingListRetrieved(mList);
+		               } catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+					}
+		           }
+		       }, new Response.ErrorListener() {
+		           @Override
+		           public void onErrorResponse(VolleyError error) {
+		               Log.e("Error: ", error.getMessage());
+		           }
+		       });
+
+		// add the request object to the queue to be executed
+		addToRequestQueue(req);
+		
+		List<Meeting> mList = new ArrayList<Meeting>();
+		Meeting m = new Meeting();
+    	m.setTitle("il mio compleanno");
+    	m.setLatitude(112);
+    	m.setLongitude(345);
+    	mList.add(m);
+    	
+		return mList;
 	}
 	
+	public void setGetMeetingListListener(GetMeetingListListener listener) {
+		getMeetingListListener = listener;
+	}
+	
+	private GetMeetingListListener getMeetingListListener;
 }

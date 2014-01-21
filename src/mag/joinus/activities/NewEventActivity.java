@@ -22,6 +22,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -81,8 +82,8 @@ public class NewEventActivity extends FragmentActivity implements
 
 			// Create a new instance of TimePickerDialog and return it
 			return new TimePickerDialog(getActivity(), this, hour, minute,
-					//DateFormat.is24HourFormat(getActivity()));
-					true);
+					DateFormat.is24HourFormat(getActivity()));
+					//true);
 		}
 
 		public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -437,7 +438,6 @@ public class NewEventActivity extends FragmentActivity implements
 
 	@Override
 	public void onLocationChanged(android.location.Location location) {
-		// TODO Auto-generated method stub
 		Log.v("newEventActivity","onLocationChanged"+location.toString());
 		LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 		mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));

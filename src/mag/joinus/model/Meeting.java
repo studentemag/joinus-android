@@ -8,8 +8,8 @@ public class Meeting {
 	private long date;
 	private List<User> guests;
 	//TODO potrebbe aver senso il tipo Location
-	private float latitude;
-	private float longitude;
+	private double latitude;
+	private double longitude;
 	private User mc;
 	private List<User> participants;
 	private String title;
@@ -32,11 +32,11 @@ public class Meeting {
 		return id;
 	}
 	
-	public float getLatitude() {
+	public double getLatitude() {
 		return latitude;
 	}
 	
-	public float getLongitude() {
+	public double getLongitude() {
 		return longitude;
 	}
 	
@@ -68,11 +68,11 @@ public class Meeting {
 		this.id = id;
 	}
 	
-	public void setLatitude(float latitude) {
+	public void setLatitude(double latitude) {
 		this.latitude=latitude;
 	}
 	
-	public void setLongitude(float longitude) {
+	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
 	

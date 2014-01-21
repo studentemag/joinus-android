@@ -1,7 +1,12 @@
 package mag.joinus.activities;
 
+import java.util.List;
+
 import mag.joinus.R;
+import mag.joinus.app.JoinusApplication;
 import mag.joinus.model.Meeting;
+import mag.joinus.service.JoinusService;
+import mag.joinus.service.JoinusServiceImpl;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +18,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-public class UpcomingEventsActivity extends Activity {
+public class UpcomingEventsActivity extends Activity implements GetMeetingListListener {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -24,12 +29,17 @@ public class UpcomingEventsActivity extends Activity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		ListView listview = (ListView) findViewById(R.id.listview);
-		/*
+		
+		// TODO va selezionato l'utente dal login
+		int userId = 0;
+		
+		joinusService = JoinusApplication.getInstance().getService();
+		joinusService.setGetMeetingListListener(this);
+		
 		EventArrayAdapter adapter = new EventArrayAdapter(
 				this,android.R.layout.simple_list_item_1, 
-				JoinusServiceImpl.getUpcomingEvents());
+				joinusService.getUpcomingEvents(userId));
 		listview.setAdapter(adapter);
-		*/
 		
 		listview.setOnItemClickListener(
 			new OnItemClickListener(){
@@ -67,4 +77,16 @@ public class UpcomingEventsActivity extends Activity {
 		startActivity(intent);
 	}
 
+	private JoinusService joinusService;
+
+	@Override
+	public void onMeetingListRetrieved(List<Meeting> mList) {
+		// TODO Auto-generated method stub
+		//Do something
+		Log.v("joinUsAndroid", "Meeting list received");
+		
+		for (Meeting m : mList) {
+			Log.v("joinUsAndroid", m.getTitle());
+		}
+	}
 }
