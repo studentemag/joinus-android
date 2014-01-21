@@ -13,17 +13,21 @@ import com.google.android.gms.maps.model.LatLng;
 public interface JoinusService {
 	
 	public Location getLocationFromAddress(String address);
-	public Meeting createMeeting(
+	
+	public void createMeeting(
 				CreateMeetingListener listener,
 				String title, 
 				long timestamp, 
 				LatLng location, 
 				User mc, 
 				List<String> phones);
-	
+
+	public List<Meeting> getUpcomingEvents(int userId);
+
 	public Meeting createMeeting(Meeting m);
 	
 	public Meeting getMeeting(int meetingId); // Move to service impl
+
 
 	public Meeting acceptInvitationTo(int userId, int meetingId);
 	public Meeting denyInvitationTo(int userId, int meetingId);

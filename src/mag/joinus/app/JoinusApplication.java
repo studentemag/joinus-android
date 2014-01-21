@@ -1,6 +1,5 @@
 package mag.joinus.app;
 
-import mag.joinus.service.JoinusService;
 import mag.joinus.service.JoinusServiceImpl;
 import android.app.Application;
 

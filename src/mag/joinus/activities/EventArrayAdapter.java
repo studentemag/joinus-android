@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.model.LatLng;
+
 public class EventArrayAdapter extends ArrayAdapter<Meeting>{
 	Context context;
 	List<Meeting> events;
@@ -34,11 +36,14 @@ public class EventArrayAdapter extends ArrayAdapter<Meeting>{
 		Meeting e = events.get(position);
 		
 		if (e != null) {
-			TextView tt = (TextView) v.findViewById(R.id.firstLine);
-	        TextView tt1 = (TextView) v.findViewById(R.id.secondLine);
+			TextView itemLine1 = (TextView) v.findViewById(R.id.firstLine);
+	        TextView itemLine2 = (TextView) v.findViewById(R.id.secondLine);
+	        LatLng l = e.getLatLng();
 	        
-	        tt.setText(e.getTitle());
-	        tt1.setText("" + e.getDate());
+	        
+	        itemLine1.setText(e.getTitle());
+	        //itemLine2.setText("" + e.getDate());
+	        itemLine2.setText(l.latitude + " " + l.longitude);
 		}
 
 		return v;

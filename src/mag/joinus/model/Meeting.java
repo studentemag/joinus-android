@@ -9,7 +9,9 @@ public class Meeting {
 	private String address;
 	private long date;
 	private List<User> guests;
+
 	private LatLng latLng;
+
 	private User mc;
 	private List<User> participants;
 	private String title;
@@ -67,7 +69,7 @@ public class Meeting {
 	public void setId(int id) {
 		this.id = id;
 	}
-		
+
 	public void setMc(User mc) {
 		this.mc = mc;
 	}

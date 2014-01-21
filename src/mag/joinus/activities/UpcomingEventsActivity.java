@@ -1,8 +1,12 @@
 package mag.joinus.activities;
 
+import java.util.List;
+
 import mag.joinus.R;
 import mag.joinus.activities.newmeeting.NewEventActivity;
+import mag.joinus.app.JoinusApplication;
 import mag.joinus.model.Meeting;
+import mag.joinus.service.JoinusServiceImpl;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,7 +18,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-public class UpcomingEventsActivity extends Activity {
+public class UpcomingEventsActivity extends Activity implements GetMeetingListListener {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -25,12 +29,14 @@ public class UpcomingEventsActivity extends Activity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		ListView listview = (ListView) findViewById(R.id.listview);
-		/*
-		EventArrayAdapter adapter = new EventArrayAdapter(
-				this,android.R.layout.simple_list_item_1, 
-				JoinusServiceImpl.getUpcomingEvents());
-		listview.setAdapter(adapter);
-		*/
+		
+		// TODO va selezionato l'utente dal login
+		int userId = 0;
+		
+		joinusServiceImpl = JoinusApplication.getInstance().getService();
+		joinusServiceImpl.setGetMeetingListListener(this);
+		
+		populateList(joinusServiceImpl.getUpcomingEvents(userId));
 		
 		listview.setOnItemClickListener(
 			new OnItemClickListener(){
@@ -42,6 +48,16 @@ public class UpcomingEventsActivity extends Activity {
 				}	
 			}
 		);
+	}
+
+	private void populateList(List<Meeting> mList) {
+		ListView listview = (ListView) findViewById(R.id.listview);
+		
+		EventArrayAdapter adapter = new EventArrayAdapter(
+				this,android.R.layout.simple_list_item_1, 
+				mList);
+		
+		listview.setAdapter(adapter);
 	}
 
 	@Override
@@ -68,4 +84,12 @@ public class UpcomingEventsActivity extends Activity {
 		startActivity(intent);
 	}
 
+	private JoinusServiceImpl joinusServiceImpl;
+
+	@Override
+	public void onMeetingListRetrieved(List<Meeting> mList) {
+		Log.v("joinUsAndroid", "Meeting list received");
+		
+		populateList(mList);
+	}
 }
