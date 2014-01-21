@@ -1,6 +1,5 @@
 package mag.joinus.activities.newmeeting;
 
-
 import mag.joinus.R;
 import mag.joinus.app.JoinusApplication;
 import mag.joinus.model.Meeting;
@@ -25,12 +24,15 @@ import android.widget.TextView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
+import com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
 import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class NewEventActivity extends FragmentActivity implements
+
+public class NewEventActivity extends FragmentActivity implements 
 		OnMapLongClickListener,
 		OnMyLocationButtonClickListener,
 		LocationListener,
@@ -41,7 +43,7 @@ public class NewEventActivity extends FragmentActivity implements
 	 */
 	private String title;
 	private String address;
-	private LatLng location;
+	private LatLng latLng;
 	
 	
     private GoogleMap mMap;
@@ -93,7 +95,6 @@ public class NewEventActivity extends FragmentActivity implements
 
     private void setUpMap() {
         mMap.setOnMapLongClickListener(this);
-        
         mMap.setMyLocationEnabled(true);
         mMap.setOnMyLocationButtonClickListener(this);
 
@@ -108,7 +109,7 @@ public class NewEventActivity extends FragmentActivity implements
     public void setUpMeetingLocation(String address, LatLng latLng){
     	
     	this.address = address;
-    	this.location = latLng;
+    	this.latLng = latLng;
     	EditText textbox = (EditText) findViewById(R.id.meeting_title);
     	this.title=textbox.getText().toString();
     	
@@ -120,11 +121,11 @@ public class NewEventActivity extends FragmentActivity implements
     }
 
     private void searchForLocation(String address){
-    	new GetLocationTask(this, this.getApplicationContext()).execute(address);
+    	new GetLocationTask(this,this.getApplicationContext()).execute(address);
     }
     
     private void searchForAddress(Location l){
-    	new GetAddressTask(this, this.getApplicationContext()).execute(l);
+    	new GetAddressTask(this,this.getApplicationContext()).execute(l);
     }
     
 
@@ -150,7 +151,14 @@ public class NewEventActivity extends FragmentActivity implements
 
 	public void createEvent() {
 		Log.v("joinUsAndroid", "creating event");
-		joinusService.createMeeting(this, title, 0, location, null, null);
+		Meeting m = new Meeting();
+		m.setTitle(title);
+		m.setAddress(address);
+		m.setLatLng(latLng);
+		m.setDate(0);
+		m.setGuests(null);
+		m.setMc(null);
+		joinusService.createMeeting(m);
 	}
 	
 	public void showTimePickerDialog(View v) {
@@ -202,7 +210,6 @@ public class NewEventActivity extends FragmentActivity implements
 
 	@Override
 	public void onLocationChanged(android.location.Location location) {
-		// TODO Auto-generated method stub
 		Log.v("newEventActivity","onLocationChanged"+location.toString());
 		LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 		mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));

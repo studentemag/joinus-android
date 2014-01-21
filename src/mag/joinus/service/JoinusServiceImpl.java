@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import mag.joinus.activities.GetMeetingListListener;
 import mag.joinus.app.JoinusApplication;
 import mag.joinus.model.Meeting;
 import mag.joinus.model.User;
 import mag.joinus.model.UserLocation;
 import mag.joinus.service.listeners.CreateMeetingListener;
 import mag.joinus.service.listeners.FindMeetingListener;
+import mag.joinus.service.listeners.GetMeetingListListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,6 +37,11 @@ public class JoinusServiceImpl implements JoinusService {
 	public static final String TAG = "VolleyPatterns";
 
 	private FindMeetingListener findMeetingListener;
+	private CreateMeetingListener createMeetingListener;
+	
+	public void setCreateMeetingListener(CreateMeetingListener createMeetingListener) {
+		this.createMeetingListener = createMeetingListener;
+	}
 
 	private GetMeetingListListener getMeetingListListener;
 
@@ -101,11 +106,17 @@ public class JoinusServiceImpl implements JoinusService {
 	}
 
 	@Override
-	public void createMeeting(CreateMeetingListener listener, String title,
-			long date, LatLng location, User mc, List<String> phones) {
+	public void createMeeting(Meeting m) {
+		String title = m.getTitle();
+		long date = m.getDate();
+		LatLng location = m.getLatLng();
+		User mc = m.getMc();
+		List<String> phones = new ArrayList<String>();
+		for (User u : m.getGuests())
+			phones.add(u.getPhone());
 
 		final String URL = "http://93.65.216.110:8080/events";
-		final CreateMeetingListener finalListener = listener;
+
 		// Post params to be sent to the server
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("title", title);
@@ -124,7 +135,7 @@ public class JoinusServiceImpl implements JoinusService {
 							m.setDate(response.getLong("date"));
 							m.setAddress(response.getString("address"));
 
-							finalListener.onMeetingCreated(m);
+							createMeetingListener.onMeetingCreated(m);
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -139,12 +150,6 @@ public class JoinusServiceImpl implements JoinusService {
 
 		// add the request object to the queue to be executed
 		addToRequestQueue(req);
-	}
-
-	@Override
-	public Meeting createMeeting(Meeting m) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

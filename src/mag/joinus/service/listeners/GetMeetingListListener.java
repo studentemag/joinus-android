@@ -1,4 +1,4 @@
-package mag.joinus.activities;
+package mag.joinus.service.listeners;
 
 import java.util.List;
 

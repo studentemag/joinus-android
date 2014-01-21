@@ -7,6 +7,7 @@ import mag.joinus.activities.newmeeting.NewEventActivity;
 import mag.joinus.app.JoinusApplication;
 import mag.joinus.model.Meeting;
 import mag.joinus.service.JoinusServiceImpl;
+import mag.joinus.service.listeners.GetMeetingListListener;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
