@@ -9,6 +9,8 @@ import android.location.Location;
 
 public interface JoinusService {
 	
+	public User login(String phone);
+	
 	public Location getLocationFromAddress(String address);
 	
 	public List<Meeting> getUpcomingEvents(int userId);

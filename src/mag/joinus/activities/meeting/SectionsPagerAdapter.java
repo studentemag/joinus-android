@@ -15,8 +15,11 @@ import android.support.v4.app.FragmentPagerAdapter;
  */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-	public SectionsPagerAdapter(FragmentManager fm) {
+	private int meetingId;
+	
+	public SectionsPagerAdapter(FragmentManager fm, int meetingId) {
 		super(fm);
+		this.meetingId=meetingId;
 	}
 
 	@Override
@@ -31,11 +34,11 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 		switch (position) {
 		case 0:
 			fragment = new MeetingInfoFragment();
-			args.putInt(MeetingInfoFragment.MEETING_ID, position + 1);
+			args.putInt(MeetingInfoFragment.MEETING_ID, meetingId);
 			break;
 		case 1:
 			fragment = new MeetingMapFragment();
-			args.putInt(MeetingMapFragment.ARG_SECTION_NUMBER, position + 1);
+			args.putInt(MeetingMapFragment.ARG_SECTION_NUMBER, meetingId);
 			break;
 		}
 		fragment.setArguments(args);

@@ -45,7 +45,7 @@
         </activity>
         
         <activity
-            android:name="mag.joinus.activities.UpcomingEventsActivity"
+            android:name="mag.joinus.activities.upcomingmeetings.UpcomingEventsActivity"
             android:label="@string/title_activity_upcoming_events"
             android:parentActivityName="mag.joinus.activities.MainActivity" >
         </activity>
@@ -53,7 +53,7 @@
         <activity
             android:name="mag.joinus.activities.newmeeting.NewEventActivity"
             android:label="@string/new_event_activity_title"
-            android:parentActivityName="mag.joinus.activities.UpcomingEventsActivity" >
+            android:parentActivityName="mag.joinus.activities.upcomingmeetings.UpcomingEventsActivity" >
         </activity>
         
         <activity

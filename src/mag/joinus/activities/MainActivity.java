@@ -1,6 +1,7 @@
 package mag.joinus.activities;
 
 import mag.joinus.R;
+import mag.joinus.activities.upcomingmeetings.UpcomingEventsActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package mag.joinus.activities;
+package mag.joinus.activities.upcomingmeetings;
 
 
 import java.util.List;

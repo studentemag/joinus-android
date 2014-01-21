@@ -312,4 +312,10 @@ public class JoinusServiceImpl implements JoinusService {
 	public void setGetMeetingListListener(GetMeetingListListener listener) {
 		getMeetingListListener = listener;
 	}
+
+	@Override
+	public User login(String phone) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

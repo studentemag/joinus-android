@@ -3,6 +3,7 @@ package mag.joinus.activities.meeting;
 import mag.joinus.R;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -10,7 +11,15 @@ import android.view.Menu;
 
 public class MeetingActivity extends FragmentActivity implements
 		ActionBar.TabListener {
+	
+	/*
+	 * Messages required to start activity
+	 */
+	public static final String MEETING_ID = "meeting_id";
 
+	private int meetingId;
+	
+	
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
 	 * fragments for each of the sections. We use a
@@ -30,6 +39,9 @@ public class MeetingActivity extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_meeting);
+		
+		Intent intent = getIntent();
+		meetingId = intent.getIntExtra(MeetingActivity.MEETING_ID,0);
 
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
@@ -38,7 +50,7 @@ public class MeetingActivity extends FragmentActivity implements
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
 		mSectionsPagerAdapter = new SectionsPagerAdapter(
-				getSupportFragmentManager());
+				getSupportFragmentManager(),meetingId);
 
 		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.pager);

@@ -10,6 +10,7 @@ import mag.joinus.service.JoinusServiceImpl;
 import mag.joinus.service.listeners.FindMeetingListener;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,6 +67,7 @@ public class MeetingInfoFragment extends Fragment implements FindMeetingListener
 	@Override
 	public void onStart(){
 		super.onStart();
+		Log.v("MeetingInfoFrag:onStart", m.getId()+"");
 		m = joinusService.getMeeting(m.getId());
 	}
 
