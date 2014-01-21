@@ -103,7 +103,7 @@ public class JoinusServiceImpl implements JoinusService {
 	}
 
 	@Override
-	public Meeting createMeeting(CreateMeetingListener listener, String title, long date, LatLng location,
+	public void createMeeting(CreateMeetingListener listener, String title, long date, LatLng location,
 			User mc, List<String> phones) {
 		
 		final String URL = "http://93.65.216.110:8080/events";
@@ -142,8 +142,6 @@ public class JoinusServiceImpl implements JoinusService {
 
 		// add the request object to the queue to be executed
 		addToRequestQueue(req);
-		
-		return null; // TODO cosa dobbiamo ritornare?
 	}
 
 	public List<Meeting> getUpcomingEvents(int userId) {

@@ -14,7 +14,7 @@ public interface JoinusService {
 	
 	public Location getLocationFromAddress(String address);
 	
-	public Meeting createMeeting(
+	public void createMeeting(
 				CreateMeetingListener listener,
 				String title, 
 				long timestamp, 

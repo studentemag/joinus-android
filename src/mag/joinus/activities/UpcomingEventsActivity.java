@@ -36,10 +36,7 @@ public class UpcomingEventsActivity extends Activity implements GetMeetingListLi
 		joinusService = JoinusApplication.getInstance().getService();
 		joinusService.setGetMeetingListListener(this);
 		
-		EventArrayAdapter adapter = new EventArrayAdapter(
-				this,android.R.layout.simple_list_item_1, 
-				joinusService.getUpcomingEvents(userId));
-		listview.setAdapter(adapter);
+		populateList(joinusService.getUpcomingEvents(userId));
 		
 		listview.setOnItemClickListener(
 			new OnItemClickListener(){
@@ -51,6 +48,16 @@ public class UpcomingEventsActivity extends Activity implements GetMeetingListLi
 				}	
 			}
 		);
+	}
+
+	private void populateList(List<Meeting> mList) {
+		ListView listview = (ListView) findViewById(R.id.listview);
+		
+		EventArrayAdapter adapter = new EventArrayAdapter(
+				this,android.R.layout.simple_list_item_1, 
+				mList);
+		
+		listview.setAdapter(adapter);
 	}
 
 	@Override
@@ -81,12 +88,8 @@ public class UpcomingEventsActivity extends Activity implements GetMeetingListLi
 
 	@Override
 	public void onMeetingListRetrieved(List<Meeting> mList) {
-		// TODO Auto-generated method stub
-		//Do something
 		Log.v("joinUsAndroid", "Meeting list received");
 		
-		for (Meeting m : mList) {
-			Log.v("joinUsAndroid", m.getTitle());
-		}
+		populateList(mList);
 	}
 }
