@@ -23,14 +23,14 @@ public interface JoinusService {
 	
 	public Meeting createMeeting(Meeting m);
 	
-	public Meeting getMeeting(int meetingId);
+	public Meeting getMeeting(int meetingId); // Move to service impl
 
-	public Meeting acceptInvitationTo(int meetingId);
-	public Meeting denyInvitationTo(int meetingId);
+	public Meeting acceptInvitationTo(int userId, int meetingId);
+	public Meeting denyInvitationTo(int userId, int meetingId);
 	
-	public List<UserLocation> getLastKnownLocations(int meetingId);
+	public List<UserLocation> getLastKnownParticipantsLocations(int meetingId);
 	
-	public void sendLocation(Location l);
+	public void sendLocation(int userId, Location l);
 	
 	public User findUserByPhoneNumber(String phoneNumber);
 

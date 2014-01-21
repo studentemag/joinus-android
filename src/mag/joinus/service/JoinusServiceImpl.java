@@ -196,31 +196,7 @@ public class JoinusServiceImpl implements JoinusService {
 
 
 	@Override
-	public void sendLocation(Location l) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public User findUserByPhoneNumber(String phoneNumber) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Meeting acceptInvitationTo(int meetingId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Meeting denyInvitationTo(int meetingId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<UserLocation> getLastKnownLocations(int meetingId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -229,6 +205,30 @@ public class JoinusServiceImpl implements JoinusService {
 	public Meeting addParticipantsToMeeting(List<User> users, int meetingId) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Meeting acceptInvitationTo(int userId, int meetingId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Meeting denyInvitationTo(int userId, int meetingId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<UserLocation> getLastKnownParticipantsLocations(int meetingId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void sendLocation(int userId, Location l) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
