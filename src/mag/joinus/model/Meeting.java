@@ -2,14 +2,14 @@ package mag.joinus.model;
 
 import java.util.List;
 
+import com.google.android.gms.maps.model.LatLng;
+
 public class Meeting {
 	private int id;
 	private String address;
 	private long date;
 	private List<User> guests;
-	//TODO potrebbe aver senso il tipo Location
-	private float latitude;
-	private float longitude;
+	private LatLng latLng;
 	private User mc;
 	private List<User> participants;
 	private String title;
@@ -32,14 +32,6 @@ public class Meeting {
 		return id;
 	}
 	
-	public float getLatitude() {
-		return latitude;
-	}
-	
-	public float getLongitude() {
-		return longitude;
-	}
-	
 	public User getMc() {
 		return mc;
 	}
@@ -50,6 +42,14 @@ public class Meeting {
 	
 	public String getTitle() {
 		return title;
+	}
+	
+	public LatLng getLatLng() {
+		return latLng;
+	}
+
+	public void setLatLng(LatLng latLng) {
+		this.latLng = latLng;
 	}
 	
 	public void setAddress(String address) {
@@ -67,15 +67,7 @@ public class Meeting {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
-	public void setLatitude(float latitude) {
-		this.latitude=latitude;
-	}
-	
-	public void setLongitude(float longitude) {
-		this.longitude = longitude;
-	}
-	
+		
 	public void setMc(User mc) {
 		this.mc = mc;
 	}

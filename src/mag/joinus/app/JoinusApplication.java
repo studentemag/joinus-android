@@ -10,7 +10,7 @@ public class JoinusApplication extends Application {
      */
     private static JoinusApplication sInstance;
     
-    private JoinusService service;
+    private JoinusServiceImpl service;
 
 	@Override
     public void onCreate() {
@@ -18,6 +18,7 @@ public class JoinusApplication extends Application {
 
         // initialize the singleton
         sInstance = this;
+        service = new JoinusServiceImpl();
     }
 
     /**
@@ -30,17 +31,7 @@ public class JoinusApplication extends Application {
     /**
 	 * @return the service
 	 */
-	public JoinusService getService() {
-		if (service == null) 
-			service = new JoinusServiceImpl();//TODO passare il context
-		
+	public JoinusServiceImpl getService() {		
 		return service;
-	}
-
-	/**
-	 * @param service the service to set
-	 */
-	public void setService(JoinusService service) {
-		this.service = service;
 	}
 }

@@ -1,12 +1,15 @@
 package mag.joinus.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import mag.joinus.activities.CreateMeetingListener;
 import mag.joinus.app.JoinusApplication;
 import mag.joinus.model.Meeting;
 import mag.joinus.model.User;
+import mag.joinus.model.UserLocation;
+import mag.joinus.service.listeners.CreateMeetingListener;
+import mag.joinus.service.listeners.FindMeetingListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,8 +27,17 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.model.LatLng;
 
 public class JoinusServiceImpl implements JoinusService {
-
 	
+	private FindMeetingListener findMeetingListener; 
+	
+	public FindMeetingListener getFindMeetingListener() {
+		return findMeetingListener;
+	}
+
+	public void setFindMeetingListener(FindMeetingListener findMeetingListener) {
+		this.findMeetingListener = findMeetingListener;
+	}
+
 	/**
      * Log or request TAG
      */
@@ -120,8 +132,7 @@ public class JoinusServiceImpl implements JoinusService {
 		            	   m.setId(response.getInt("id"));
 		            	   m.setTitle(response.getString("title"));
 		            	   m.setDate(response.getLong("date"));
-		            	   m.setAddress(response.getString("address"));		            	   
-		            	   m.setLatitude( (float)response.getDouble("latitude"));
+		            	   m.setAddress(response.getString("address"));
 						
 		            	   finalListener.onMeetingCreated(m);
 					} catch (JSONException e) {
@@ -139,6 +150,84 @@ public class JoinusServiceImpl implements JoinusService {
 		// add the request object to the queue to be executed
 		addToRequestQueue(req);
 		
+		return null;
+	}
+
+	@Override
+	public Meeting createMeeting(Meeting m) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Meeting getMeeting(int meetingId) {
+		// TODO Auto-generated method stub
+		Meeting m = this.findMeetingStub(meetingId);
+		findMeetingListener.onMeetingFound(m);
+		return m;
+	}
+	
+	private Meeting findMeetingStub(int meetingId) {
+		User mario = new User(); mario.setName("Mario");
+		User luca = new User(); luca.setName("Luca");
+		User fabio = new User(); fabio.setName("Fabio");
+		User giuseppe = new User(); giuseppe.setName("Giuseppe");
+		
+		List<User> participants = new ArrayList<User>();
+		participants.add(giuseppe); participants.add(luca); participants.add(mario);
+		
+		List<User> guests = new ArrayList<User>();
+		guests.add(giuseppe); guests.add(fabio); guests.add(luca); guests.add(mario);
+		
+		LatLng l = new LatLng(0,0);
+		
+		Meeting m=new Meeting();
+		
+		m.setAddress("via congo d'oro");
+		m.setDate(10321321);
+		m.setGuests(guests);
+		m.setId(meetingId);
+		m.setLatLng(l);
+		m.setMc(luca);
+		m.setParticipants(participants);
+		m.setTitle("festa di Luca");
+		return m;
+	}
+
+
+	@Override
+	public void sendLocation(Location l) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public User findUserByPhoneNumber(String phoneNumber) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Meeting acceptInvitationTo(int meetingId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Meeting denyInvitationTo(int meetingId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<UserLocation> getLastKnownLocations(int meetingId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Meeting addParticipantsToMeeting(List<User> users, int meetingId) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 	

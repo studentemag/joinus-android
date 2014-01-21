@@ -9,6 +9,8 @@ public class User {
 	
 	private int id;
 	
+	private String name;
+	
 	private List<Location> locations;
 
 	private List<Meeting> meetingsAsGuest;
@@ -19,14 +21,7 @@ public class User {
 
 	private String phone;
 
-	private String userName;
-
-	protected User() {}
-
-	public User(String userName) {
-		super();
-		this.userName = userName;
-	}
+	public User() {}
 
 	public int getId() {
 		return id;
@@ -49,15 +44,11 @@ public class User {
 	}
 	
 	public String getName() {
-		return userName;
+		return name;
 	}
 
 	public String getPhone() {
 		return phone;
-	}
-
-	public String getUserName() {
-		return userName;
 	}
 	
 	public void setId(int id) {
@@ -84,7 +75,7 @@ public class User {
 		this.phone = phone;
 	}
 
-	public void setUsername(String userName) {
-		this.userName = userName;
+	public void setName(String name) {
+		this.name = name;
 	}
 }

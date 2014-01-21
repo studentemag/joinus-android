@@ -1,6 +1,7 @@
 package mag.joinus.activities;
 
 import mag.joinus.R;
+import mag.joinus.activities.newmeeting.NewEventActivity;
 import mag.joinus.model.Meeting;
 import android.app.Activity;
 import android.content.Intent;
