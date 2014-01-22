@@ -4,11 +4,16 @@ import java.util.List;
 
 import android.location.Location;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
+@DatabaseTable(tableName = "comments")
 public class User {
 	
+	@DatabaseField
 	private int id;
 	
+	@DatabaseField
 	private String name;
 	
 	private List<Location> locations;
