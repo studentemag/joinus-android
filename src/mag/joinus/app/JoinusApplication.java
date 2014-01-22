@@ -1,5 +1,7 @@
 package mag.joinus.app;
 
+import mag.joinus.model.Meeting;
+import mag.joinus.model.User;
 import mag.joinus.service.JoinusServiceImpl;
 import android.app.Application;
 
@@ -10,7 +12,9 @@ public class JoinusApplication extends Application {
     private static JoinusApplication sInstance;
     
     private JoinusServiceImpl service;
-
+    private User user;
+    private Meeting meeting;
+    
 	@Override
     public void onCreate() {
         super.onCreate();

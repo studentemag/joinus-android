@@ -1,7 +1,6 @@
 package mag.joinus.model;
 
 
-import com.google.android.gms.maps.model.LatLng;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -17,10 +16,8 @@ public class UserLocation {
 	@DatabaseField
 	long timestamp;
 	
-	private LatLng latLng;	
-	
 	@DatabaseField (foreign = true, foreignAutoRefresh = true, columnName = "latlng_id")
-	private AnnotatedLatLng latLng2;
+	private AnnotatedLatLng latLng;
 
 	
 	public long getTimestamp() {
@@ -31,20 +28,13 @@ public class UserLocation {
 		this.timestamp = timestamp;
 	}
 
-	public LatLng getLatLng() {
+
+	public AnnotatedLatLng getLatLng() {
 		return latLng;
 	}
 
-	public void setLatLng(LatLng latLng) {
+	public void setLatLng(AnnotatedLatLng latLng) {
 		this.latLng = latLng;
-	}
-
-	public AnnotatedLatLng getLatLng2() {
-		return latLng2;
-	}
-
-	public void setLatLng2(AnnotatedLatLng latLng2) {
-		this.latLng2 = latLng2;
 	}
 
 	public User getUser() {
