@@ -16,11 +16,11 @@ public class User {
 	@DatabaseField
 	private String name;
 	
-	@ForeignCollectionField
-	private Collection<UserLocation> locations;
-
 	@DatabaseField
 	private String phone;
+	
+	@ForeignCollectionField
+	private Collection<UserLocation> locations;
 	
 	@ForeignCollectionField
 	private Collection<Meeting> meetingsAsMc;
