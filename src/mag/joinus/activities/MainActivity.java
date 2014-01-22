@@ -2,6 +2,9 @@ package mag.joinus.activities;
 
 import mag.joinus.R;
 import mag.joinus.activities.upcomingmeetings.UpcomingEventsActivity;
+import mag.joinus.app.JoinusApplication;
+import mag.joinus.model.User;
+import mag.joinus.service.JoinusServiceImpl;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,12 +17,15 @@ import android.view.View;
 public class MainActivity extends Activity {
 	
 	public final static String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
+	private JoinusServiceImpl joinusServiceImpl;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		joinusServiceImpl = JoinusApplication.getInstance().getService();
 		Log.v("joinUsAndroid", "starting MainActivity");
+		
 	}
 
 	@Override
@@ -30,7 +36,10 @@ public class MainActivity extends Activity {
 	}
 	
 	public void signIn(View view){
-		Log.v("joinUsAndroid", "signIn called");		
+		Log.v("joinUsAndroid", "signIn called");
+		User u = new User();
+		u.setPhone("4312432@");
+		joinusServiceImpl.login(u);
 		Intent intent = new Intent(this, UpcomingEventsActivity.class);
 		startActivity(intent);
 	}

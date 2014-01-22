@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import mag.joinus.app.JoinusApplication;
+import mag.joinus.model.AnnotatedLatLng;
 import mag.joinus.model.Meeting;
 import mag.joinus.model.User;
 import mag.joinus.model.UserLocation;
@@ -16,6 +17,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.location.Location;
 import android.text.TextUtils;
 import android.util.Log;
@@ -28,38 +30,40 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.model.LatLng;
+import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 public class JoinusServiceImpl implements JoinusService {
 
+	private JoinusServiceLocalImpl joinusServiceLocalImpl;
+	
+	private CreateMeetingListener createMeetingListener;
+	private FindMeetingListener findMeetingListener;
+	private GetMeetingListListener getMeetingListListener;
+
+	public JoinusServiceImpl(Context context){
+		joinusServiceLocalImpl = OpenHelperManager.getHelper(context, JoinusServiceLocalImpl.class);
+	}
 	/**
 	 * Log or request TAG
 	 */
 	public static final String TAG = "VolleyPatterns";
-
-	private FindMeetingListener findMeetingListener;
-	private CreateMeetingListener createMeetingListener;
-	
-	public void setCreateMeetingListener(CreateMeetingListener createMeetingListener) {
-		this.createMeetingListener = createMeetingListener;
-	}
-
-	private GetMeetingListListener getMeetingListListener;
-
 	/**
 	 * Global request queue for Volley
 	 */
 	private RequestQueue mRequestQueue;
 
-	@Override
-	public Meeting acceptInvitationTo(int userId, int meetingId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	/**
+	 * @return The Volley Request queue, the queue will be created if it is null
+	 */
+	private RequestQueue getRequestQueue() {
+		// lazy initialize the request queue, the queue instance will be
+		// created when it is accessed for the first time
+		if (mRequestQueue == null) {
+			mRequestQueue = Volley.newRequestQueue(JoinusApplication
+					.getInstance().getApplicationContext());
+		}
 
-	@Override
-	public Meeting addParticipantsToMeeting(List<User> users, int meetingId) {
-		// TODO Auto-generated method stub
-		return null;
+		return mRequestQueue;
 	}
 
 	/**
@@ -104,12 +108,24 @@ public class JoinusServiceImpl implements JoinusService {
 			mRequestQueue.cancelAll(tag);
 		}
 	}
+	
+	@Override
+	public Meeting acceptInvitationTo(int userId, int meetingId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Meeting addParticipantsToMeeting(List<User> users, int meetingId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
 	public void createMeeting(Meeting m) {
 		String title = m.getTitle();
 		long date = m.getDate();
-		LatLng location = m.getLatLng();
+		LatLng location = m.getLatLng().toLatLng();
 		User mc = m.getMc();
 		List<String> phones = new ArrayList<String>();
 		for (User u : m.getGuests())
@@ -187,7 +203,7 @@ public class JoinusServiceImpl implements JoinusService {
 		m.setDate(10321321);
 		m.setGuests(guests);
 		m.setId(meetingId);
-		m.setLatLng(l);
+		m.setLatLng(new AnnotatedLatLng(l));
 		m.setMc(luca);
 		m.setParticipants(participants);
 		m.setTitle("festa di Luca");
@@ -224,20 +240,7 @@ public class JoinusServiceImpl implements JoinusService {
 		return m;
 	}
 
-	/**
-	 * @return The Volley Request queue, the queue will be created if it is null
-	 */
-	public RequestQueue getRequestQueue() {
-		// lazy initialize the request queue, the queue instance will be
-		// created when it is accessed for the first time
-		if (mRequestQueue == null) {
-			mRequestQueue = Volley.newRequestQueue(JoinusApplication
-					.getInstance().getApplicationContext());
-		}
-
-		return mRequestQueue;
-	}
-
+	@Override
 	public List<Meeting> getUpcomingEvents(int userId) {
 		final String URL = "http://93.65.216.110:8080/users/" + userId
 				+ "/events";
@@ -263,7 +266,7 @@ public class JoinusServiceImpl implements JoinusService {
 									// guests
 									LatLng l = new LatLng(jo.getDouble("latitude"),
 											jo.getDouble("longitude"));
-									m.setLatLng(l);
+									m.setLatLng(new AnnotatedLatLng(l));
 									// user mc
 									// participants
 									m.setTitle(jo.getString("title"));
@@ -293,10 +296,17 @@ public class JoinusServiceImpl implements JoinusService {
 		Meeting m = new Meeting();
 		m.setTitle("il mio compleanno");
 		LatLng l = new LatLng(112,345);
-		m.setLatLng(l);
+		m.setLatLng(new AnnotatedLatLng(l));
 		mList.add(m);
 
 		return mList;
+	}
+
+	@Override
+	public User login(User user) {
+		// TODO Auto-generated method stub
+		joinusServiceLocalImpl.login(user);
+		return null;
 	}
 
 	@Override
@@ -305,17 +315,15 @@ public class JoinusServiceImpl implements JoinusService {
 
 	}
 
+	public void setCreateMeetingListener(CreateMeetingListener createMeetingListener) {
+		this.createMeetingListener = createMeetingListener;
+	}
+	
 	public void setFindMeetingListener(FindMeetingListener findMeetingListener) {
 		this.findMeetingListener = findMeetingListener;
 	}
 
 	public void setGetMeetingListListener(GetMeetingListListener listener) {
 		getMeetingListListener = listener;
-	}
-
-	@Override
-	public User login(String phone) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

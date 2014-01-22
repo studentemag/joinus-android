@@ -38,7 +38,7 @@ public class EventArrayAdapter extends ArrayAdapter<Meeting>{
 		if (e != null) {
 			TextView itemLine1 = (TextView) v.findViewById(R.id.firstLine);
 	        TextView itemLine2 = (TextView) v.findViewById(R.id.secondLine);
-	        LatLng l = e.getLatLng();
+	        LatLng l = e.getLatLng().toLatLng();
 	        
 	        
 	        itemLine1.setText(e.getTitle());

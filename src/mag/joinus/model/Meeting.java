@@ -2,19 +2,34 @@ package mag.joinus.model;
 
 import java.util.List;
 
+
 import com.google.android.gms.maps.model.LatLng;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
+@DatabaseTable(tableName = "meetings")
 public class Meeting {
+	
+	@DatabaseField(id = true)
 	private int id;
+	
+	@DatabaseField
 	private String address;
+	
+	@DatabaseField
 	private long date;
-	private List<User> guests;
-
-	private LatLng latLng;
-
-	private User mc;
-	private List<User> participants;
+	
+	@DatabaseField
 	private String title;
+	
+	@DatabaseField (foreign = true, foreignAutoRefresh = true, columnName = "latlng_id")
+	private AnnotatedLatLng latLng;
+
+	@DatabaseField (foreign = true, foreignAutoRefresh = true, columnName = "mc_id")
+	private User mc;
+	
+	private List<User> guests;
+	private List<User> participants;
 	
 	public Meeting() {}
 	
@@ -46,11 +61,11 @@ public class Meeting {
 		return title;
 	}
 	
-	public LatLng getLatLng() {
+	public AnnotatedLatLng getLatLng() {
 		return latLng;
 	}
 
-	public void setLatLng(LatLng latLng) {
+	public void setLatLng(AnnotatedLatLng latLng) {
 		this.latLng = latLng;
 	}
 	
@@ -81,4 +96,5 @@ public class Meeting {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
 }

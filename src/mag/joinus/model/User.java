@@ -1,30 +1,33 @@
 package mag.joinus.model;
 
+import java.util.Collection;
 import java.util.List;
 
-import android.location.Location;
-
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
-@DatabaseTable(tableName = "comments")
+@DatabaseTable(tableName = "users")
 public class User {
 	
-	@DatabaseField
+	@DatabaseField(id = true)
 	private int id;
 	
 	@DatabaseField
 	private String name;
 	
-	private List<Location> locations;
+	@ForeignCollectionField
+	private Collection<UserLocation> locations;
 
-	private List<Meeting> meetingsAsGuest;
-
-	private List<Meeting> meetingsAsMc;
-
-	private List<Meeting> meetingsAsParticipant;
-
+	@DatabaseField
 	private String phone;
+	
+	@ForeignCollectionField
+	private Collection<Meeting> meetingsAsMc;
+	
+	private List<Meeting> meetingsAsGuest;
+	
+	private List<Meeting> meetingsAsParticipant;
 
 	public User() {}
 
@@ -32,7 +35,7 @@ public class User {
 		return id;
 	}
 	
-	public List<Location> getLocations() {
+	public Collection<UserLocation> getLocations() {
 		return locations;
 	}
 	
@@ -40,7 +43,7 @@ public class User {
 		return meetingsAsGuest;
 	}
 	
-	public List<Meeting> getMeetingsAsMc() {
+	public Collection<Meeting> getMeetingsAsMc() {
 		return meetingsAsMc;
 	}
 	
@@ -60,7 +63,7 @@ public class User {
 		this.id = id;
 	}
 
-	public void setLocations(List<Location> locations) {
+	public void setLocations(List<UserLocation> locations) {
 		this.locations = locations;
 	}
 

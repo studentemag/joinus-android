@@ -17,7 +17,7 @@ public class JoinusApplication extends Application {
 
         // initialize the singleton
         sInstance = this;
-        service = new JoinusServiceImpl();
+        service = new JoinusServiceImpl(this);
     }
 
     /**

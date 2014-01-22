@@ -9,7 +9,7 @@ import android.location.Location;
 
 public interface JoinusService {
 	
-	public User login(String phone);
+	public User login(User user);
 	
 	public Location getLocationFromAddress(String address);
 	

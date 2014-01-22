@@ -2,6 +2,7 @@ package mag.joinus.activities.newmeeting;
 
 import mag.joinus.R;
 import mag.joinus.app.JoinusApplication;
+import mag.joinus.model.AnnotatedLatLng;
 import mag.joinus.model.Meeting;
 import mag.joinus.service.JoinusService;
 import mag.joinus.service.listeners.CreateMeetingListener;
@@ -24,11 +25,9 @@ import android.widget.TextView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
-import com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
 import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
@@ -154,7 +153,7 @@ public class NewEventActivity extends FragmentActivity implements
 		Meeting m = new Meeting();
 		m.setTitle(title);
 		m.setAddress(address);
-		m.setLatLng(latLng);
+		m.setLatLng(new AnnotatedLatLng(latLng));
 		m.setDate(0);
 		m.setGuests(null);
 		m.setMc(null);
