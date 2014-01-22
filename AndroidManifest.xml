@@ -8,9 +8,10 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
     <!--
          The following two permissions are not required to use
-    	 Google Maps Android API v2, but are recommended.
+    	 Google Maps Android API v2, but are recommended.
     -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -36,35 +37,40 @@
         <activity
             android:name="mag.joinus.activities.MainActivity"
             android:label="@string/app_name" >
-            
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            
         </activity>
-        
         <activity
             android:name="mag.joinus.activities.upcomingmeetings.UpcomingEventsActivity"
             android:label="@string/title_activity_upcoming_events"
             android:parentActivityName="mag.joinus.activities.MainActivity" >
         </activity>
-        
         <activity
             android:name="mag.joinus.activities.newmeeting.NewEventActivity"
             android:label="@string/new_event_activity_title"
             android:parentActivityName="mag.joinus.activities.upcomingmeetings.UpcomingEventsActivity" >
         </activity>
-        
         <activity
             android:name="mag.joinus.activities.meeting.MeetingActivity"
             android:label="@string/title_activity_meeting" >
         </activity>
-        
+
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyDrL8nPSOMzSqIZymAFUdrqvGsjEufrAOE" />
-                
+
+        <activity
+            android:name="mag.joinus.activities.newmeeting.NewMeetingActivity"
+            android:label="@string/title_activity_new_meeting" >
+        </activity>
+        <activity
+            android:name="mag.joinus.ContactsList"
+            android:label="@string/title_activity_contacts_list" >
+            
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
