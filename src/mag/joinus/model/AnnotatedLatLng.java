@@ -15,6 +15,8 @@ public class AnnotatedLatLng {
 	@DatabaseField
 	private double longitude;
 
+	public AnnotatedLatLng() {}
+	
 	public AnnotatedLatLng(double latitude, double longitude) {
 		super();
 		this.latitude = latitude;
@@ -53,6 +55,11 @@ public class AnnotatedLatLng {
 	
 	public LatLng toLatLng(){
 		return new LatLng(latitude,longitude);
+	}
+	
+	@Override
+	public String toString(){
+		return latitude+" "+longitude;
 	}
 	
 	

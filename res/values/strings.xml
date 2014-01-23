@@ -18,8 +18,10 @@
     <string name="new_event_meeting_time">and time</string>
 
     <!-- NewEventActivity Strings -->
-    <string name="pickcontact">Pickcontact</string>
-
+    <string name="newmeeting_pickcontact_button">Pick contact</string>
+    <string name="newmeeting_participants">Guests</string>
+	<string name="newmeeting_compiledata_error">Please fill meeting fields!</string>
+	
     <!-- MeetingActivity Strings -->
     <string name="title_activity_meeting">MeetingActivity</string>
     <string name="title_section1">Info</string>
@@ -31,5 +33,7 @@
     <string name="meeting_info_address">Address</string>
     <string name="title_activity_new_meeting">NewMeetingActivity</string>
     <string name="title_activity_contacts_list">ContactsList</string>
+    <string name="title_activity_new_event_activity2">New Meeting</string>
+    <string name="title_section3">Section 3</string>
 
 </resources>

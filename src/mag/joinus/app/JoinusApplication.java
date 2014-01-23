@@ -15,6 +15,10 @@ public class JoinusApplication extends Application {
     private User user;
     private Meeting meeting;
     
+    private Meeting meetingToCreate;
+    private long meetingToCreateDate;
+    private long meetingToCreateTime;
+    
 	@Override
     public void onCreate() {
         super.onCreate();
@@ -22,6 +26,7 @@ public class JoinusApplication extends Application {
         // initialize the singleton
         sInstance = this;
         service = new JoinusServiceImpl(this);
+        meetingToCreate=new Meeting();
     }
 
     /**
@@ -36,5 +41,29 @@ public class JoinusApplication extends Application {
 	 */
 	public JoinusServiceImpl getService() {		
 		return service;
+	}
+	
+	public Meeting getMeetingToCreate() {
+		return meetingToCreate;
+	}
+
+	public void setMeetingToCreate(Meeting meetingToCreate) {
+		this.meetingToCreate = meetingToCreate;
+	}
+	
+	public long getMeetingToCreateDate() {
+		return meetingToCreateDate;
+	}
+
+	public void setMeetingToCreateDate(long meetingToCreateDate) {
+		this.meetingToCreateDate = meetingToCreateDate;
+	}
+
+	public long getMeetingToCreateTime() {
+		return meetingToCreateTime;
+	}
+
+	public void setMeetingToCreateTime(long meetingToCreateTime) {
+		this.meetingToCreateTime = meetingToCreateTime;
 	}
 }

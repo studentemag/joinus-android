@@ -25,13 +25,13 @@ class GetAddressTask extends AsyncTask<Location, Void, String> {
 	/**
 	 * 
 	 */
-	private final NewEventActivity newEventActivity;
+	private final NewMeetingMapFragment newMeetingMapFragment;
 	Context mContext;
 	LatLng latLng;
 	
-	public GetAddressTask(NewEventActivity newEventActivity, Context context) {
+	public GetAddressTask(NewMeetingMapFragment newMeetingMapFragment, Context context) {
 		super();
-		this.newEventActivity = newEventActivity;
+		this.newMeetingMapFragment = newMeetingMapFragment;
 		mContext = context;
 	}
 	
@@ -100,6 +100,6 @@ class GetAddressTask extends AsyncTask<Location, Void, String> {
 
 	@Override
 	protected void onPostExecute (String address) {
-		this.newEventActivity.setUpMeetingLocation(address,latLng);
+		this.newMeetingMapFragment.setUpMeetingLocation(address,latLng);
 	}
 }

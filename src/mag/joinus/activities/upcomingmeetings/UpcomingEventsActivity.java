@@ -4,7 +4,7 @@ import java.util.List;
 
 import mag.joinus.R;
 import mag.joinus.activities.meeting.MeetingActivity;
-import mag.joinus.activities.newmeeting.NewEventActivity;
+import mag.joinus.activities.newmeeting.NewMeetingActivity;
 import mag.joinus.app.JoinusApplication;
 import mag.joinus.model.Meeting;
 import mag.joinus.service.JoinusServiceImpl;
@@ -88,7 +88,7 @@ public class UpcomingEventsActivity extends Activity implements GetMeetingListLi
 	}
 	
 	private void startNewEventActivity(){
-		Intent intent = new Intent(this, NewEventActivity.class);
+		Intent intent = new Intent(this, NewMeetingActivity.class);
 		startActivity(intent);
 	}
 

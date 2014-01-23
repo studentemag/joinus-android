@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp" >
+    
+    <EditText
+        android:id="@+id/newmeeting_meeting_address"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="@string/new_event_meeting_address" 
+        android:inputType="text"
+        android:imeOptions="actionSearch" />
+    
+    <fragment
+    	android:id="@+id/newmeeting_map"
+    	android:layout_marginTop="10dp"
+    	android:layout_marginBottom="10dp"
+    	android:layout_width="match_parent"
+    	android:layout_height="match_parent"
+    	android:layout_below="@id/newmeeting_meeting_address"
+    	class="com.google.android.gms.maps.SupportMapFragment"/>
+
+</RelativeLayout>

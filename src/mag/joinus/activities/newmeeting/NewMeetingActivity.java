@@ -1,76 +1,157 @@
 package mag.joinus.activities.newmeeting;
 
 import mag.joinus.R;
-import android.app.Activity;
-import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
+import mag.joinus.app.JoinusApplication;
+import mag.joinus.model.Meeting;
+import mag.joinus.model.User;
+import mag.joinus.service.listeners.CreateMeetingListener;
+import android.app.ActionBar;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.provider.ContactsContract;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
-public class NewMeetingActivity extends Activity {
+public class NewMeetingActivity extends FragmentActivity implements
+		ActionBar.TabListener, CreateMeetingListener {
 
-	private final int PICK_CONTACT = 0;
+	
+	/**
+	 * The {@link android.support.v4.view.PagerAdapter} that will provide
+	 * fragments for each of the sections. We use a
+	 * {@link android.support.v4.app.FragmentPagerAdapter} derivative, which
+	 * will keep every loaded fragment in memory. If this becomes too memory
+	 * intensive, it may be best to switch to a
+	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
+	 */
+	SectionsPagerAdapter mSectionsPagerAdapter;
+	
+	
+	/**
+	 * The {@link ViewPager} that will host the section contents.
+	 */
+	ViewPager mViewPager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_new_meeting);
-		
-		
-		Button button = (Button) findViewById(R.id.pickcontact);
+		setContentView(R.layout.activity_newmeeting);
 
-		button.setOnClickListener(new OnClickListener() 
-		    {
-		        @Override
-		        public void onClick(View v) 
-		        {
-		             Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-		             startActivityForResult(intent, PICK_CONTACT);
-		         }
-		     });
+		// Set up the action bar.
+		final ActionBar actionBar = getActionBar();
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+		// Create the adapter that will return a fragment for each of the three
+		// primary sections of the app.
+		mSectionsPagerAdapter = new SectionsPagerAdapter(
+				getSupportFragmentManager(),this);
+
+		// Set up the ViewPager with the sections adapter.
+		mViewPager = (ViewPager) findViewById(R.id.pager);
+		mViewPager.setAdapter(mSectionsPagerAdapter);
+
+		// When swiping between different sections, select the corresponding
+		// tab. We can also use ActionBar.Tab#select() to do this if we have
+		// a reference to the Tab.
+		mViewPager
+				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+					@Override
+					public void onPageSelected(int position) {
+						actionBar.setSelectedNavigationItem(position);
+					}
+				});
+
+		// For each of the sections in the app, add a tab to the action bar.
+		for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
+			// Create a tab with text corresponding to the page title defined by
+			// the adapter. Also specify this Activity object, which implements
+			// the TabListener interface, as the callback (listener) for when
+			// this tab is selected.
+			actionBar.addTab(actionBar.newTab()
+					.setText(mSectionsPagerAdapter.getPageTitle(i))
+					.setTabListener(this));
+		}
+		
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.new_meeting, menu);
+		getMenuInflater().inflate(R.menu.newmeeting, menu);
 		return true;
+	}
+	
+	@Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.new_event_action_done:
+                    createEvent();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+	private void createEvent() {
+		// TODO implement controls
+		User u = new User();
+		u.setPhone("339");
+		Meeting m = JoinusApplication.getInstance().getMeetingToCreate();
+		m.setDate(JoinusApplication.getInstance().getMeetingToCreateDate()+
+				JoinusApplication.getInstance().getMeetingToCreateTime());
+		m.setMc(u);
+		if (m.validateForCreation()){
+			Log.v("NewMeetingActivity","createEvent "+m.toString());
+		}
+		else {
+			Toast.makeText(JoinusApplication.getInstance(), 
+					R.string.newmeeting_compiledata_error, 
+					Toast.LENGTH_LONG).show();
+		}
+		
+	}
+	
+	@Override
+	public void onMeetingCreated(Meeting meet) {
+		// TODO Auto-generated method stub		
 	}
 
 	@Override
-	public void onActivityResult(int reqCode, int resultCode, Intent data) {
-		super.onActivityResult(reqCode, resultCode, data);
-
-		switch(reqCode) {
-			case (PICK_CONTACT):
-				if (resultCode == Activity.RESULT_OK) {
-					Uri contactData = data.getData();
-					Cursor c = getContentResolver().query(contactData, null, null, null, null);
-					//Cursor c = managedQuery(contactData, null, null, null, null);
-					if (c.moveToFirst()) {
-						String id = c.getString(c.getColumnIndexOrThrow(ContactsContract.Contacts._ID));
-		
-						String hasPhone =
-								c.getString(c.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
-	
-						if (hasPhone.equalsIgnoreCase("1")) {
-							Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, 
-									//ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = "+ id,null, null);
-									ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = ?", new String[] { id }, null);
-							phones.moveToFirst();
-							String cNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-							Toast.makeText(getApplicationContext(), cNumber, Toast.LENGTH_LONG).show();
-							Log.v("joinus android", cNumber);
-						}
-					}
-				}
-		}
+	public void onTabSelected(ActionBar.Tab tab,
+			FragmentTransaction fragmentTransaction) {
+		// When the given tab is selected, switch to the corresponding page in
+		// the ViewPager.
+		mViewPager.setCurrentItem(tab.getPosition());
 	}
+
+	@Override
+	public void onTabUnselected(ActionBar.Tab tab,
+			FragmentTransaction fragmentTransaction) {
+	}
+
+	@Override
+	public void onTabReselected(ActionBar.Tab tab,
+			FragmentTransaction fragmentTransaction) {
+	}
+		
+	public void showTimePickerDialog(View v) {
+	    TimePickerFragment newFragment = new TimePickerFragment();
+	    newFragment.setTextView((TextView) findViewById(R.id.newmeeting_picked_time));
+	    newFragment.show(getSupportFragmentManager(), "timePicker");
+	}
+	
+	public void showDatePickerDialog(View v) {
+	    DatePickerFragment newFragment = new DatePickerFragment();
+	    newFragment.setTextView((TextView) findViewById(R.id.newmeeting_picked_date));
+	    newFragment.show(getSupportFragmentManager(), "datePicker");
+	}
+
+
+
 }
