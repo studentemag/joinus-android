@@ -13,7 +13,8 @@ public class JoinusApplication extends Application {
     
     private JoinusServiceImpl service;
     private User user;
-    private Meeting meeting;
+
+	private Meeting meeting;
     
     private Meeting meetingToCreate;
     private long meetingToCreateDate;
@@ -66,4 +67,13 @@ public class JoinusApplication extends Application {
 	public void setMeetingToCreateTime(long meetingToCreateTime) {
 		this.meetingToCreateTime = meetingToCreateTime;
 	}
+	
+    public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 }
+

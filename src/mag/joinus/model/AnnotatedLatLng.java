@@ -59,9 +59,14 @@ public class AnnotatedLatLng {
 	
 	@Override
 	public String toString(){
-		return latitude+" "+longitude;
+		return "{ " + "\"latitude\"" + latitude + ", \"" + longitude + "\" }";
+	}
+	
+	public String toJson(){
+		return this.toString();
 	}
 	
 	
 	
 }
+
