@@ -2,8 +2,6 @@ package mag.joinus.model;
 
 import java.util.List;
 
-
-import com.google.android.gms.maps.model.LatLng;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 

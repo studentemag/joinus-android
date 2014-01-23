@@ -17,7 +17,7 @@ public interface JoinusService {
 
 	public void createMeeting(Meeting m);
 	
-	public Meeting getMeeting(int meetingId); // Move to service impl
+	public Meeting getMeeting(int meetingId); // TODO Move to service impl
 
 
 	public Meeting acceptInvitationTo(int userId, int meetingId);
@@ -27,7 +27,7 @@ public interface JoinusService {
 	
 	public void sendLocation(int userId, Location l);
 	
-	public User findUserByPhoneNumber(String phoneNumber);
+	public User findUserByPhoneNumber(String phoneNumber); // TODO serve????
 
 	public Meeting addParticipantsToMeeting(List<User> users, int meetingId);
 }

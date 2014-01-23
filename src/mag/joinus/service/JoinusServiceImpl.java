@@ -12,6 +12,7 @@ import mag.joinus.model.UserLocation;
 import mag.joinus.service.listeners.CreateMeetingListener;
 import mag.joinus.service.listeners.FindMeetingListener;
 import mag.joinus.service.listeners.GetMeetingListListener;
+import mag.joinus.service.listeners.GetUserListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,6 +40,7 @@ public class JoinusServiceImpl implements JoinusService {
 	private CreateMeetingListener createMeetingListener;
 	private FindMeetingListener findMeetingListener;
 	private GetMeetingListListener getMeetingListListener;
+	private GetUserListener getUserListener;
 
 	public JoinusServiceImpl(Context context){
 		joinusServiceLocalImpl = OpenHelperManager.getHelper(context, JoinusServiceLocalImpl.class);
@@ -123,20 +125,29 @@ public class JoinusServiceImpl implements JoinusService {
 
 	@Override
 	public void createMeeting(Meeting m) {
-		String title = m.getTitle();
+		String address = m.getAddress();
 		long date = m.getDate();
-		LatLng location = m.getLatLng().toLatLng();
+		String title = m.getTitle();
+		AnnotatedLatLng location = m.getLatLng();
+		double lat = location.getLatitude();
+		double lng = location.getLongitude();
+		//LatLng location = m.getLatLng().toLatLng();
 		User mc = m.getMc();
-		List<String> phones = new ArrayList<String>();
-		for (User u : m.getGuests())
-			phones.add(u.getPhone());
+		List<String> guestsPhones = new ArrayList<String>();
+		List<String> guestsNames = new ArrayList<String>();
+		for (User u : m.getGuests()) {
+			guestsPhones.add(u.getPhone());
+			guestsNames.add(u.getName());
+		}
 
 		final String URL = "http://93.65.216.110:8080/events";
 
 		// Post params to be sent to the server
 		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("address", address);
+		params.put("date", date + "");
 		params.put("title", title);
-		params.put("latitude", location.latitude + "");
+		params.put("latLng", "{ " + "\"latitude\"" + lat + ", \"" + lng + "\" }");
 
 		JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, URL,
 				new JSONObject(params), new Response.Listener<JSONObject>() {
@@ -242,8 +253,7 @@ public class JoinusServiceImpl implements JoinusService {
 
 	@Override
 	public List<Meeting> getUpcomingEvents(int userId) {
-		final String URL = "http://93.65.216.110:8080/users/" + userId
-				+ "/events";
+		final String URL = "http://93.65.216.110:8080/users/" + userId + "/events";
 
 		// Default method is GET
 		JsonArrayRequest req = new JsonArrayRequest(URL,
@@ -275,8 +285,7 @@ public class JoinusServiceImpl implements JoinusService {
 								}
 							}
 
-							getMeetingListListener
-									.onMeetingListRetrieved(mList);
+							getMeetingListListener.onMeetingListRetrieved(mList);
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -304,9 +313,47 @@ public class JoinusServiceImpl implements JoinusService {
 
 	@Override
 	public User login(User user) {
-		// TODO Auto-generated method stub
-		joinusServiceLocalImpl.login(user);
-		return null;
+		String name = user.getName();
+		String phone = user.getPhone();
+		
+		final String URL = "http://93.65.216.110:8080/users";
+
+		// Post params to be sent to the server
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("name", name);
+		params.put("phone", phone);
+		
+		final User u = new User();
+		
+		JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, URL,
+				new JSONObject(params), new Response.Listener<JSONObject>() {
+					@Override
+					public void onResponse(JSONObject response) {
+						Log.v("joinusandroid", response.toString());
+
+						try {
+							u.setId(response.getInt("id"));
+							u.setPhone(response.getString("phone"));
+							u.setName(response.getString("name"));
+							
+							getUserListener.onUserRetrieved(u);
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}, new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						Log.e("Error: ", error.getMessage());
+					}
+				});
+
+		// add the request object to the queue to be executed
+		addToRequestQueue(req);
+		
+		//joinusServiceLocalImpl.login(u);
+		return user;
 	}
 
 	@Override
@@ -325,5 +372,12 @@ public class JoinusServiceImpl implements JoinusService {
 
 	public void setGetMeetingListListener(GetMeetingListListener listener) {
 		getMeetingListListener = listener;
+	}
+
+	/**
+	 * @param getUserListener the getUserListener to set
+	 */
+	public void setGetUserListener(GetUserListener getUserListener) {
+		this.getUserListener = getUserListener;
 	}
 }
