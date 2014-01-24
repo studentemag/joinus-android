@@ -45,11 +45,29 @@
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
-        android:id="@+id/TextView5"
+        android:id="@+id/meeting_info_mc_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/meeting_info_date"
+        android:layout_marginTop="20dp"
+        android:text="@string/meeting_info_mc"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/meeting_info_mc_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/meeting_info_mc_title"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    <TextView
+        android:id="@+id/TextView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/meeting_info_mc_content"
         android:layout_marginTop="20dp"
         android:text="@string/meeting_info_participants"
         android:textAppearance="?android:attr/textAppearanceLarge" />

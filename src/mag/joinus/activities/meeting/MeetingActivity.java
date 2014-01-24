@@ -41,7 +41,7 @@ public class MeetingActivity extends FragmentActivity implements
 		setContentView(R.layout.activity_meeting);
 		
 		Intent intent = getIntent();
-		meetingId = intent.getIntExtra(MeetingActivity.MEETING_ID,0);
+		meetingId = intent.getIntExtra(MeetingActivity.MEETING_ID, 0);
 
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
@@ -49,8 +49,7 @@ public class MeetingActivity extends FragmentActivity implements
 
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
-		mSectionsPagerAdapter = new SectionsPagerAdapter(
-				getSupportFragmentManager(),meetingId);
+		mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), meetingId);
 
 		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -59,8 +58,7 @@ public class MeetingActivity extends FragmentActivity implements
 		// When swiping between different sections, select the corresponding
 		// tab. We can also use ActionBar.Tab#select() to do this if we have
 		// a reference to the Tab.
-		mViewPager
-				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+		mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 					@Override
 					public void onPageSelected(int position) {
 						actionBar.setSelectedNavigationItem(position);

@@ -37,27 +37,28 @@ public class MeetingInfoFragment extends Fragment implements FindMeetingListener
 	 */
 	TextView addressTextView;
 	TextView dateTextView;
+	TextView mcTextView;
 	TextView participantsTextView;
 	
 	private Meeting m;
 	
 	public MeetingInfoFragment() {
+		
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_meeting_info,
-				container, false);
-		joinusService=JoinusApplication.getInstance().getService();
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View rootView = inflater.inflate(R.layout.fragment_meeting_info, container, false);
+		joinusService = JoinusApplication.getInstance().getService();
 		joinusService.setFindMeetingListener(this);
 		
 		addressTextView = (TextView) rootView.findViewById(R.id.meeting_info_address);
 		dateTextView = (TextView) rootView.findViewById(R.id.meeting_info_date);
+		mcTextView = (TextView) rootView.findViewById(R.id.meeting_info_mc_content);
 		participantsTextView = (TextView) rootView.findViewById(R.id.meeting_info_participants);
 		
 		int meetingId = getArguments().getInt(MEETING_ID);
-		m=new Meeting();
+		m = new Meeting();
 		m.setId(meetingId);
 		
 		
@@ -65,24 +66,26 @@ public class MeetingInfoFragment extends Fragment implements FindMeetingListener
 	}
 	
 	@Override
-	public void onStart(){
+	public void onStart() {
 		super.onStart();
-		Log.v("MeetingInfoFrag:onStart", m.getId()+"");
+		Log.v("MeetingInfoFrag:onStart", m.getId() + "");
 		m = joinusService.getMeeting(m.getId());
 	}
 
 	@Override
 	public void onMeetingFound(Meeting m) {
-		// TODO Auto-generated method stub
+		// TODO settare il titolo sulla barra in alto
 		
 		Date d = new Date(m.getDate());
 		
 		addressTextView.setText(m.getAddress());
 		dateTextView.setText(d.toString());
+		//TODO query per avere il nome o togli JSONignore
+		mcTextView.setText(m.getMc().toString());
 		
-		String participants="";
-		for (int i=0; i<m.getParticipants().size();i++)
-			participants += m.getParticipants().get(i).getName()+" ";
+		String participants = "";
+		for (int i = 0; i < m.getParticipants().size(); i++)
+			participants += m.getParticipants().get(i).getName() + " ";
 				
 		participantsTextView.setText(participants);
 		

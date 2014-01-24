@@ -34,6 +34,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 public class JoinusServiceImpl implements JoinusService {
+	final String BASE_URL = "http://93.65.216.110:8080";
 
 	private JoinusServiceLocalImpl joinusServiceLocalImpl;
 	
@@ -245,7 +246,38 @@ public class JoinusServiceImpl implements JoinusService {
 
 	@Override
 	public Meeting getMeeting(int meetingId) {
-		// TODO Auto-generated method stub
+		final String URL = BASE_URL + "/meetings/";
+		
+		JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, URL,
+				null, new Response.Listener<JSONObject>() {
+			@Override
+			public void onResponse(JSONObject response) {
+				Log.v("joinusandroid", response.toString());
+
+				Meeting m = new Meeting();
+				try {
+					m.setId(response.getInt("id"));
+					m.setTitle(response.getString("title"));
+					m.setDate(response.getLong("date"));
+					m.setAddress(response.getString("address"));
+
+					createMeetingListener.onMeetingCreated(m);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+				Log.e("Error: ", error.getMessage());
+			}
+		});
+
+		// add the request object to the queue to be executed
+		addToRequestQueue(req);
+
+		
 		Meeting m = this.findMeetingStub(meetingId);
 		findMeetingListener.onMeetingFound(m);
 		return m;
