@@ -79,5 +79,45 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/TextView5"
         android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    <TextView
+        android:id="@+id/meeting_info_guests_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/meeting_info_participants"
+        android:layout_marginTop="20dp"
+        android:text="@string/meeting_info_guests"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/meeting_info_guests_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/meeting_info_guests_title"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    <Button
+        android:id="@+id/meeting_info_accept_button"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/meeting_info_guests_content"
+        android:text="@string/meeting_info_accept" 
+        android:onClick="accept"
+	/>
+
+    <Button
+        android:id="@+id/meeting_info_deny_button"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+		android:layout_marginTop="15dp"
+        android:layout_below="@+id/meeting_info_guests_content"
+        android:layout_toRightOf="@+id/meeting_info_accept_button"
+        android:text="@string/meeting_info_deny"
+        android:onClick="deny"
+	/>
 
 </RelativeLayout>

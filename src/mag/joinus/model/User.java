@@ -97,6 +97,7 @@ public class User {
 	public JSONObject toJson(){
 		JSONObject userj = new JSONObject();
 		try{
+			userj.put("name", this.name);
 			userj.put("phone", this.phone);
 		} catch (JSONException e) {
 			e.printStackTrace();

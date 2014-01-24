@@ -37,6 +37,10 @@
 	    <string name="meeting_info_address">Address</string>
 	    <string name="meeting_info_mc">Master of ceremonies</string>
 	    <string name="meeting_info_guests">Guests</string>
+	    <string name="meeting_info_accept">Accept</string>
+	    <string name="meeting_info_deny">Deny</string>
+	    <string name="meeting_info_server_request">Request to the server...</string>
+	    <string name="meeting_info_server_response">Server response received!</string>
 	    
 <!-- TODO Dove vanno queste? -->	    
 	    <string name="title_activity_new_meeting">NewMeetingActivity</string>

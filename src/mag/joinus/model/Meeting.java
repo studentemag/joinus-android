@@ -137,7 +137,7 @@ public class Meeting {
 		}
 	}
 	
-	public JSONObject toJson(){
+	public JSONObject toJson() {
 		JSONObject meetingj = new JSONObject();
 		try {
 			meetingj.put("id", this.id);
@@ -148,10 +148,15 @@ public class Meeting {
 				meetingj.put("latLng", latLng.toJson());
 			if (mc!=null)
 				meetingj.put("mc", mc.toJson());
-			if (guests!=null){
+			if (guests!=null) {
 				meetingj.put("guests", new JSONArray());
 				for(User guest : guests)
-					meetingj.accumulate("guests",guest.toJson());
+					meetingj.accumulate("guests", guest.toJson());
+			}
+			if (participants!=null) {
+				meetingj.put("participants", new JSONArray());
+				for(User participant : participants)
+					meetingj.accumulate("participants", participant.toJson());
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();

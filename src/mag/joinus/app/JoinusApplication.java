@@ -75,5 +75,19 @@ public class JoinusApplication extends Application {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	/**
+	 * @return the meeting
+	 */
+	public Meeting getMeeting() {
+		return meeting;
+	}
+
+	/**
+	 * @param meeting the meeting to set
+	 */
+	public void setMeeting(Meeting meeting) {
+		this.meeting = meeting;
+	}
 }
 

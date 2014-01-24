@@ -113,7 +113,17 @@ public class JoinusServiceImpl implements JoinusService {
 	}
 	
 	@Override
-	public Meeting acceptInvitationTo(int userId, User user) {
+	public Meeting acceptInvitationTo(int meetingId, User user) {
+		final String URL = BASE_URL+"/events/" + meetingId + "/accept";
+		
+		JSONObject body = user.toJson();
+		Log.v("JoinusServiceImpl.acceptInvitationTo", 
+				"requestBody: " + body.toString());
+		return null;
+	}
+	
+	@Override
+	public Meeting denyInvitationTo(int meetingId, User user) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -153,12 +163,6 @@ public class JoinusServiceImpl implements JoinusService {
 		// add the request object to the queue to be executed
 		addToRequestQueue(req);
 		
-		return null;
-	}
-
-	@Override
-	public Meeting denyInvitationTo(int userId, int meetingId) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

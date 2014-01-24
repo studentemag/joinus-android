@@ -138,7 +138,7 @@ public class JoinusServiceLocalImpl extends OrmLiteSqliteOpenHelper implements J
 	}
 
 	@Override
-	public Meeting denyInvitationTo(int userId, int meetingId) {
+	public Meeting denyInvitationTo(int meetingId, User user) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -12,9 +12,10 @@ public interface JoinusService {
 	public User login(User user);
 	public List<Meeting> getUpcomingEvents(String phone);
 	public Meeting createMeeting(Meeting m);
+	public Meeting acceptInvitationTo(int meetingId, User user);
+	public Meeting denyInvitationTo(int meetingId, User user);
 	
-	public Meeting acceptInvitationTo(int meetingId, User u);
-	public Meeting denyInvitationTo(int userId, int meetingId);
+	
 	
 	public Location getLocationFromAddress(String address);
 	

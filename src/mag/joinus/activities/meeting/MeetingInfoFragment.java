@@ -6,6 +6,7 @@ import java.util.Date;
 import mag.joinus.R;
 import mag.joinus.app.JoinusApplication;
 import mag.joinus.model.Meeting;
+import mag.joinus.model.User;
 import mag.joinus.service.JoinusServiceImpl;
 import mag.joinus.service.listeners.FindMeetingListener;
 import android.os.Bundle;
@@ -14,7 +15,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * A dummy fragment representing a section of the app, but that simply displays
@@ -39,8 +42,10 @@ public class MeetingInfoFragment extends Fragment implements FindMeetingListener
 	TextView dateTextView;
 	TextView mcTextView;
 	TextView participantsTextView;
+	TextView guestsTextView;
 	
 	private Meeting m;
+	private User u;
 	
 	public MeetingInfoFragment() {
 		
@@ -56,11 +61,13 @@ public class MeetingInfoFragment extends Fragment implements FindMeetingListener
 		dateTextView = (TextView) rootView.findViewById(R.id.meeting_info_date);
 		mcTextView = (TextView) rootView.findViewById(R.id.meeting_info_mc_content);
 		participantsTextView = (TextView) rootView.findViewById(R.id.meeting_info_participants);
+		guestsTextView = (TextView) rootView.findViewById(R.id.meeting_info_guests_content);
 		
-		int meetingId = getArguments().getInt(MEETING_ID);
+		/*int meetingId = getArguments().getInt(MEETING_ID);
 		m = new Meeting();
-		m.setId(meetingId);
-		
+		m.setId(meetingId);*/
+		m = JoinusApplication.getInstance().getMeeting();
+		u = JoinusApplication.getInstance().getUser();
 		
 		return rootView;
 	}
@@ -68,8 +75,9 @@ public class MeetingInfoFragment extends Fragment implements FindMeetingListener
 	@Override
 	public void onStart() {
 		super.onStart();
-		Log.v("MeetingInfoFrag:onStart", m.getId() + "");
-		m = new Meeting();
+		Log.v("MeetingInfoFrag.onStart", m.getId() + "");
+		onMeetingFound(m);
+		//m = new Meeting();
 	}
 
 	@Override
@@ -80,7 +88,6 @@ public class MeetingInfoFragment extends Fragment implements FindMeetingListener
 		
 		addressTextView.setText(m.getAddress());
 		dateTextView.setText(d.toString());
-		//TODO query per avere il nome o togli JSONignore
 		mcTextView.setText(m.getMc().toString());
 		
 		String participants = "";
@@ -89,6 +96,20 @@ public class MeetingInfoFragment extends Fragment implements FindMeetingListener
 				
 		participantsTextView.setText(participants);
 		
+		String guests = "";
+		for (int i = 0; i < m.getGuests().size(); i++)
+			guests += m.getGuests().get(i).getName() + " ";
+				
+		guestsTextView.setText(guests);
+	}
+	
+	public void accept(View view) {
+		Log.v("joinUsAndroid", "accept called");
+
+		Toast.makeText(JoinusApplication.getInstance().getApplicationContext(), R.string.meeting_info_server_request, Toast.LENGTH_LONG).show();
 		
+		joinusService.acceptInvitationTo(m.getId(), u);
+		
+		Toast.makeText(JoinusApplication.getInstance().getApplicationContext(), R.string.meeting_info_server_response, Toast.LENGTH_LONG).show();
 	}
 }
