@@ -69,7 +69,7 @@ public class MeetingInfoFragment extends Fragment implements FindMeetingListener
 	public void onStart() {
 		super.onStart();
 		Log.v("MeetingInfoFrag:onStart", m.getId() + "");
-		m = joinusService.getMeeting(m.getId());
+		m = new Meeting();
 	}
 
 	@Override

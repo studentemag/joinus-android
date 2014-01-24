@@ -10,24 +10,18 @@ import android.location.Location;
 public interface JoinusService {
 	
 	public User login(User user);
-	
 	public List<Meeting> getUpcomingEvents(String phone);
-
 	public Meeting createMeeting(Meeting m);
 	
-	public Location getLocationFromAddress(String address);
-	
-	public Meeting getMeeting(int meetingId); // TODO Move to service impl
-
-	public Meeting acceptInvitationTo(int userId, int meetingId);
+	public Meeting acceptInvitationTo(int meetingId, User u);
 	public Meeting denyInvitationTo(int userId, int meetingId);
+	
+	public Location getLocationFromAddress(String address);
 	
 	public List<UserLocation> getLastKnownParticipantsLocations(int meetingId);
 	
 	public void sendLocation(int userId, Location l);
 	
-	public User findUserByPhoneNumber(String phoneNumber); // TODO serve????
-
 	public Meeting addParticipantsToMeeting(List<User> users, int meetingId);
 }
 

@@ -132,13 +132,7 @@ public class JoinusServiceLocalImpl extends OrmLiteSqliteOpenHelper implements J
 	}
 
 	@Override
-	public Meeting getMeeting(int meetingId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Meeting acceptInvitationTo(int userId, int meetingId) {
+	public Meeting acceptInvitationTo(int meetingId, User user) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -159,12 +153,6 @@ public class JoinusServiceLocalImpl extends OrmLiteSqliteOpenHelper implements J
 	public void sendLocation(int userId, Location l) {
 		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	public User findUserByPhoneNumber(String phoneNumber) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

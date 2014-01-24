@@ -34,9 +34,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 public class JoinusServiceImpl implements JoinusService {
-	final String BASE_URL = "http://93.65.216.110:8080";
-
-	private final String host = "http://151.24.52.86:8080";
+	private final String BASE_URL = "http://93.65.216.110:8080";
 	
 	private JoinusServiceLocalImpl joinusServiceLocalImpl;
 	
@@ -115,7 +113,7 @@ public class JoinusServiceImpl implements JoinusService {
 	}
 	
 	@Override
-	public Meeting acceptInvitationTo(int userId, int meetingId) {
+	public Meeting acceptInvitationTo(int userId, User user) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -128,10 +126,10 @@ public class JoinusServiceImpl implements JoinusService {
 
 	@Override
 	public Meeting createMeeting(Meeting m) {
-		final String URL = host+"/events";
+		final String URL = BASE_URL+"/events";
 
 		JSONObject body = m.toJson();
-		Log.v("JoinusServiceImpl::createMeeting", 
+		Log.v("JoinusServiceImpl.createMeeting", 
 				"requestBody: " +body.toString());
 		
 		JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, URL,
@@ -164,48 +162,6 @@ public class JoinusServiceImpl implements JoinusService {
 		return null;
 	}
 
-	private Meeting findMeetingStub(int meetingId) {
-		User mario = new User();
-		mario.setName("Mario");
-		User luca = new User();
-		luca.setName("Luca");
-		User fabio = new User();
-		fabio.setName("Fabio");
-		User giuseppe = new User();
-		giuseppe.setName("Giuseppe");
-
-		List<User> participants = new ArrayList<User>();
-		participants.add(giuseppe);
-		participants.add(luca);
-		participants.add(mario);
-
-		List<User> guests = new ArrayList<User>();
-		guests.add(giuseppe);
-		guests.add(fabio);
-		guests.add(luca);
-		guests.add(mario);
-
-		LatLng l = new LatLng(0, 0);
-
-		Meeting m = new Meeting();
-
-		m.setAddress("via congo d'oro");
-		m.setDate(10321321);
-		m.setGuests(guests);
-		m.setId(meetingId);
-		m.setLatLng(new AnnotatedLatLng(l));
-		m.setMc(luca);
-		m.setParticipants(participants);
-		m.setTitle("festa di Luca");
-		return m;
-	}
-
-	@Override
-	public User findUserByPhoneNumber(String phoneNumber) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public FindMeetingListener getFindMeetingListener() {
 		return findMeetingListener;
 	}
@@ -223,47 +179,8 @@ public class JoinusServiceImpl implements JoinusService {
 	}
 
 	@Override
-	public Meeting getMeeting(int meetingId) {
-		final String URL = BASE_URL + "/meetings/";
-		
-		JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, URL,
-				null, new Response.Listener<JSONObject>() {
-			@Override
-			public void onResponse(JSONObject response) {
-				Log.v("joinusandroid", response.toString());
-
-				Meeting m = new Meeting();
-				try {
-					m.setId(response.getInt("id"));
-					m.setTitle(response.getString("title"));
-					m.setDate(response.getLong("date"));
-					m.setAddress(response.getString("address"));
-
-					createMeetingListener.onMeetingCreated(m);
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}, new Response.ErrorListener() {
-			@Override
-			public void onErrorResponse(VolleyError error) {
-				Log.e("Error: ", error.getMessage());
-			}
-		});
-
-		// add the request object to the queue to be executed
-		addToRequestQueue(req);
-
-		
-		Meeting m = this.findMeetingStub(meetingId);
-		findMeetingListener.onMeetingFound(m);
-		return m;
-	}
-
-	@Override
 	public List<Meeting> getUpcomingEvents(String phone) {
-		final String URL = host+"/users/" + phone + "/events";
+		final String URL = BASE_URL+"/users/" + phone + "/events";
 
 		// Default method is GET
 		JsonArrayRequest req = new JsonArrayRequest(URL,
@@ -310,7 +227,7 @@ public class JoinusServiceImpl implements JoinusService {
 		String name = user.getName();
 		String phone = user.getPhone();
 		
-		final String URL = host+"/users";
+		final String URL = BASE_URL+"/users";
 
 		// Post params to be sent to the server
 		HashMap<String, String> params = new HashMap<String, String>();
