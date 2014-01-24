@@ -1,5 +1,6 @@
 package mag.joinus.activities.upcomingmeetings;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import mag.joinus.R;
@@ -22,7 +23,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 public class UpcomingEventsActivity extends Activity implements GetMeetingListListener {
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -42,10 +43,10 @@ public class UpcomingEventsActivity extends Activity implements GetMeetingListLi
 				public void onItemClick(AdapterView<?> parent, View view,
 		                  int position, long id) {
 					Meeting meeting = (Meeting) parent.getItemAtPosition(position);
+					JoinusApplication.getInstance().setMeeting(meeting);
 					Log.v("joinUsAndroid", "click on "+meeting.getTitle());
 					Context c = JoinusApplication.getInstance().getApplicationContext();
 					Intent intent = new Intent(c, MeetingActivity.class);
-					intent.putExtra(MeetingActivity.MEETING_ID, meeting.getId());
 					startActivity(intent);
 					
 				}	
