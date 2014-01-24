@@ -4,6 +4,7 @@ import mag.joinus.R;
 import mag.joinus.app.JoinusApplication;
 import mag.joinus.model.Meeting;
 import mag.joinus.model.User;
+import mag.joinus.service.JoinusServiceImpl;
 import mag.joinus.service.listeners.CreateMeetingListener;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
@@ -99,15 +100,17 @@ public class NewMeetingActivity extends FragmentActivity implements
     }
 
 	private void createEvent() {
-		// TODO implement controls
-		User u = new User();
-		u.setPhone("339");
+		User u = JoinusApplication.getInstance().getUser();
 		Meeting m = JoinusApplication.getInstance().getMeetingToCreate();
 		m.setDate(JoinusApplication.getInstance().getMeetingToCreateDate()+
 				JoinusApplication.getInstance().getMeetingToCreateTime());
 		m.setMc(u);
 		if (m.validateForCreation()){
-			Log.v("NewMeetingActivity","createEvent "+m.toString());
+			JoinusServiceImpl service = JoinusApplication.getInstance().getService();
+			service.setCreateMeetingListener(this);
+			service.createMeeting(m);
+			Log.i("NewMeetingActivity::createEvent",
+					"event to be created "+m.toJson().toString());
 		}
 		else {
 			Toast.makeText(JoinusApplication.getInstance(), 
@@ -118,8 +121,9 @@ public class NewMeetingActivity extends FragmentActivity implements
 	}
 	
 	@Override
-	public void onMeetingCreated(Meeting meet) {
-		// TODO Auto-generated method stub		
+	public void onMeetingCreated(Meeting m) {
+		// TODO Auto-generated method stub
+		Log.i("NewMeetingActivity::onMeetingCreated","event created "+m.toString());
 	}
 
 	@Override

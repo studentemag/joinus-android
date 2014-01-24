@@ -34,12 +34,12 @@ public class UpcomingEventsActivity extends Activity implements GetMeetingListLi
 		ListView listview = (ListView) findViewById(R.id.listview);
 		
 		// TODO va selezionato l'utente dal login
-		int userId = 0;
+		String phone = JoinusApplication.getInstance().getUser().getPhone();
 		
 		joinusServiceImpl = JoinusApplication.getInstance().getService();
 		joinusServiceImpl.setGetMeetingListListener(this);
 		
-		populateList(joinusServiceImpl.getUpcomingEvents(userId));
+		populateList(joinusServiceImpl.getUpcomingEvents(phone));
 		
 		listview.setOnItemClickListener(
 			new OnItemClickListener(){

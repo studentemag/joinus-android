@@ -11,14 +11,13 @@ public interface JoinusService {
 	
 	public User login(User user);
 	
+	public List<Meeting> getUpcomingEvents(String phone);
+
+	public Meeting createMeeting(Meeting m);
+	
 	public Location getLocationFromAddress(String address);
 	
-	public List<Meeting> getUpcomingEvents(int userId);
-
-	public void createMeeting(Meeting m);
-	
 	public Meeting getMeeting(int meetingId); // TODO Move to service impl
-
 
 	public Meeting acceptInvitationTo(int userId, int meetingId);
 	public Meeting denyInvitationTo(int userId, int meetingId);

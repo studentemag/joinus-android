@@ -107,13 +107,13 @@ public class JoinusServiceLocalImpl extends OrmLiteSqliteOpenHelper implements J
 	}
 
 	@Override
-	public List<Meeting> getUpcomingEvents(int userId) {
+	public List<Meeting> getUpcomingEvents(String phone) {
 		List<Meeting> meetings = new ArrayList<Meeting>();
 		try {
-			List<Participant> meetingsAsP= participantDao.queryForEq("user_id", userId);
+			List<Participant> meetingsAsP= participantDao.queryForEq("phone", phone);
 			for (Participant p : meetingsAsP)
 				meetings.add(meetingDao.queryForId(p.getMeeting_id()));
-			List<Guest> meetingsAsG= guestDao.queryForEq("user_id", userId);
+			List<Guest> meetingsAsG= guestDao.queryForEq("user_id", phone);
 			for (Guest g : meetingsAsG)
 				meetings.add(meetingDao.queryForId(g.getMeeting_id()));
 		} catch (SQLException e) {
@@ -125,8 +125,9 @@ public class JoinusServiceLocalImpl extends OrmLiteSqliteOpenHelper implements J
 	}
 
 	@Override
-	public void createMeeting(Meeting m) {
+	public Meeting createMeeting(Meeting m) {
 		// TODO Auto-generated method stub
+		return null;
 
 	}
 

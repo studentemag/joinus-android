@@ -1,6 +1,11 @@
 package mag.joinus.model;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -99,6 +104,60 @@ public class Meeting {
 	public String toString(){
 		String string = this.title + " " + this.address + " " +this.date+" "+this.guests.toString()+" "+this.latLng.toString();
 		return string;
+	}
+	
+	public Meeting(JSONObject j){
+		try {
+			if (!j.isNull("id"))
+				this.id=j.getInt("id");
+			if (!j.isNull("address"))
+				this.address=j.getString("address");
+			if (!j.isNull("date"))
+				this.date=j.getLong("date");
+			if (!j.isNull("title"))
+				this.title=j.getString("title");
+			if (!j.isNull("latLng"))
+				this.latLng=new AnnotatedLatLng(j.getJSONObject("latLng"));
+			if (!j.isNull("mc"))
+				this.mc=new User(j.getJSONObject("latLng"));
+			if (!j.isNull("guests")) {
+				this.guests = new ArrayList<User>();
+				JSONArray guests = j.getJSONArray("guests");
+				for (int i=0; i<guests.length(); i++)
+					this.guests.add(new User(guests.getJSONObject(i)));
+			}
+			if (!j.isNull("participants")) {
+				this.participants = new ArrayList<User>();
+				JSONArray participants = j.getJSONArray("participants");
+				for (int i=0; i<participants.length(); i++)
+					this.participants.add(new User(participants.getJSONObject(i)));
+			}	
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public JSONObject toJson(){
+		JSONObject meetingj = new JSONObject();
+		try {
+			meetingj.put("id", this.id);
+			meetingj.put("title", this.title);
+			meetingj.put("address", this.address);
+			meetingj.put("date", this.date);
+			if (latLng!=null)
+				meetingj.put("latLng", latLng.toJson());
+			if (mc!=null)
+				meetingj.put("mc", mc.toJson());
+			if (guests!=null){
+				meetingj.put("guests", new JSONArray());
+				for(User guest : guests)
+					meetingj.accumulate("guests",guest.toJson());
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return meetingj;
+		
 	}
 	
 	public boolean validateForCreation(){

@@ -35,6 +35,8 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 public class JoinusServiceImpl implements JoinusService {
 
+	private final String host = "http://151.24.52.86:8080";
+	
 	private JoinusServiceLocalImpl joinusServiceLocalImpl;
 	
 	private CreateMeetingListener createMeetingListener;
@@ -124,49 +126,23 @@ public class JoinusServiceImpl implements JoinusService {
 	}
 
 	@Override
-	public void createMeeting(Meeting m) {
-		String address = m.getAddress();
-		long date = m.getDate();
-		String title = m.getTitle();
-		AnnotatedLatLng location = m.getLatLng();
-		double lat = location.getLatitude();
-		double lng = location.getLongitude();
-		//LatLng location = m.getLatLng().toLatLng();
-		User mc = m.getMc();
-		List<String> guestsPhones = new ArrayList<String>();
-		List<String> guestsNames = new ArrayList<String>();
-		for (User u : m.getGuests()) {
-			guestsPhones.add(u.getPhone());
-			guestsNames.add(u.getName());
-		}
+	public Meeting createMeeting(Meeting m) {
+		final String URL = host+"/events";
 
-		final String URL = "http://93.65.216.110:8080/events";
-
-		// Post params to be sent to the server
-		HashMap<String, String> params = new HashMap<String, String>();
-		params.put("address", address);
-		params.put("date", date + "");
-		params.put("title", title);
-		params.put("latLng", location.toJson());
-
+		JSONObject body = m.toJson();
+		Log.v("JoinusServiceImpl::createMeeting", 
+				"requestBody: " +body.toString());
+		
 		JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, URL,
-				new JSONObject(params), new Response.Listener<JSONObject>() {
+				body, new Response.Listener<JSONObject>() {
 					@Override
 					public void onResponse(JSONObject response) {
-						Log.v("joinusandroid", response.toString());
+						Log.v("JoinusServiceImpl::createMeeting", 
+								"responseBody: " +response.toString());
 
-						Meeting m = new Meeting();
-						try {
-							m.setId(response.getInt("id"));
-							m.setTitle(response.getString("title"));
-							m.setDate(response.getLong("date"));
-							m.setAddress(response.getString("address"));
-
-							createMeetingListener.onMeetingCreated(m);
-						} catch (JSONException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+						Meeting m = new Meeting(response);
+						
+						createMeetingListener.onMeetingCreated(m);
 					}
 				}, new Response.ErrorListener() {
 					@Override
@@ -177,6 +153,8 @@ public class JoinusServiceImpl implements JoinusService {
 
 		// add the request object to the queue to be executed
 		addToRequestQueue(req);
+		
+		return null;
 	}
 
 	@Override
@@ -252,8 +230,8 @@ public class JoinusServiceImpl implements JoinusService {
 	}
 
 	@Override
-	public List<Meeting> getUpcomingEvents(int userId) {
-		final String URL = "http://93.65.216.110:8080/users/" + userId + "/events";
+	public List<Meeting> getUpcomingEvents(String phone) {
+		final String URL = host+"/users/" + phone + "/events";
 
 		// Default method is GET
 		JsonArrayRequest req = new JsonArrayRequest(URL,
@@ -261,30 +239,14 @@ public class JoinusServiceImpl implements JoinusService {
 					@Override
 					public void onResponse(JSONArray response) {
 						Log.v("joinusandroid", response.toString());
-
 						List<Meeting> mList = new ArrayList<Meeting>();
 						try {
 							if (response != null) {
 								for (int i = 0; i < response.length(); i++) {
-									Meeting m = new Meeting();
-
-									JSONObject jo = response.getJSONObject(i);
-
-									m.setId(jo.getInt("id"));
-									m.setAddress(jo.getString("address"));
-									m.setDate(jo.getLong("date"));
-									// guests
-									LatLng l = new LatLng(jo.getDouble("latitude"),
-											jo.getDouble("longitude"));
-									m.setLatLng(new AnnotatedLatLng(l));
-									// user mc
-									// participants
-									m.setTitle(jo.getString("title"));
-
+									Meeting m = new Meeting(response.getJSONObject(i));
 									mList.add(m);
 								}
 							}
-
 							getMeetingListListener.onMeetingListRetrieved(mList);
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
@@ -316,7 +278,7 @@ public class JoinusServiceImpl implements JoinusService {
 		String name = user.getName();
 		String phone = user.getPhone();
 		
-		final String URL = "http://93.65.216.110:8080/users";
+		final String URL = host+"/users";
 
 		// Post params to be sent to the server
 		HashMap<String, String> params = new HashMap<String, String>();
@@ -332,7 +294,6 @@ public class JoinusServiceImpl implements JoinusService {
 						Log.v("joinusandroid", response.toString());
 
 						try {
-							u.setId(response.getInt("id"));
 							u.setPhone(response.getString("phone"));
 							u.setName(response.getString("name"));
 							

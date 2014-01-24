@@ -10,7 +10,7 @@ public class UserLocation {
 	@DatabaseField(id=true)
 	private int id;
 	
-	@DatabaseField (foreign = true, foreignAutoRefresh = true, columnName = "user_id")
+	@DatabaseField (foreign = true, foreignAutoRefresh = true, columnName = "user_phone")
 	private User user;
 
 	@DatabaseField

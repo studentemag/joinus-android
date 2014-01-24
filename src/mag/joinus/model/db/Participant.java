@@ -7,17 +7,17 @@ import com.j256.ormlite.table.DatabaseTable;
 public class Participant {
 	
 	@DatabaseField(uniqueCombo = true)
-	int user_id;
+	String phone;
 	
 	@DatabaseField(uniqueCombo = true)
 	int meeting_id;
 
-	public int getUser_id() {
-		return user_id;
+	public String getPhone() {
+		return phone;
 	}
 
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	public int getMeeting_id() {
