@@ -42,8 +42,10 @@ public class NewMeetingActivity extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_newmeeting);
-
-		// Set up the action bar.
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		Log.v("NewMeetingActivity","onCreate");
+		
+		// Set up the action bar
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
@@ -79,6 +81,7 @@ public class NewMeetingActivity extends FragmentActivity implements
 		}
 		
 	}
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -124,6 +127,7 @@ public class NewMeetingActivity extends FragmentActivity implements
 	public void onMeetingCreated(Meeting m) {
 		// TODO Auto-generated method stub
 		Log.i("NewMeetingActivity::onMeetingCreated","event created "+m.toString());
+		this.finish();
 	}
 
 	@Override

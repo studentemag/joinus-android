@@ -27,19 +27,14 @@ public class UpcomingEventsActivity extends Activity implements GetMeetingListLi
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_upcoming_events);
-		
-		Log.v("joinUsAndroid", "starting UpcomingEventsActivity");
 		getActionBar().setDisplayHomeAsUpEnabled(true);
+
+		Log.v("UpcomingEventsActivity", "onCreate");
 		
 		ListView listview = (ListView) findViewById(R.id.listview);
 		
-		// TODO va selezionato l'utente dal login
-		String phone = JoinusApplication.getInstance().getUser().getPhone();
-		
 		joinusServiceImpl = JoinusApplication.getInstance().getService();
 		joinusServiceImpl.setGetMeetingListListener(this);
-		
-		populateList(joinusServiceImpl.getUpcomingEvents(phone));
 		
 		listview.setOnItemClickListener(
 			new OnItemClickListener(){
@@ -56,6 +51,26 @@ public class UpcomingEventsActivity extends Activity implements GetMeetingListLi
 				}	
 			}
 		);
+	}
+
+	@Override
+	protected void onRestart(){
+		super.onRestart();
+		Log.v("UpcomingEventsActivity","onRestart");
+	}
+	
+	@Override
+	protected void onStart(){
+		super.onStart();
+		String phone = JoinusApplication.getInstance().getUser().getPhone();
+		populateList(joinusServiceImpl.getUpcomingEvents(phone));
+		Log.v("UpcomingEventsActivity","onStart");
+	}
+	
+	@Override
+	protected void onResume(){
+		super.onResume();
+		Log.v("UpcomingEventsActivity","onResume");
 	}
 
 	private void populateList(List<Meeting> mList) {
