@@ -31,14 +31,18 @@
     <string name="title_section1">Info</string>
     <string name="title_section2">Map</string>
 
-    <!-- MeetingInfoActivity Strings -->
-    <string name="meeting_info_date">Date</string>
-    <string name="meeting_info_participants">Participants</string>
-    <string name="meeting_info_address">Address</string>
-    <string name="title_activity_new_meeting">NewMeetingActivity</string>
-    <string name="title_activity_contacts_list">ContactsList</string>
-    <string name="title_activity_new_event_activity2">New Meeting</string>
-    <string name="title_section3">Section 3</string>
+	    <!-- MeetingInfoFragment Strings -->
+	    <string name="meeting_info_date">Date</string>
+	    <string name="meeting_info_participants">Participants</string>
+	    <string name="meeting_info_address">Address</string>
+	    <string name="meeting_info_mc">Master of ceremonies</string>
+	    <string name="meeting_info_guests">Guests</string>
+	    
+<!-- TODO Dove vanno queste? -->	    
+	    <string name="title_activity_new_meeting">NewMeetingActivity</string>
+	    <string name="title_activity_contacts_list">ContactsList</string>
+	    <string name="title_activity_new_event_activity2">New Meeting</string>
+	    <string name="title_section3">Section 3</string>
 
 </resources>
 
