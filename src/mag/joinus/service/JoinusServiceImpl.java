@@ -34,7 +34,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 public class JoinusServiceImpl implements JoinusService {
-	private final String BASE_URL = "http://93.65.216.110:8080";
+	private final String BASE_URL = "http://151.24.52.86:8080";
 	
 	private JoinusServiceLocalImpl joinusServiceLocalImpl;
 	
@@ -112,69 +112,19 @@ public class JoinusServiceImpl implements JoinusService {
 		}
 	}
 	
-	
-	
 	@Override
 	public Meeting acceptInvitationTo(int meetingId, User user) {
-		final String URL = BASE_URL + "/events/" + meetingId + "/accept";
+		final String URL = BASE_URL+"/events/" + meetingId + "/accept";
 		
 		JSONObject body = user.toJson();
 		Log.v("JoinusServiceImpl.acceptInvitationTo", 
 				"requestBody: " + body.toString());
-		
-		JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, URL,
-				body, new Response.Listener<JSONObject>() {
-			@Override
-			public void onResponse(JSONObject response) {
-				Log.v("JoinusServiceImpl.acceptInvitationTo", 
-						"responseBody: " + response.toString());
-
-				Meeting m = new Meeting(response);
-
-				findMeetingListener.onMeetingFound(m);
-			}
-		}, new Response.ErrorListener() {
-			@Override
-			public void onErrorResponse(VolleyError error) {
-				Log.e("Error: ", error.getMessage());
-			}
-		});
-
-		// add the request object to the queue to be executed
-		addToRequestQueue(req);
-		
 		return null;
 	}
 	
 	@Override
 	public Meeting denyInvitationTo(int meetingId, User user) {
-		final String URL = BASE_URL + "/events/" + meetingId + "/deny";
-		
-		JSONObject body = user.toJson();
-		Log.v("JoinusServiceImpl.acceptInvitationTo", 
-				"requestBody: " + body.toString());
-		
-		JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, URL,
-				body, new Response.Listener<JSONObject>() {
-			@Override
-			public void onResponse(JSONObject response) {
-				Log.v("JoinusServiceImpl.acceptInvitationTo", 
-						"responseBody: " + response.toString());
-
-				Meeting m = new Meeting(response);
-
-				findMeetingListener.onMeetingFound(m);
-			}
-		}, new Response.ErrorListener() {
-			@Override
-			public void onErrorResponse(VolleyError error) {
-				Log.e("Error: ", error.getMessage());
-			}
-		});
-
-		// add the request object to the queue to be executed
-		addToRequestQueue(req);
-		
+		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -186,17 +136,17 @@ public class JoinusServiceImpl implements JoinusService {
 
 	@Override
 	public Meeting createMeeting(Meeting m) {
-		final String URL = BASE_URL + "/events";
+		final String URL = BASE_URL+"/events";
 
 		JSONObject body = m.toJson();
 		Log.v("JoinusServiceImpl.createMeeting", 
-				"requestBody: " + body.toString());
+				"requestBody: " +body.toString());
 		
 		JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, URL,
 				body, new Response.Listener<JSONObject>() {
 					@Override
 					public void onResponse(JSONObject response) {
-						Log.v("JoinusServiceImpl.createMeeting", 
+						Log.v("JoinusServiceImpl::createMeeting", 
 								"responseBody: " +response.toString());
 
 						Meeting m = new Meeting(response);
@@ -234,7 +184,7 @@ public class JoinusServiceImpl implements JoinusService {
 
 	@Override
 	public List<Meeting> getUpcomingEvents(String phone) {
-		final String URL = BASE_URL + "/users/" + phone + "/events";
+		final String URL = BASE_URL+"/users/" + phone + "/events";
 
 		// Default method is GET
 		JsonArrayRequest req = new JsonArrayRequest(URL,
@@ -281,7 +231,7 @@ public class JoinusServiceImpl implements JoinusService {
 		String name = user.getName();
 		String phone = user.getPhone();
 		
-		final String URL = BASE_URL + "/users";
+		final String URL = BASE_URL+"/users";
 
 		// Post params to be sent to the server
 		HashMap<String, String> params = new HashMap<String, String>();
