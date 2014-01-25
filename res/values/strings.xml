@@ -39,7 +39,7 @@
 	    <string name="meeting_info_guests">Guests</string>
 	    <string name="meeting_info_accept">Accept</string>
 	    <string name="meeting_info_deny">Deny</string>
-	    <string name="meeting_info_server_request">Request to the server&#8230;</string>
+	    <string name="meeting_info_server_request">Request to the server...</string>
 	    <string name="meeting_info_server_response">Server response received!</string>
 	    
 <!-- TODO Dove vanno queste? -->	    
