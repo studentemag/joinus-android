@@ -119,7 +119,7 @@ public class Meeting {
 			if (!j.isNull("latLng"))
 				this.latLng=new AnnotatedLatLng(j.getJSONObject("latLng"));
 			if (!j.isNull("mc"))
-				this.mc=new User(j.getJSONObject("latLng"));
+				this.mc=new User(j.getJSONObject("mc"));
 			if (!j.isNull("guests")) {
 				this.guests = new ArrayList<User>();
 				JSONArray guests = j.getJSONArray("guests");
