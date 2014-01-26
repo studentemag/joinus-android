@@ -1,6 +1,7 @@
 package mag.joinus.activities.upcomingmeetings;
 
 
+import java.text.DateFormat;
 import java.util.List;
 
 import mag.joinus.R;
@@ -42,8 +43,10 @@ public class EventArrayAdapter extends ArrayAdapter<Meeting>{
 	        
 	        
 	        itemLine1.setText(e.getTitle());
-	        //itemLine2.setText("" + e.getDate());
-	        itemLine2.setText(l.latitude + " " + l.longitude);
+	        
+	        String date = DateFormat.getDateInstance(DateFormat.LONG).format(e.getDate());
+	        String time = DateFormat.getTimeInstance(DateFormat.SHORT).format(e.getDate());
+	        itemLine2.setText(date+" "+time+" at "+e.getAddress());
 		}
 
 		return v;

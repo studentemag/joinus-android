@@ -34,7 +34,10 @@ public class Meeting {
 	private List<User> guests;
 	private List<User> participants;
 	
-	public Meeting() {}
+	public Meeting() {
+		guests = new ArrayList<User>();
+		participants=new ArrayList<User>();
+	}
 	
 	public String getAddress() {
 		return address;

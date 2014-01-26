@@ -37,7 +37,7 @@ public class JoinusServiceLocal extends OrmLiteSqliteOpenHelper {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 		context.deleteDatabase(DATABASE_NAME);
 		Log.i("JoinusServiceLocalImpl", "in contructor");
-		getWritableDatabase();
+		db = getWritableDatabase();
 		try {
 			userDao=getDao(User.class);
 			meetingDao=getDao(Meeting.class);
@@ -89,34 +89,65 @@ public class JoinusServiceLocal extends OrmLiteSqliteOpenHelper {
 	public List<Meeting> getUpcomingEvents(String phone){
 		List<Meeting> mList = new ArrayList<Meeting>();
 		try {
-			mList = meetingDao.queryForAll();
+			for (Guest g : guestDao.queryForEq("phone", phone))
+				mList.add(meetingDao.queryForId(g.getMeeting_id()));
+			for (Participant p : participantDao.queryForEq("phone", phone))
+				mList.add(meetingDao.queryForId(p.getMeeting_id()));
+			mList.addAll(meetingDao.queryForEq("mc_id", phone));
+						
+			for (Meeting m : mList) {
+				for (Guest g : guestDao.queryForEq("meeting_id", m.getId()))
+						m.getGuests().add(userDao.queryForId(g.getPhone()));
+				for (Participant p : participantDao.queryForEq("meeting_id", m.getId()))
+					m.getParticipants().add(userDao.queryForId(p.getPhone()));
+			}
+		
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		Log.i("JoinusServiceLocal","getUpcomingEvents found meetings: "+mList.size());
+		if (mList.size() > 0)
+			Log.i("JoinusServiceLocal","getUpcomingEvents first meeting found: "+
+					mList.get(0).toJson().toString());
 		return mList;
 	}
 	
 	public void getUpcomingEventsWrite(List<Meeting>  meetings){
 		try{
+			db.beginTransaction();
+			
+			//TODO Cleaner clear
+			List<Meeting> oldMeetings = meetingDao.queryForAll();
+			for (Meeting m : oldMeetings){
+				latLngDao.delete(m.getLatLng());
+				meetingDao.delete(m);
+			}
+			TableUtils.clearTable(connectionSource, Guest.class);
+			TableUtils.clearTable(connectionSource, Participant.class);
+			
 			for (Meeting m : meetings) {
-				meetingDao.update(m);
-				latLngDao.update(m.getLatLng());
-				userDao.update(m.getMc());
+				meetingDao.createOrUpdate(m);
+				latLngDao.createOrUpdate(m.getLatLng());
+				userDao.createOrUpdate(m.getMc());
 				for (User u : m.getGuests()) {
-					userDao.update(u);
+					userDao.createOrUpdate(u);
 					Guest g = new Guest(); 
 					g.setMeeting_id(m.getId());
 					g.setPhone(u.getPhone());
-					guestDao.update(g);
+					if (guestDao.queryForMatching(g).isEmpty())
+						guestDao.create(g);
 				}
 				for (User u : m.getParticipants()) {
-					userDao.update(u);
+					userDao.createOrUpdate(u);
 					Participant p = new Participant();
 					p.setMeeting_id(m.getId());
 					p.setPhone(u.getPhone());
-					participantDao.update(p);
+					if (participantDao.queryForMatching(p).isEmpty())
+						participantDao.create(p);
 				}
 			}
+			db.setTransactionSuccessful();
+			db.endTransaction();
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
