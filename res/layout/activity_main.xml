@@ -5,6 +5,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:orientation="vertical" >
+    
     <EditText
         android:id="@+id/username"
         android:inputType="textPersonName"
@@ -30,4 +31,11 @@
         android:text="@string/signIn" 
         android:onClick="signIn"
 	/>
+    
+    <ProgressBar
+		 android:id="@+id/main_progressbar"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:visibility="gone"
+         android:layout_gravity = "center"/>
 </LinearLayout>

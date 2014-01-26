@@ -56,7 +56,7 @@ public class MainActivity extends Activity implements GetUserListener {
 		et = (EditText) findViewById(R.id.username);
 		u.setName(et.getText().toString());
 		
-		Toast.makeText(getApplicationContext(), "Sono una rotellina!!!", Toast.LENGTH_LONG).show();
+		findViewById(R.id.main_progressbar).setVisibility(View.VISIBLE);
 		joinusServiceImpl.login(u);
 	}
 	
@@ -82,7 +82,7 @@ public class MainActivity extends Activity implements GetUserListener {
 	@Override
 	public void onUserRetrieved(User user) {
 		JoinusApplication.getInstance().setUser(user);
-		Toast.makeText(getApplicationContext(), "La rotellina non gira più!!!", Toast.LENGTH_LONG).show();
+		findViewById(R.id.main_progressbar).setVisibility(View.GONE);
 
 		Intent intent = new Intent(this, UpcomingEventsActivity.class);
 		startActivity(intent);
