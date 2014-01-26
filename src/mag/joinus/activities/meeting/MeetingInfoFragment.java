@@ -2,7 +2,6 @@ package mag.joinus.activities.meeting;
 
 
 import java.util.Date;
-import java.util.List;
 
 import mag.joinus.R;
 import mag.joinus.app.JoinusApplication;
@@ -10,6 +9,7 @@ import mag.joinus.model.Meeting;
 import mag.joinus.model.User;
 import mag.joinus.service.JoinusServiceImpl;
 import mag.joinus.service.listeners.FindMeetingListener;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -29,7 +29,7 @@ public class MeetingInfoFragment extends Fragment implements FindMeetingListener
 	/*
 	 * Input parameters
 	 */
-	public static final String MEETING_ID = "meeting_id";
+	//public static final String MEETING_ID = "meeting_id";
 	
 	/*
 	 * Service
@@ -57,6 +57,9 @@ public class MeetingInfoFragment extends Fragment implements FindMeetingListener
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		// Registering as InfoFragment for MeetingActivity
+		JoinusApplication.getInstance().setInfoFragment(this);
+		
 		View rootView = inflater.inflate(R.layout.fragment_meeting_info, container, false);
 		joinusService = JoinusApplication.getInstance().getService();
 		joinusService.setFindMeetingListener(this);
@@ -89,10 +92,7 @@ public class MeetingInfoFragment extends Fragment implements FindMeetingListener
 
 	@Override
 	public void onMeetingFound(Meeting m) {
-		JoinusApplication.getInstance().setMeeting(m);
-		
-		// TODO settare il titolo sulla barra in alto
-		
+		JoinusApplication.getInstance().setMeeting(m);		
 		
 		addressTextView.setText(m.getAddress());
 		Date d = new Date(m.getDate());
@@ -115,20 +115,21 @@ public class MeetingInfoFragment extends Fragment implements FindMeetingListener
 				
 		guestsTextView.setText(guests);
 		
-		if (u.getPhone().equals(m.getMc().getPhone())) {
+		//if (u.getPhone().equals(m.getMc().getPhone())) {
+		if (u.equals(m.getMc())) {
 			acceptButton.setVisibility(View.GONE);
 			denyButton.setVisibility(View.GONE);
 		}
 		
-		List<User> pList = m.getParticipants();
+		/*List<User> pList = m.getParticipants();
 		boolean found = false;
 		for (User p : pList) {
 			if (p.getPhone().equals(u.getPhone()))
 				found = true;
-		}
+		}*/
 		
-		//if (m.getParticipants().contains(u))
-		if (found)
+		if (m.getParticipants().contains(u))
+		//if (found)
 			acceptButton.setVisibility(View.GONE);
 	}
 	

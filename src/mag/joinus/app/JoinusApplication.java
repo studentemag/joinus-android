@@ -1,5 +1,6 @@
 package mag.joinus.app;
 
+import mag.joinus.activities.meeting.MeetingInfoFragment;
 import mag.joinus.model.Meeting;
 import mag.joinus.model.User;
 import mag.joinus.service.JoinusServiceImpl;
@@ -12,10 +13,17 @@ public class JoinusApplication extends Application {
     private static JoinusApplication sInstance;
     
     private JoinusServiceImpl service;
+    
+    // Logged user
     private User user;
 
+    // Actual meeting (e.g. in Meeting Info)
 	private Meeting meeting;
+	
+	// Info fragment
+	private MeetingInfoFragment infoFragment;
     
+	// Meeting to create
     private Meeting meetingToCreate;
     private long meetingToCreateDate;
     private long meetingToCreateTime;
@@ -88,6 +96,20 @@ public class JoinusApplication extends Application {
 	 */
 	public void setMeeting(Meeting meeting) {
 		this.meeting = meeting;
+	}
+
+	/**
+	 * @return the infoFragment
+	 */
+	public MeetingInfoFragment getInfoFragment() {
+		return infoFragment;
+	}
+
+	/**
+	 * @param infoFragment the infoFragment to set
+	 */
+	public void setInfoFragment(MeetingInfoFragment infoFragment) {
+		this.infoFragment = infoFragment;
 	}
 }
 

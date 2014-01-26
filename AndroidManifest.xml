@@ -47,7 +47,7 @@
         
         <activity
             android:name="mag.joinus.activities.upcomingmeetings.UpcomingEventsActivity"
-            android:label="@string/title_activity_upcoming_events"
+            android:label="@string/upcoming_events_activity_title"
             android:parentActivityName="mag.joinus.activities.MainActivity"
             android:screenOrientation="portrait" >
         </activity>

@@ -1,13 +1,16 @@
 package mag.joinus.activities.meeting;
 
 import mag.joinus.R;
+import mag.joinus.app.JoinusApplication;
+import mag.joinus.model.Meeting;
+
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
+import android.view.View;
 
 public class MeetingActivity extends FragmentActivity implements
 		ActionBar.TabListener {
@@ -15,10 +18,11 @@ public class MeetingActivity extends FragmentActivity implements
 	/*
 	 * Messages required to start activity
 	 */
-	public static final String MEETING_ID = "meeting_id";
+	/*public static final String MEETING_ID = "meeting_id";
 
-	private int meetingId;
+	private int meetingId;*/
 	
+	private Meeting m;
 	
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -41,16 +45,18 @@ public class MeetingActivity extends FragmentActivity implements
 		setContentView(R.layout.activity_meeting);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		
-		Intent intent = getIntent();
-		meetingId = intent.getIntExtra(MeetingActivity.MEETING_ID, 0);
+		/*Intent intent = getIntent();
+		meetingId = intent.getIntExtra(MeetingActivity.MEETING_ID, 0);*/
+		m = JoinusApplication.getInstance().getMeeting();
 
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		actionBar.setTitle(m.getTitle());
 
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
-		mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), meetingId);
+		mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager()/*, meetingId*/);
 
 		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -101,5 +107,13 @@ public class MeetingActivity extends FragmentActivity implements
 	@Override
 	public void onTabReselected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
+	}
+	
+	public void accept(View view) {
+		JoinusApplication.getInstance().getInfoFragment().accept(view);
+	}
+	
+	public void deny(View view) {
+		JoinusApplication.getInstance().getInfoFragment().deny(view);
 	}
 }

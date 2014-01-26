@@ -4,7 +4,6 @@ import java.util.Locale;
 
 import mag.joinus.R;
 import mag.joinus.app.JoinusApplication;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -15,11 +14,11 @@ import android.support.v4.app.FragmentPagerAdapter;
  */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-	private int meetingId;
+	//private int meetingId;
 	
-	public SectionsPagerAdapter(FragmentManager fm, int meetingId) {
+	public SectionsPagerAdapter(FragmentManager fm/*, int meetingId*/) {
 		super(fm);
-		this.meetingId=meetingId;
+		//this.meetingId=meetingId;
 	}
 
 	@Override
@@ -29,19 +28,19 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 		// below) with the page number as its lone argument.
 		
 		Fragment fragment = null;
-		Bundle args = new Bundle();
+		//Bundle args = new Bundle();
 		
 		switch (position) {
 		case 0:
 			fragment = new MeetingInfoFragment();
-			args.putInt(MeetingInfoFragment.MEETING_ID, meetingId);
+			//args.putInt(MeetingInfoFragment.MEETING_ID, meetingId);
 			break;
 		case 1:
 			fragment = new MeetingMapFragment();
-			args.putInt(MeetingMapFragment.ARG_SECTION_NUMBER, meetingId);
+			//args.putInt(MeetingMapFragment.ARG_SECTION_NUMBER, meetingId);
 			break;
 		}
-		fragment.setArguments(args);
+		//fragment.setArguments(args);
 		return fragment;
 	}
 
