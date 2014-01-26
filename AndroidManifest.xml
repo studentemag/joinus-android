@@ -54,7 +54,8 @@
 
         <activity
             android:name="mag.joinus.activities.meeting.MeetingActivity"
-            android:label="@string/title_activity_meeting" 
+            android:label="@string/title_activity_meeting"
+            android:parentActivityName="mag.joinus.activities.upcomingmeetings.UpcomingEventsActivity" 
             android:screenOrientation="portrait">
         </activity>
         

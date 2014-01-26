@@ -13,6 +13,9 @@
     <string name="username">Username</string>
     <string name="phoneisempty">Phone number is empty!</string>
     
+    <!-- UpcomingEventsActivity Strings -->
+    <string name="upcomingevents_noevents">You have no upcoming meetings!</string>
+    
     <!-- NewEventActivity Strings -->
     <string name="new_event_done">Done</string>
     <string name="new_event_activity_title">New Meeting</string>

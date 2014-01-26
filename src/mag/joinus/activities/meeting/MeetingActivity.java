@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
-import android.view.View;
 
 public class MeetingActivity extends FragmentActivity implements
 		ActionBar.TabListener {
@@ -40,6 +39,7 @@ public class MeetingActivity extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_meeting);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		Intent intent = getIntent();
 		meetingId = intent.getIntExtra(MeetingActivity.MEETING_ID, 0);

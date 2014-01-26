@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class UpcomingEventsActivity extends Activity implements GetMeetingListListener {
 	
@@ -74,12 +75,12 @@ public class UpcomingEventsActivity extends Activity implements GetMeetingListLi
 	}
 
 	private void populateList(List<Meeting> mList) {
+		if(!mList.isEmpty())
+			((TextView) findViewById(R.id.upcomingevents_noevents)).setVisibility(View.GONE);
 		ListView listview = (ListView) findViewById(R.id.listview);
-		
 		EventArrayAdapter adapter = new EventArrayAdapter(
 				this,android.R.layout.simple_list_item_1, 
 				mList);
-		
 		listview.setAdapter(adapter);
 	}
 
@@ -111,8 +112,7 @@ public class UpcomingEventsActivity extends Activity implements GetMeetingListLi
 
 	@Override
 	public void onMeetingListRetrieved(List<Meeting> mList) {
-		Log.v("joinUsAndroid", "Meeting list received");
-		
+		Log.v("UpcomingEventsActivity", "onMeetingListRetrieved #elements "+mList.size());
 		populateList(mList);
 	}
 }

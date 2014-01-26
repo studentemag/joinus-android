@@ -12,7 +12,6 @@ import mag.joinus.model.db.Guest;
 import mag.joinus.model.db.Participant;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.location.Location;
 import android.util.Log;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
@@ -20,12 +19,12 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
-public class JoinusServiceLocalImpl extends OrmLiteSqliteOpenHelper implements JoinusService {
+public class JoinusServiceLocal extends OrmLiteSqliteOpenHelper {
 	
 	private SQLiteDatabase db;
-	private Dao<User, Integer> userDao = null;
+	private Dao<User, String> userDao = null;
 	private Dao<Meeting, Integer> meetingDao = null;
-	private Dao<UserLocation,Integer> userLocationDao=null; 
+//	private Dao<UserLocation,Integer> userLocationDao=null; 
 	private Dao<AnnotatedLatLng,Integer> latLngDao = null;
 	private Dao<Guest,Object> guestDao = null;
 	private Dao<Participant,Object> participantDao = null;
@@ -34,7 +33,7 @@ public class JoinusServiceLocalImpl extends OrmLiteSqliteOpenHelper implements J
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "joinus";
 	
-	public JoinusServiceLocalImpl(Context context) {
+	public JoinusServiceLocal(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 		context.deleteDatabase(DATABASE_NAME);
 		Log.i("JoinusServiceLocalImpl", "in contructor");
@@ -43,7 +42,6 @@ public class JoinusServiceLocalImpl extends OrmLiteSqliteOpenHelper implements J
 			userDao=getDao(User.class);
 			meetingDao=getDao(Meeting.class);
 			latLngDao=getDao(AnnotatedLatLng.class);
-			userLocationDao = getDao(UserLocation.class);
 			guestDao=getDao(Guest.class);
 			participantDao=getDao(Participant.class);
 		} catch (SQLException e) {
@@ -88,79 +86,42 @@ public class JoinusServiceLocalImpl extends OrmLiteSqliteOpenHelper implements J
 		this.onCreate(arg0,arg1);
 	}
 	
-	@Override
-	public User login(User user) {
-		// TODO Auto-generated method stub
+	public List<Meeting> getUpcomingEvents(String phone){
+		List<Meeting> mList = new ArrayList<Meeting>();
 		try {
-			userDao.createIfNotExists(user);
+			mList = meetingDao.queryForAll();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return user;
+		return mList;
 	}
-
-	@Override
-	public Location getLocationFromAddress(String address) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Meeting> getUpcomingEvents(String phone) {
-		List<Meeting> meetings = new ArrayList<Meeting>();
-		try {
-			List<Participant> meetingsAsP= participantDao.queryForEq("phone", phone);
-			for (Participant p : meetingsAsP)
-				meetings.add(meetingDao.queryForId(p.getMeeting_id()));
-			List<Guest> meetingsAsG= guestDao.queryForEq("user_id", phone);
-			for (Guest g : meetingsAsG)
-				meetings.add(meetingDao.queryForId(g.getMeeting_id()));
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+	
+	public void getUpcomingEventsWrite(List<Meeting>  meetings){
+		try{
+			for (Meeting m : meetings) {
+				meetingDao.update(m);
+				latLngDao.update(m.getLatLng());
+				userDao.update(m.getMc());
+				for (User u : m.getGuests()) {
+					userDao.update(u);
+					Guest g = new Guest(); 
+					g.setMeeting_id(m.getId());
+					g.setPhone(u.getPhone());
+					guestDao.update(g);
+				}
+				for (User u : m.getParticipants()) {
+					userDao.update(u);
+					Participant p = new Participant();
+					p.setMeeting_id(m.getId());
+					p.setPhone(u.getPhone());
+					participantDao.update(p);
+				}
+			}
+		}
+		catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		return meetings;
 	}
-
-	@Override
-	public Meeting createMeeting(Meeting m) {
-		// TODO Auto-generated method stub
-		return null;
-
-	}
-
-	@Override
-	public Meeting acceptInvitationTo(int meetingId, User user) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Meeting denyInvitationTo(int meetingId, User user) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<UserLocation> getLastKnownParticipantsLocations(int meetingId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void sendLocation(int userId, Location l) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public Meeting addParticipantsToMeeting(List<User> users, int meetingId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 
 
 

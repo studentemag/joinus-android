@@ -34,9 +34,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 public class JoinusServiceImpl implements JoinusService {
-	private final String BASE_URL = "http://93.65.216.110:8080";
+	private final String BASE_URL = "http://151.24.52.86:8080";
 	
-	private JoinusServiceLocalImpl joinusServiceLocalImpl;
+	private JoinusServiceLocal joinusServiceLocal;
 	
 	private CreateMeetingListener createMeetingListener;
 	private FindMeetingListener findMeetingListener;
@@ -44,7 +44,7 @@ public class JoinusServiceImpl implements JoinusService {
 	private GetUserListener getUserListener;
 
 	public JoinusServiceImpl(Context context){
-		joinusServiceLocalImpl = OpenHelperManager.getHelper(context, JoinusServiceLocalImpl.class);
+		joinusServiceLocal = OpenHelperManager.getHelper(context, JoinusServiceLocal.class);
 	}
 	/**
 	 * Log or request TAG
@@ -216,10 +216,6 @@ public class JoinusServiceImpl implements JoinusService {
 		return null;
 	}
 
-	public FindMeetingListener getFindMeetingListener() {
-		return findMeetingListener;
-	}
-
 	@Override
 	public List<UserLocation> getLastKnownParticipantsLocations(int meetingId) {
 		// TODO Auto-generated method stub
@@ -250,9 +246,9 @@ public class JoinusServiceImpl implements JoinusService {
 									mList.add(m);
 								}
 							}
+							joinusServiceLocal.getUpcomingEventsWrite(mList);
 							getMeetingListListener.onMeetingListRetrieved(mList);
 						} catch (JSONException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
@@ -265,15 +261,8 @@ public class JoinusServiceImpl implements JoinusService {
 
 		// add the request object to the queue to be executed
 		addToRequestQueue(req);
-
-		List<Meeting> mList = new ArrayList<Meeting>();
-		Meeting m = new Meeting();
-		m.setTitle("il mio compleanno");
-		LatLng l = new LatLng(112,345);
-		m.setLatLng(new AnnotatedLatLng(l));
-		mList.add(m);
-
-		return mList;
+		
+		return joinusServiceLocal.getUpcomingEvents(phone);
 	}
 
 	@Override
