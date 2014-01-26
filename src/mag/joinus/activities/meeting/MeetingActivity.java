@@ -43,7 +43,6 @@ public class MeetingActivity extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_meeting);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		/*Intent intent = getIntent();
 		meetingId = intent.getIntExtra(MeetingActivity.MEETING_ID, 0);*/
@@ -51,6 +50,7 @@ public class MeetingActivity extends FragmentActivity implements
 
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
+		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		actionBar.setTitle(m.getTitle());
 

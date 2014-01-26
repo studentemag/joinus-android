@@ -24,10 +24,10 @@ public class JoinusServiceLocal extends OrmLiteSqliteOpenHelper {
 	private SQLiteDatabase db;
 	private Dao<User, String> userDao = null;
 	private Dao<Meeting, Integer> meetingDao = null;
-//	private Dao<UserLocation,Integer> userLocationDao=null; 
-	private Dao<AnnotatedLatLng,Integer> latLngDao = null;
+//	private Dao<UserLocation, Integer> userLocationDao=null; 
+	private Dao<AnnotatedLatLng, Integer> latLngDao = null;
 	private Dao<Guest,Object> guestDao = null;
-	private Dao<Participant,Object> participantDao = null;
+	private Dao<Participant, Object> participantDao = null;
 	
 	// If you change the database schema, you must increment the database version.
     public static final int DATABASE_VERSION = 1;
@@ -39,11 +39,11 @@ public class JoinusServiceLocal extends OrmLiteSqliteOpenHelper {
 		Log.i("JoinusServiceLocalImpl", "in contructor");
 		db = getWritableDatabase();
 		try {
-			userDao=getDao(User.class);
-			meetingDao=getDao(Meeting.class);
-			latLngDao=getDao(AnnotatedLatLng.class);
-			guestDao=getDao(Guest.class);
-			participantDao=getDao(Participant.class);
+			userDao = getDao(User.class);
+			meetingDao = getDao(Meeting.class);
+			latLngDao = getDao(AnnotatedLatLng.class);
+			guestDao = getDao(Guest.class);
+			participantDao = getDao(Participant.class);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -68,10 +68,9 @@ public class JoinusServiceLocal extends OrmLiteSqliteOpenHelper {
 	}
 
 	@Override
-	public void onUpgrade(SQLiteDatabase arg0, ConnectionSource arg1, int arg2,
-			int arg3) {
+	public void onUpgrade(SQLiteDatabase arg0, ConnectionSource arg1, int arg2, int arg3) {
 		Log.i("JoinusServiceLocalImpl", "onUpgrade");
-		try{
+		try {
 			TableUtils.dropTable(connectionSource, User.class, true);
 	        TableUtils.dropTable(connectionSource, Meeting.class, true);
 	        TableUtils.dropTable(connectionSource, AnnotatedLatLng.class, true);
@@ -79,14 +78,14 @@ public class JoinusServiceLocal extends OrmLiteSqliteOpenHelper {
 	        TableUtils.dropTable(connectionSource, Guest.class, true); 
 	        TableUtils.dropTable(connectionSource, Participant.class, true); 
 		}
-		catch(SQLException e){
+		catch(SQLException e) {
 			
 		}
 		
-		this.onCreate(arg0,arg1);
+		this.onCreate(arg0, arg1);
 	}
 	
-	public List<Meeting> getUpcomingEvents(String phone){
+	public List<Meeting> getUpcomingEvents(String phone) {
 		List<Meeting> mList = new ArrayList<Meeting>();
 		try {
 			for (Guest g : guestDao.queryForEq("phone", phone))
@@ -105,20 +104,20 @@ public class JoinusServiceLocal extends OrmLiteSqliteOpenHelper {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		Log.i("JoinusServiceLocal","getUpcomingEvents found meetings: "+mList.size());
+		Log.i("JoinusServiceLocal","getUpcomingEvents found meetings: " + mList.size());
 		if (mList.size() > 0)
-			Log.i("JoinusServiceLocal","getUpcomingEvents first meeting found: "+
+			Log.i("JoinusServiceLocal","getUpcomingEvents first meeting found: " +
 					mList.get(0).toJson().toString());
 		return mList;
 	}
 	
-	public void getUpcomingEventsWrite(List<Meeting>  meetings){
-		try{
+	public void getUpcomingEventsWrite(List<Meeting>  meetings) {
+		try {
 			db.beginTransaction();
 			
 			//TODO Cleaner clear
 			List<Meeting> oldMeetings = meetingDao.queryForAll();
-			for (Meeting m : oldMeetings){
+			for (Meeting m : oldMeetings) {
 				latLngDao.delete(m.getLatLng());
 				meetingDao.delete(m);
 			}
@@ -153,7 +152,4 @@ public class JoinusServiceLocal extends OrmLiteSqliteOpenHelper {
 			e.printStackTrace();
 		}
 	}
-
-
-
 }

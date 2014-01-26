@@ -7,7 +7,7 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "user_locations")
 public class UserLocation {
 
-	@DatabaseField(id=true)
+	@DatabaseField(id = true)
 	private int id;
 	
 	@DatabaseField (foreign = true, foreignAutoRefresh = true, columnName = "user_phone")

@@ -15,7 +15,7 @@ public class User {
 	@DatabaseField
 	private String name;
 	
-	@DatabaseField (id=true)
+	@DatabaseField (id = true)
 	private String phone;
 	
 	//JSONIgnore
@@ -32,9 +32,11 @@ public class User {
 	//JSONIgnore
 	private List<Meeting> meetingsAsParticipant;
 
-	public User() {}
+	public User() {
+		
+	}
 	
-	public User(JSONObject j){
+	public User(JSONObject j) {
 		try {
 			if (!j.isNull("name"))
 				this.name=j.getString("name");	
@@ -94,9 +96,9 @@ public class User {
 		this.name = name;
 	}
 	
-	public JSONObject toJson(){
+	public JSONObject toJson() {
 		JSONObject userj = new JSONObject();
-		try{
+		try {
 			userj.put("name", this.name);
 			userj.put("phone", this.phone);
 		} catch (JSONException e) {
