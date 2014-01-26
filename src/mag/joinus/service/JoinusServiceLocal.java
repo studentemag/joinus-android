@@ -115,6 +115,16 @@ public class JoinusServiceLocal extends OrmLiteSqliteOpenHelper {
 	public void getUpcomingEventsWrite(List<Meeting>  meetings){
 		try{
 			db.beginTransaction();
+			
+			//TODO Cleaner clear
+			List<Meeting> oldMeetings = meetingDao.queryForAll();
+			for (Meeting m : oldMeetings){
+				latLngDao.delete(m.getLatLng());
+				meetingDao.delete(m);
+			}
+			TableUtils.clearTable(connectionSource, Guest.class);
+			TableUtils.clearTable(connectionSource, Participant.class);
+			
 			for (Meeting m : meetings) {
 				meetingDao.createOrUpdate(m);
 				latLngDao.createOrUpdate(m.getLatLng());
