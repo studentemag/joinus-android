@@ -5,6 +5,7 @@ import mag.joinus.model.Meeting;
 import mag.joinus.model.User;
 import mag.joinus.service.JoinusServiceImpl;
 import android.app.Application;
+import android.content.Context;
 
 public class JoinusApplication extends Application {
     /**
@@ -22,6 +23,9 @@ public class JoinusApplication extends Application {
 	
 	// Info fragment
 	private MeetingInfoFragment infoFragment;
+	
+	// Context for the activity MeetingActivity
+	private Context MeetingActivityContext;
     
 	// Meeting to create
     private Meeting meetingToCreate;
@@ -110,6 +114,20 @@ public class JoinusApplication extends Application {
 	 */
 	public void setInfoFragment(MeetingInfoFragment infoFragment) {
 		this.infoFragment = infoFragment;
+	}
+
+	/**
+	 * @return the meetingActivityContext
+	 */
+	public Context getMeetingActivityContext() {
+		return MeetingActivityContext;
+	}
+
+	/**
+	 * @param meetingActivityContext the meetingActivityContext to set
+	 */
+	public void setMeetingActivityContext(Context meetingActivityContext) {
+		MeetingActivityContext = meetingActivityContext;
 	}
 }
 

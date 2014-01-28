@@ -5,14 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 
 import mag.joinus.app.JoinusApplication;
-import mag.joinus.model.AnnotatedLatLng;
 import mag.joinus.model.Meeting;
 import mag.joinus.model.User;
 import mag.joinus.model.UserLocation;
 import mag.joinus.service.listeners.CreateMeetingListener;
 import mag.joinus.service.listeners.FindMeetingListener;
+import mag.joinus.service.listeners.GetLocationListener;
 import mag.joinus.service.listeners.GetMeetingListListener;
 import mag.joinus.service.listeners.GetUserListener;
+import mag.joinus.service.listeners.ShareLocationListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,7 +31,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.maps.model.LatLng;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 public class JoinusServiceImpl implements JoinusService {
@@ -42,6 +42,8 @@ public class JoinusServiceImpl implements JoinusService {
 	private FindMeetingListener findMeetingListener;
 	private GetMeetingListListener getMeetingListListener;
 	private GetUserListener getUserListener;
+	private ShareLocationListener shareLocationListener;
+	private GetLocationListener getLocationListener;
 
 	public JoinusServiceImpl(Context context){
 		joinusServiceLocal = OpenHelperManager.getHelper(context, JoinusServiceLocal.class);
@@ -217,12 +219,6 @@ public class JoinusServiceImpl implements JoinusService {
 	}
 
 	@Override
-	public List<UserLocation> getLastKnownParticipantsLocations(int meetingId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Location getLocationFromAddress(String address) {
 		// TODO Auto-generated method stub
 		return null;
@@ -310,11 +306,70 @@ public class JoinusServiceImpl implements JoinusService {
 	}
 
 	@Override
-	public void sendLocation(int userId, Location l) {
-		// TODO Auto-generated method stub
+	public List<UserLocation> getLocations(int meeting_id) {
+		final String URL = BASE_URL + "/events/" + meeting_id + "/locations";
 
+		// Default method is GET
+		JsonArrayRequest req = new JsonArrayRequest(URL,
+				new Response.Listener<JSONArray>() {
+					@Override
+					public void onResponse(JSONArray response) {
+						Log.v("joinusandroid", "getLocations: " + response.toString());
+						List<UserLocation> uLocs = new ArrayList<UserLocation>();
+						try {
+							if (response != null) {
+								for (int i = 0; i < response.length(); i++) {
+									UserLocation u = new UserLocation(response.getJSONObject(i));
+									uLocs.add(u);
+								}
+							}
+
+							getLocationListener.onLocationsRetrieved(uLocs);
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+					}
+				}, new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						Log.e("Error: ", error.getMessage());
+					}
+				});
+
+		// add the request object to the queue to be executed
+		addToRequestQueue(req);
+		
+		return null;
 	}
 
+	@Override
+	public void shareLocation(String phone, UserLocation uLoc) {
+		final String URL = BASE_URL + "/users/" + phone + "/locations";
+
+		JSONObject body = uLoc.toJson();
+		Log.v("JoinusServiceImpl.shareLocation", 
+				"requestBody: " + body.toString());
+		
+		JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, URL,
+				body, new Response.Listener<JSONObject>() {
+					@Override
+					public void onResponse(JSONObject response) {
+						Log.v("JoinusServiceImpl.createMeeting", 
+								"response");
+
+						shareLocationListener.onLocationShared();
+					}
+				}, new Response.ErrorListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						Log.e("Error: ", error.getMessage());
+					}
+				});
+
+		// add the request object to the queue to be executed
+		addToRequestQueue(req);
+	}
+	
 	public void setCreateMeetingListener(CreateMeetingListener createMeetingListener) {
 		this.createMeetingListener = createMeetingListener;
 	}
@@ -332,5 +387,33 @@ public class JoinusServiceImpl implements JoinusService {
 	 */
 	public void setGetUserListener(GetUserListener getUserListener) {
 		this.getUserListener = getUserListener;
+	}
+
+	/**
+	 * @return the shareLocationListener
+	 */
+	public ShareLocationListener getShareLocationListener() {
+		return shareLocationListener;
+	}
+
+	/**
+	 * @param shareLocationListener the shareLocationListener to set
+	 */
+	public void setShareLocationListener(ShareLocationListener shareLocationListener) {
+		this.shareLocationListener = shareLocationListener;
+	}
+
+	/**
+	 * @return the getLocationListener
+	 */
+	public GetLocationListener getGetLocationListener() {
+		return getLocationListener;
+	}
+
+	/**
+	 * @param getLocationListener the getLocationListener to set
+	 */
+	public void setGetLocationListener(GetLocationListener getLocationListener) {
+		this.getLocationListener = getLocationListener;
 	}
 }
