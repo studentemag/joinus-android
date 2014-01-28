@@ -8,7 +8,7 @@ import mag.joinus.app.JoinusApplication;
 import mag.joinus.model.Meeting;
 import mag.joinus.model.UserLocation;
 import mag.joinus.service.JoinusServiceImpl;
-import mag.joinus.service.listeners.GetLocationListener;
+import mag.joinus.service.listeners.GetLocationsListener;
 import mag.joinus.service.listeners.ShareLocationListener;
 import android.content.Context;
 import android.location.Location;
@@ -35,7 +35,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
  */
 public class MeetingMapFragment extends Fragment
 		implements
-		GetLocationListener,
+		GetLocationsListener,
 		ShareLocationListener,
 		LocationListener,
 		OnMyLocationButtonClickListener
@@ -85,6 +85,7 @@ public class MeetingMapFragment extends Fragment
 		
 		joinusService = JoinusApplication.getInstance().getService();
 		joinusService.setShareLocationListener(this);
+		joinusService.setGetLocationsListener(this);
 		
 		/*TextView dummyTextView = (TextView) rootView
 				.findViewById(R.id.section_map);

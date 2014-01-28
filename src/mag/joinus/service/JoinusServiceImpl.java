@@ -10,7 +10,7 @@ import mag.joinus.model.User;
 import mag.joinus.model.UserLocation;
 import mag.joinus.service.listeners.CreateMeetingListener;
 import mag.joinus.service.listeners.FindMeetingListener;
-import mag.joinus.service.listeners.GetLocationListener;
+import mag.joinus.service.listeners.GetLocationsListener;
 import mag.joinus.service.listeners.GetMeetingListListener;
 import mag.joinus.service.listeners.GetUserListener;
 import mag.joinus.service.listeners.ShareLocationListener;
@@ -43,7 +43,7 @@ public class JoinusServiceImpl implements JoinusService {
 	private GetMeetingListListener getMeetingListListener;
 	private GetUserListener getUserListener;
 	private ShareLocationListener shareLocationListener;
-	private GetLocationListener getLocationListener;
+	private GetLocationsListener getLocationsListener;
 
 	public JoinusServiceImpl(Context context){
 		joinusServiceLocal = OpenHelperManager.getHelper(context, JoinusServiceLocal.class);
@@ -324,7 +324,7 @@ public class JoinusServiceImpl implements JoinusService {
 								}
 							}
 
-							getLocationListener.onLocationsRetrieved(uLocs);
+							getLocationsListener.onLocationsRetrieved(uLocs);
 						} catch (JSONException e) {
 							e.printStackTrace();
 						}
@@ -406,14 +406,14 @@ public class JoinusServiceImpl implements JoinusService {
 	/**
 	 * @return the getLocationListener
 	 */
-	public GetLocationListener getGetLocationListener() {
-		return getLocationListener;
+	public GetLocationsListener getGetLocationsListener() {
+		return getLocationsListener;
 	}
 
 	/**
 	 * @param getLocationListener the getLocationListener to set
 	 */
-	public void setGetLocationListener(GetLocationListener getLocationListener) {
-		this.getLocationListener = getLocationListener;
+	public void setGetLocationsListener(GetLocationsListener getLocationsListener) {
+		this.getLocationsListener = getLocationsListener;
 	}
 }
