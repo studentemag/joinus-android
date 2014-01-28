@@ -49,18 +49,16 @@ class GetAddressTask extends AsyncTask<Location, Void, String> {
 		Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
 		// Get the current location from the input parameter list
 		Location loc = params[0];
-		latLng=new LatLng(loc.getLatitude(),loc.getLongitude());
+		latLng = new LatLng(loc.getLatitude(),loc.getLongitude());
 		// Create a list to contain the result address
 		List<Address> addresses = null;
 		try {
 			/*
 			 * Return 1 address.
 			 */
-			addresses = geocoder.getFromLocation(loc.getLatitude(),
-					loc.getLongitude(), 1);
+			addresses = geocoder.getFromLocation(loc.getLatitude(),	loc.getLongitude(), 1);
 		} catch (IOException e1) {
-			Log.e("LocationSampleActivity",
-					"IO Exception in getFromLocation()");
+			Log.e("LocationSampleActivity",	"IO Exception in getFromLocation()");
 			e1.printStackTrace();
 			return ("IO Exception trying to get address");
 		} catch (IllegalArgumentException e2) {

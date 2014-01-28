@@ -34,7 +34,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 public class JoinusServiceImpl implements JoinusService {
-	private final String BASE_URL = "http://93.65.216.110:8080";
+	private final String BASE_URL = "http://93.65.220.242:8080";
 	
 	private JoinusServiceLocal joinusServiceLocal;
 	

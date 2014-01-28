@@ -37,7 +37,7 @@ public class NewMeetingMapFragment extends Fragment implements
     private GoogleMap mMap;
     private LocationManager mLocationManager;
         
-    public NewMeetingMapFragment(){
+    public NewMeetingMapFragment() {
     	super();
     	context = JoinusApplication.getInstance();
     }
@@ -45,8 +45,7 @@ public class NewMeetingMapFragment extends Fragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		rootView = inflater.inflate(R.layout.fragment_newmeeting_map,
-				container, false);
+		rootView = inflater.inflate(R.layout.fragment_newmeeting_map, container, false);
 		
 		
 		EditText meetingAddress = (EditText) rootView.findViewById(R.id.newmeeting_meeting_address);
@@ -61,7 +60,7 @@ public class NewMeetingMapFragment extends Fragment implements
 							return true;
 						}
 						return false;
-		    			}
+		    		}
 				});
 		
 		setUpMapIfNeeded();
@@ -88,7 +87,7 @@ public class NewMeetingMapFragment extends Fragment implements
         }
     }
 	
-    public void setUpMeetingLocation(String address, LatLng latLng){
+    public void setUpMeetingLocation(String address, LatLng latLng) {
     	
     	Meeting m = JoinusApplication.getInstance().getMeetingToCreate();
     	m.setAddress(address);
@@ -101,12 +100,12 @@ public class NewMeetingMapFragment extends Fragment implements
     	mMap.addMarker(new MarkerOptions().position(latLng));
     }
 
-    private void searchForLocation(String address){
-    	new GetLocationTask(this,context).execute(address);
+    private void searchForLocation(String address) {
+    	new GetLocationTask(this, context).execute(address);
     }
     
-    private void searchForAddress(Location l){
-    	new GetAddressTask(this,context).execute(l);
+    private void searchForAddress(Location l) {
+    	new GetAddressTask(this, context).execute(l);
     }
 
     private void setUpMap() {
@@ -123,7 +122,7 @@ public class NewMeetingMapFragment extends Fragment implements
     
 	@Override
 	public void onLocationChanged(Location location) {
-		Log.v("newEventActivity","onLocationChanged"+location.toString());
+		Log.v("newEventActivity", "onLocationChanged" + location.toString());
 		LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 		mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
 		mLocationManager.removeUpdates(this);
@@ -151,7 +150,7 @@ public class NewMeetingMapFragment extends Fragment implements
 
 	@Override
 	public void onMapLongClick(LatLng arg0) {
-		Log.v("newEventActivity","onMapLongClick"+arg0.toString());
+		Log.v("newEventActivity", "onMapLongClick" + arg0.toString());
 		Location l = new Location(LocationManager.NETWORK_PROVIDER);
 		l.setLatitude(arg0.latitude);
 		l.setLongitude(arg0.longitude);
