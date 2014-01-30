@@ -14,14 +14,15 @@ public interface JoinusService {
 	public Meeting createMeeting(Meeting m);
 	public Meeting acceptInvitationTo(int meetingId, User user);
 	public Meeting denyInvitationTo(int meetingId, User user);
-	
+	public List<UserLocation> getLocations(int meeting_id);
+	public void shareLocation(String phone, UserLocation uLoc);
 	
 	
 	public Location getLocationFromAddress(String address);
 	
-	public List<UserLocation> getLastKnownParticipantsLocations(int meetingId);
+//	public List<UserLocation> getLastKnownParticipantsLocations(int meetingId);
 	
-	public void sendLocation(int userId, Location l);
+//	public void sendLocation(int userId, Location l);
 	
 	public Meeting addParticipantsToMeeting(List<User> users, int meetingId);
 }

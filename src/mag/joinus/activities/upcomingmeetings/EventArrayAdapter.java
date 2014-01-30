@@ -6,6 +6,7 @@ import java.util.List;
 
 import mag.joinus.R;
 import mag.joinus.model.Meeting;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.model.LatLng;
 
 public class EventArrayAdapter extends ArrayAdapter<Meeting>{
 	Context context;
@@ -39,14 +39,12 @@ public class EventArrayAdapter extends ArrayAdapter<Meeting>{
 		if (e != null) {
 			TextView itemLine1 = (TextView) v.findViewById(R.id.firstLine);
 	        TextView itemLine2 = (TextView) v.findViewById(R.id.secondLine);
-	        LatLng l = e.getLatLng().toLatLng();
-	        
 	        
 	        itemLine1.setText(e.getTitle());
 	        
 	        String date = DateFormat.getDateInstance(DateFormat.LONG).format(e.getDate());
 	        String time = DateFormat.getTimeInstance(DateFormat.SHORT).format(e.getDate());
-	        itemLine2.setText(date+" "+time+" at "+e.getAddress());
+	        itemLine2.setText(date + " " + time + " at " + e.getAddress());
 		}
 
 		return v;

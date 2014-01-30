@@ -1,10 +1,12 @@
 package mag.joinus.app;
 
 import mag.joinus.activities.meeting.MeetingInfoFragment;
+import mag.joinus.activities.meeting.MeetingMapFragment;
 import mag.joinus.model.Meeting;
 import mag.joinus.model.User;
 import mag.joinus.service.JoinusServiceImpl;
 import android.app.Application;
+import android.content.Context;
 
 public class JoinusApplication extends Application {
     /**
@@ -20,8 +22,14 @@ public class JoinusApplication extends Application {
     // Actual meeting (e.g. in Meeting Info)
 	private Meeting meeting;
 	
+	// Context for the activity MeetingActivity
+	private Context MeetingActivityContext;
+	
 	// Info fragment
 	private MeetingInfoFragment infoFragment;
+	
+	// Map fragment
+	private MeetingMapFragment mapFragment;
     
 	// Meeting to create
     private Meeting meetingToCreate;
@@ -110,6 +118,34 @@ public class JoinusApplication extends Application {
 	 */
 	public void setInfoFragment(MeetingInfoFragment infoFragment) {
 		this.infoFragment = infoFragment;
+	}
+
+	/**
+	 * @return the mapFragment
+	 */
+	public MeetingMapFragment getMapFragment() {
+		return mapFragment;
+	}
+
+	/**
+	 * @param mapFragment the mapFragment to set
+	 */
+	public void setMapFragment(MeetingMapFragment mapFragment) {
+		this.mapFragment = mapFragment;
+	}
+
+	/**
+	 * @return the meetingActivityContext
+	 */
+	public Context getMeetingActivityContext() {
+		return MeetingActivityContext;
+	}
+
+	/**
+	 * @param meetingActivityContext the meetingActivityContext to set
+	 */
+	public void setMeetingActivityContext(Context meetingActivityContext) {
+		MeetingActivityContext = meetingActivityContext;
 	}
 }
 

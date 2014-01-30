@@ -45,6 +45,11 @@
 	    <string name="meeting_info_server_request">Request to the server&#8230;</string>
 	    <string name="meeting_info_server_response">Server response received!</string>
 	    
+	    <!-- MeetingMapFragment Strings -->
+	    <string name="meeting_map_share_label">Sharing own location:</string>
+	    <string name="meeting_map_button_on">On</string>
+	    <string name="meeting_map_button_off">Off</string>
+	    
 <!-- TODO Dove vanno queste? -->	    
 	    <string name="title_activity_new_meeting">NewMeetingActivity</string>
 	    <string name="title_activity_contacts_list">ContactsList</string>

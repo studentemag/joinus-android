@@ -45,7 +45,7 @@ class GetLocationTask extends AsyncTask<String, Void, Location> {
 			return null;
 		} catch (IllegalArgumentException e2) {
 			// Error message to post in the log
-			String errorString = "Illegal argument: " +stringAddress+
+			String errorString = "Illegal argument: " + stringAddress +
 					" passed to address service";
 			Log.e("LocationSampleActivity", errorString);
 			e2.printStackTrace();
@@ -64,8 +64,8 @@ class GetLocationTask extends AsyncTask<String, Void, Location> {
 	}
 	
 	@Override
-	protected void onPostExecute (Location l) {
-		LatLng latLng = new LatLng(l.getLatitude(),l.getLongitude());
-		this.newMeetingMapFragment.setUpMeetingLocation(stringAddress,latLng);
+	protected void onPostExecute(Location l) {
+		LatLng latLng = new LatLng(l.getLatitude(), l.getLongitude());
+		this.newMeetingMapFragment.setUpMeetingLocation(stringAddress, latLng);
 	}
 }

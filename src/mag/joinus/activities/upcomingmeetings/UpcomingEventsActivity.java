@@ -44,7 +44,7 @@ public class UpcomingEventsActivity extends Activity implements GetMeetingListLi
 		                  int position, long id) {
 					Meeting meeting = (Meeting) parent.getItemAtPosition(position);
 					JoinusApplication.getInstance().setMeeting(meeting);
-					Log.v("joinUsAndroid", "click on "+meeting.getTitle());
+					Log.v("joinUsAndroid", "click on " + meeting.getTitle());
 					Context c = JoinusApplication.getInstance().getApplicationContext();
 					Intent intent = new Intent(c, MeetingActivity.class);
 					startActivity(intent);
@@ -57,7 +57,7 @@ public class UpcomingEventsActivity extends Activity implements GetMeetingListLi
 	@Override
 	protected void onRestart(){
 		super.onRestart();
-		Log.v("UpcomingEventsActivity","onRestart");
+		Log.v("UpcomingEventsActivity", "onRestart");
 	}
 	
 	@Override
@@ -65,13 +65,13 @@ public class UpcomingEventsActivity extends Activity implements GetMeetingListLi
 		super.onStart();
 		String phone = JoinusApplication.getInstance().getUser().getPhone();
 		populateList(joinusServiceImpl.getUpcomingEvents(phone));
-		Log.v("UpcomingEventsActivity","onStart");
+		Log.v("UpcomingEventsActivity", "onStart");
 	}
 	
 	@Override
 	protected void onResume(){
 		super.onResume();
-		Log.v("UpcomingEventsActivity","onResume");
+		Log.v("UpcomingEventsActivity", "onResume");
 	}
 
 	private void populateList(List<Meeting> mList) {
@@ -79,8 +79,7 @@ public class UpcomingEventsActivity extends Activity implements GetMeetingListLi
 			((TextView) findViewById(R.id.upcomingevents_noevents)).setVisibility(View.GONE);
 		ListView listview = (ListView) findViewById(R.id.listview);
 		EventArrayAdapter adapter = new EventArrayAdapter(
-				this,android.R.layout.simple_list_item_1, 
-				mList);
+				this,android.R.layout.simple_list_item_1, mList);
 		listview.setAdapter(adapter);
 	}
 
@@ -103,7 +102,7 @@ public class UpcomingEventsActivity extends Activity implements GetMeetingListLi
 	    }
 	}
 	
-	private void startNewEventActivity(){
+	private void startNewEventActivity() {
 		Intent intent = new Intent(this, NewMeetingActivity.class);
 		startActivity(intent);
 	}
@@ -112,7 +111,7 @@ public class UpcomingEventsActivity extends Activity implements GetMeetingListLi
 
 	@Override
 	public void onMeetingListRetrieved(List<Meeting> mList) {
-		Log.v("UpcomingEventsActivity", "onMeetingListRetrieved #elements "+mList.size());
+		Log.v("UpcomingEventsActivity", "onMeetingListRetrieved #elements " + mList.size());
 		populateList(mList);
 	}
 }
