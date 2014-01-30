@@ -94,6 +94,9 @@ public class MeetingInfoFragment extends Fragment implements FindMeetingListener
 	public void onMeetingFound(Meeting m) {
 		JoinusApplication.getInstance().setMeeting(m);		
 		
+		acceptButton.setVisibility(View.GONE);
+		denyButton.setVisibility(View.GONE);
+		
 		addressTextView.setText(m.getAddress());
 		Date d = new Date(m.getDate());
 		dateTextView.setText(d.toString());
@@ -115,11 +118,11 @@ public class MeetingInfoFragment extends Fragment implements FindMeetingListener
 				
 		guestsTextView.setText(guests);
 		
-		//if (u.getPhone().equals(m.getMc().getPhone())) {
-		if (u.equals(m.getMc())) {
-			acceptButton.setVisibility(View.GONE);
-			denyButton.setVisibility(View.GONE);
-		}
+//		//if (u.getPhone().equals(m.getMc().getPhone())) {
+//		if (u.equals(m.getMc())) {
+//			acceptButton.setVisibility(View.GONE);
+//			denyButton.setVisibility(View.GONE);
+//		}
 		
 		/*List<User> pList = m.getParticipants();
 		boolean found = false;
@@ -129,8 +132,13 @@ public class MeetingInfoFragment extends Fragment implements FindMeetingListener
 		}*/
 		
 		if (m.getParticipants().contains(u))
-		//if (found)
-			acceptButton.setVisibility(View.GONE);
+			denyButton.setVisibility(View.VISIBLE);
+		
+		if (m.getGuests().contains(u)){
+			denyButton.setVisibility(View.VISIBLE);
+			acceptButton.setVisibility(View.VISIBLE);
+		}
+			
 	}
 	
 	public void accept(View view) {
