@@ -3,14 +3,15 @@ package mag.joinus.activities.meeting;
 import mag.joinus.R;
 import mag.joinus.app.JoinusApplication;
 import mag.joinus.model.Meeting;
-
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ToggleButton;
 
 public class MeetingActivity extends FragmentActivity implements
 		ActionBar.TabListener {
@@ -117,5 +118,20 @@ public class MeetingActivity extends FragmentActivity implements
 	
 	public void deny(View view) {
 		JoinusApplication.getInstance().getInfoFragment().deny(view);
+	}
+	
+	public void onToggleClicked(View view) {
+	    // Is the toggle on?
+	    boolean on = ((ToggleButton) view).isChecked();
+	    
+	    if (on) {
+	    	// The toggle is enabled
+	    	JoinusApplication.getInstance().getMapFragment().setSharingOwnLocation(true);
+        	Log.v("joinusandroid", "toggle ON");
+	    } else {
+	    	// The toggle is disabled
+	    	JoinusApplication.getInstance().getMapFragment().setSharingOwnLocation(false);
+        	Log.v("joinusandroid", "toggle OFF");
+	    }
 	}
 }

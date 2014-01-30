@@ -1,16 +1,22 @@
 package mag.joinus.activities.meeting;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import mag.joinus.R;
 import mag.joinus.app.JoinusApplication;
+import mag.joinus.model.AnnotatedLatLng;
 import mag.joinus.model.Meeting;
+import mag.joinus.model.User;
 import mag.joinus.model.UserLocation;
 import mag.joinus.service.JoinusServiceImpl;
 import mag.joinus.service.listeners.GetLocationsListener;
 import mag.joinus.service.listeners.ShareLocationListener;
+
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -55,6 +61,7 @@ public class MeetingMapFragment extends Fragment
 
 	private View rootView;
 	private Context context;
+//	private Application context;
 	
     private GoogleMap mMap;
     private LocationManager mLocationManager;
@@ -67,6 +74,23 @@ public class MeetingMapFragment extends Fragment
 //            .setFastestInterval(16)    // 16ms = 60fps
 //O            .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);//PRIORITY_NO_POWER
 	
+    // Actual meeting
+    private Meeting m;
+    // Actual user
+    private User u;
+    // Participant locations
+    private List<UserLocation> locations;
+    // First location update
+    private boolean first = true;
+    // Toggle button
+//    private ToggleButton toggle;
+    // Toggle value
+    boolean sharingOwnLocation;
+    // Shared preferences
+    SharedPreferences settings;
+    
+    // Preferences file
+    private static final String PREFS_FILE = "JoinusPreferences";
     //minimum time interval between location updates, in milliseconds
     private final long MIN_TIME = 300 * 1000;
     //minimum distance between location updates, in meters
@@ -83,9 +107,41 @@ public class MeetingMapFragment extends Fragment
 			Bundle savedInstanceState) {
 		rootView = inflater.inflate(R.layout.fragment_meeting_map,	container, false);
 		
+		// Registering as MapFragment for MeetingActivity
+		JoinusApplication.getInstance().setMapFragment(this);
+		
 		joinusService = JoinusApplication.getInstance().getService();
 		joinusService.setShareLocationListener(this);
 		joinusService.setGetLocationsListener(this);
+		
+		// Restore preferences
+		settings = context.getSharedPreferences(PREFS_FILE, 0);
+//		this.getActivity().getSharedPreferences(PREFS_FILE, 0);
+		sharingOwnLocation = settings.getBoolean("sharingOwnLocation", false);
+// TODO use shared_name + meeting_id
+//		context.setSharingOwnLocation(sharingOwnLocation);
+		
+/*		//toggle = JoinusApplication.getInstance().getToggle();
+		toggle = (ToggleButton) getView().findViewById(R.id.meeting_map_toggle_button);
+		toggle.setChecked(sharingOwnLocation);
+		toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+		    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		        if (isChecked) {
+		            // The toggle is enabled
+		        	sharingOwnLocation = true;
+		        	Log.v("joinusandroid", "toggle ON");
+		        } else {
+		            // The toggle is disabled
+		        	sharingOwnLocation = false;
+		        	Log.v("joinusandroid", "toggle OFF");
+		        }
+		    }
+		});
+*/
+		
+		m = JoinusApplication.getInstance().getMeeting();
+		u = JoinusApplication.getInstance().getUser();
+		locations = new ArrayList<UserLocation>();
 		
 		/*TextView dummyTextView = (TextView) rootView
 				.findViewById(R.id.section_map);
@@ -93,7 +149,7 @@ public class MeetingMapFragment extends Fragment
 				ARG_SECTION_NUMBER)));*/
 		
 //		setUpMapIfNeeded();
-		// TODO onLocationChanged(Location loc);share & get
+		// TODO share & get (attualmente provati in onresume)
 		
 		return rootView;
 	}
@@ -107,14 +163,30 @@ public class MeetingMapFragment extends Fragment
 //O        setUpLocationClientIfNeeded();
 //O        mLocationClient.connect();
         setUpMeetingLocation();
+        setUpParticipantLocations();
+        
     }
 
-    @Override
+	@Override
     public void onPause() {
         super.onPause();
 //O        if (mLocationClient != null) {
 //O            mLocationClient.disconnect();
 //O        }
+    }
+	
+	@Override
+    public void onStop() {
+       super.onStop();
+
+      // We need an Editor object to make preference changes.
+      // All objects are from android.context.Context
+      settings = context.getSharedPreferences(PREFS_FILE, 0);
+      Editor editor = settings.edit();
+      editor.putBoolean("sharingOwnLocation", sharingOwnLocation);
+
+      // Commit the edits!
+      editor.commit();
     }
 	
 	private void setUpMapIfNeeded() {
@@ -141,10 +213,11 @@ public class MeetingMapFragment extends Fragment
 
         // Register the listener with the Location Manager to receive location updates
         mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, MIN_DISTANCE, this);
-
+// TODO use GPS
+        
         
 //      mMap.setOnMapLongClickListener(this);        
-/*        // TODO lastKnownLocation is null and raises nullPointerException
+/*        //lastKnownLocation is null and raises nullPointerException
         //android.location.Location lastKnownLocation = mLocationManager.getLastKnownLocation(Context.LOCATION_SERVICE);
         //LatLng ll = new LatLng(lastKnownLocation.getLatitude(),lastKnownLocation.getLongitude());
         //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ll, 4.0f));*/
@@ -159,9 +232,7 @@ public class MeetingMapFragment extends Fragment
 //O        }
 //O    }
 	
-	public void setUpMeetingLocation(/*String address, LatLng latLng*/) {
-    	
-    	Meeting m = JoinusApplication.getInstance().getMeeting();
+	private void setUpMeetingLocation(/*String address, LatLng latLng*/) {
 //    	String address = m.getAddress();
     	LatLng latLng = m.getLatLng().toLatLng();
     
@@ -169,6 +240,13 @@ public class MeetingMapFragment extends Fragment
 
     	mMap.addMarker(new MarkerOptions().position(latLng)).setTitle("Destination");
     }
+// TODO colors	
+	private void setUpParticipantLocations() {
+		// Service request
+    	joinusService.getLocations(m.getId());
+		
+// marker qui o in onretrieved?
+	}
 
 	private void searchForAddress(Location l) {
 //    	new GetAddressTask(this, context).execute(l);
@@ -179,11 +257,29 @@ public class MeetingMapFragment extends Fragment
      */
 	@Override
 	public void onLocationChanged(Location loc) {
-		// TODO scegliere momento x clear
-    	mMap.clear();
-    	Log.v("Joinus android", "Location update: " + loc);
-//    	LatLng latLng = new LatLng(loc.getLatitude(), loc.getLongitude());
-		// Control share, share & get
+		Log.v("Joinus android", "Location update: " + loc);
+    	LatLng latLng = new LatLng(loc.getLatitude(), loc.getLongitude());
+		
+		if (first) {
+			first = false;
+		} else {
+			mMap.clear();
+			setUpMeetingLocation();
+			setUpParticipantLocations();
+		}    	
+    	
+    	mMap.addMarker(new MarkerOptions().position(latLng)).setTitle("You");
+    			//.setTitle(u.getName);
+
+    	if (sharingOwnLocation) {
+    		Log.v("joinusandroid", "toggle ON -> sharing location");
+    		
+			UserLocation userLoc = new UserLocation();
+	    	userLoc.setLatLng(new AnnotatedLatLng(latLng));
+	    	userLoc.setUser(u);
+// TODO    	userLoc.setTimestamp(timestamp);
+	    	joinusService.shareLocation(u.getPhone(), userLoc);
+		}
 	}
 
 	@Override
@@ -218,8 +314,28 @@ public class MeetingMapFragment extends Fragment
 
 	@Override
 	public void onLocationsRetrieved(List<UserLocation> uLocs) {
-		// TODO Auto-generated method stub
 		Log.v("joinusandroid", "Participant locations retrieved");
+		
+		locations = uLocs;
+		
+		for (UserLocation loc : locations) {
+    		mMap.addMarker(new MarkerOptions().position(loc.getLatLng().toLatLng()))
+    				.setTitle(loc.getUser().getName());
+		}
+	}
+
+	/**
+	 * @return the sharingOwnLocation
+	 */
+	public boolean isSharingOwnLocation() {
+		return sharingOwnLocation;
+	}
+
+	/**
+	 * @param sharingOwnLocation the sharingOwnLocation to set
+	 */
+	public void setSharingOwnLocation(boolean sharingOwnLocation) {
+		this.sharingOwnLocation = sharingOwnLocation;
 	}
 
 //O	@Override

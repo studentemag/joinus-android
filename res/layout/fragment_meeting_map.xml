@@ -7,11 +7,33 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MeetingActivity$DummySectionFragment" >
+    
+     <TextView
+        android:id="@+id/meeting_map_toggle_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/meeting_map_toggle_button"
+        android:layout_alignBottom="@+id/meeting_map_toggle_button"
+        android:layout_alignLeft="@+id/meeting_map"
+        android:text="@string/meeting_map_share_label"
+    />
+    
+    <ToggleButton 
+	    android:id="@+id/meeting_map_toggle_button"
+	    android:layout_toRightOf="@+id/meeting_map_toggle_label"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:textOn="@string/meeting_map_button_on"
+	    android:textOff="@string/meeting_map_button_off"
+	    android:onClick="onToggleClicked"
+    />
+<!-- 	    android:onClick="onToggleClicked" -->
 
     <fragment
     	android:id="@+id/meeting_map"
+    	android:layout_below="@+id/meeting_map_toggle_button"
     	android:layout_marginTop="10dp"
-    	android:layout_marginBottom="10dp"
+    	android:layout_marginBottom="3dp"
     	android:layout_width="match_parent"
     	android:layout_height="match_parent"
     	class="com.google.android.gms.maps.SupportMapFragment"
