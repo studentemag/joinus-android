@@ -1,5 +1,6 @@
 package mag.joinus.app;
 
+import mag.joinus.activities.meeting.MeetingActivity;
 import mag.joinus.activities.meeting.MeetingInfoFragment;
 import mag.joinus.activities.meeting.MeetingMapFragment;
 import mag.joinus.model.Meeting;
@@ -24,6 +25,9 @@ public class JoinusApplication extends Application {
 	
 	// Context for the activity MeetingActivity
 	private Context MeetingActivityContext;
+	
+	// Meeting activity
+	private MeetingActivity meetingActivity;
 	
 	// Info fragment
 	private MeetingInfoFragment infoFragment;
@@ -104,6 +108,20 @@ public class JoinusApplication extends Application {
 	 */
 	public void setMeeting(Meeting meeting) {
 		this.meeting = meeting;
+	}
+
+	/**
+	 * @return the meetingActivity
+	 */
+	public MeetingActivity getMeetingActivity() {
+		return meetingActivity;
+	}
+
+	/**
+	 * @param meetingActivity the meetingActivity to set
+	 */
+	public void setMeetingActivity(MeetingActivity meetingActivity) {
+		this.meetingActivity = meetingActivity;
 	}
 
 	/**
