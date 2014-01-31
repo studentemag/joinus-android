@@ -25,7 +25,6 @@
 	    android:layout_height="wrap_content"
 	    android:textOn="@string/meeting_map_button_on"
 	    android:textOff="@string/meeting_map_button_off"
-	    android:onClick="onToggleClicked"
     />
 <!-- 	    android:onClick="onToggleClicked" -->
 

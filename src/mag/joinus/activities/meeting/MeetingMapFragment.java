@@ -27,6 +27,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -147,9 +148,6 @@ public class MeetingMapFragment extends Fragment
 		toggle = (ToggleButton) rootView.findViewById(R.id.meeting_map_toggle_button);
 		toggle.setChecked(sharingOwnLocation);
 		
-/*		//toggle = JoinusApplication.getInstance().getToggle();
-		toggle = (ToggleButton) getView().findViewById(R.id.meeting_map_toggle_button);
-		toggle.setChecked(sharingOwnLocation);
 		toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 		    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		        if (isChecked) {
@@ -163,7 +161,7 @@ public class MeetingMapFragment extends Fragment
 		        }
 		    }
 		});
-*/
+
 		
 		/*TextView dummyTextView = (TextView) rootView
 				.findViewById(R.id.section_map);
