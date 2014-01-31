@@ -105,7 +105,7 @@ public class MeetingMapFragment extends Fragment
     private String prefKey;
     // Minimum time interval between location updates, in milliseconds
 //    private final long MIN_TIME = 300 * 1000;
-    private final long MIN_TIME = 30 * 1000;
+    private final long MIN_TIME = 90 * 1000;
     // Minimum distance between location updates, in meters
 //    private final float MIN_DISTANCE = 3 * 1000;
     private final float MIN_DISTANCE = 0;
@@ -134,7 +134,6 @@ public class MeetingMapFragment extends Fragment
 		
 		m = JoinusApplication.getInstance().getMeeting();
 		u = JoinusApplication.getInstance().getUser();
-		numParticipants = m.getParticipants().size();
 		locations = new ArrayList<UserLocation>();
 		
 		// Restore preferences
@@ -277,7 +276,8 @@ public class MeetingMapFragment extends Fragment
 
 	private void setUpParticipantLocations() {
 		Log.v("Joinusandroid", "setUpParticipantsLocation for MeetingMapFragment");
-		
+		numParticipants = m.getParticipants().size();
+
 		// Service request
     	joinusService.getLocations(m.getId());
 		
@@ -310,6 +310,7 @@ public class MeetingMapFragment extends Fragment
     	mMap.addMarker(new MarkerOptions()
 		    	.position(latLng)
 				.title(String.format(rootView.getResources().getString(R.string.meeting_map_you)))//.setTitle(u.getName)
+//				.icon(BitmapDescriptorFactory.defaultMarker(numParticipants * 360 / (numParticipants + 1))));
 				.icon(BitmapDescriptorFactory.defaultMarker(numParticipants * 360 / (numParticipants + 1))));
 
     	
@@ -356,7 +357,7 @@ public class MeetingMapFragment extends Fragment
 			UserLocation userLoc = new UserLocation();
 	    	userLoc.setLatLng(new AnnotatedLatLng(latLng));
 	    	userLoc.setUser(u);
-	    	long timestamp = new Date().getTime();
+	    	long timestamp = (new Date()).getTime();
 	    	userLoc.setTimestamp(timestamp);
 	    	joinusService.shareLocation(u.getPhone(), userLoc);
 		} else {
@@ -426,9 +427,9 @@ public class MeetingMapFragment extends Fragment
 					.position(loc.getLatLng().toLatLng())
     				.title(loc.getUser().getName())
     				.snippet(diff + "ago")
-    				.icon(BitmapDescriptorFactory.defaultMarker(i * 360 / numParticipants)));
-			}
+    				.icon(BitmapDescriptorFactory.defaultMarker(i * 360 / (numParticipants + 1))));
 			i++;
+			}
 		}
 	}
 
