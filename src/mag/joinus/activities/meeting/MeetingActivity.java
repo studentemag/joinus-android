@@ -44,12 +44,9 @@ public class MeetingActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_meeting);
 		
-		JoinusApplication.getInstance().setMeetingActivityContext(getApplicationContext());
 		// Registering as MeetingActivity for application context
 		JoinusApplication.getInstance().setMeetingActivity(this);
 		
-		/*Intent intent = getIntent();
-		meetingId = intent.getIntExtra(MeetingActivity.MEETING_ID, 0);*/
 		m = JoinusApplication.getInstance().getMeeting();
 
 		// Set up the action bar.
