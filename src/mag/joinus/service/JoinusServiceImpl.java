@@ -34,7 +34,7 @@ import com.android.volley.toolbox.Volley;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 public class JoinusServiceImpl implements JoinusService {
-	private final String BASE_URL = "http://93.65.220.242:8080";
+	private final String BASE_URL = "http://188.217.129.0:8080";
 	
 	private JoinusServiceLocal joinusServiceLocal;
 	
@@ -354,8 +354,8 @@ public class JoinusServiceImpl implements JoinusService {
 				body, new Response.Listener<JSONObject>() {
 					@Override
 					public void onResponse(JSONObject response) {
-						Log.v("JoinusServiceImpl.createMeeting", 
-								"response");
+						Log.v("JoinusServiceImpl.shareLocation", 
+								"response received");
 
 						shareLocationListener.onLocationShared();
 					}
