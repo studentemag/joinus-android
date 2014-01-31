@@ -26,7 +26,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.ToggleButton;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -71,8 +70,8 @@ public class MeetingMapFragment extends Fragment
     // Actual user
     private User u;
 
-    // Toggle value
-    private boolean sharingOwnLocation;
+    // Toggle button
+    private ToggleButton toggle;
     // Shared preferences
     private SharedPreferences settings;
     
@@ -82,7 +81,7 @@ public class MeetingMapFragment extends Fragment
     private String prefKey;
     // Minimum time interval between location updates, in milliseconds
 //    private final long MIN_TIME = 300 * 1000;
-    private final long MIN_TIME = 90 * 1000;
+    private final long MIN_TIME = 30 * 1000;
     // Minimum distance between location updates, in meters
 //    private final float MIN_DISTANCE = 3 * 1000;
     private final float MIN_DISTANCE = 0;
@@ -116,28 +115,28 @@ public class MeetingMapFragment extends Fragment
 		settings = context.getSharedPreferences(PREFS_FILE, 0);
 //		this.getActivity().getSharedPreferences(PREFS_FILE, 0);
 		prefKey = new String("sharingOwnLocation_" + m.getId());
-		sharingOwnLocation = settings.getBoolean(prefKey, false);
-		Log.v("Joinusandroid", "sharedPreferences for MeetingMapFragment: " + sharingOwnLocation);
+		boolean sharingOwnLocation = settings.getBoolean(prefKey, false);
+		Log.v("MeetingMapFragment", ".onCreate sharedPreferences: " + sharingOwnLocation);
 		
 		// Applying preferences
 
 	    // Toggle button
-	    ToggleButton toggle = (ToggleButton) rootView.findViewById(R.id.meeting_map_toggle_button);
+		toggle = (ToggleButton) rootView.findViewById(R.id.meeting_map_toggle_button);
 		toggle.setChecked(sharingOwnLocation);
 		
-		toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-		    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		        if (isChecked) {
-		            // The toggle is enabled
-		        	sharingOwnLocation = true;
-		        	Log.v("joinusandroid", "toggle ON");
-		        } else {
-		            // The toggle is disabled
-		        	sharingOwnLocation = false;
-		        	Log.v("joinusandroid", "toggle OFF");
-		        }
-		    }
-		});
+//		toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//		    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//		        if (isChecked) {
+//		            // The toggle is enabled
+//		        	sharingOwnLocation = true;
+//		        	Log.v("joinusandroid", "toggle ON");
+//		        } else {
+//		            // The toggle is disabled
+//		        	sharingOwnLocation = false;
+//		        	Log.v("joinusandroid", "toggle OFF");
+//		        }
+//		    }
+//		});
 				
 		return rootView;
 	}
@@ -163,6 +162,8 @@ public class MeetingMapFragment extends Fragment
        super.onStop();
        
        Log.v("Joinusandroid", "onStop for MeetingMapFragment");
+       
+       boolean sharingOwnLocation = toggle.isChecked();
        
        // We need an Editor object to make preference changes.
        // All objects are from android.context.Context
@@ -218,6 +219,8 @@ public class MeetingMapFragment extends Fragment
 	public void onLocationChanged(Location loc) {
 		Log.v("MeetingMapFragment", ".onLocationChanged - location update: " + loc);
 		LatLng latLng = new LatLng(loc.getLatitude(), loc.getLongitude());
+		
+		boolean sharingOwnLocation = toggle.isChecked();
 		
 		// Share location
     	if (sharingOwnLocation && !m.getGuests().contains(u)) {
@@ -316,19 +319,4 @@ public class MeetingMapFragment extends Fragment
 		
 		Log.v("MeetingMapFragment", ".onLocationsRetrieved move camera with bounds");
 	}
-
-	/**
-	 * @return the sharingOwnLocation
-	 */
-	public boolean isSharingOwnLocation() {
-		return sharingOwnLocation;
-	}
-
-	/**
-	 * @param sharingOwnLocation the sharingOwnLocation to set
-	 */
-	public void setSharingOwnLocation(boolean sharingOwnLocation) {
-		this.sharingOwnLocation = sharingOwnLocation;
-	}
-
 }
