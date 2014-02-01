@@ -34,7 +34,7 @@ import com.android.volley.toolbox.Volley;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
 public class JoinusServiceImpl implements JoinusService {
-	private final String BASE_URL = "http://188.217.129.0:8080";
+	private final String BASE_URL = "http://ec2-54-194-206-128.eu-west-1.compute.amazonaws.com:8080";
 	
 	private JoinusServiceLocal joinusServiceLocal;
 	
