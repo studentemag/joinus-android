@@ -77,13 +77,15 @@ public class MeetingMapFragment extends Fragment
     
     // Preferences file
     private static final String PREFS_FILE = "JoinusPreferences";
+    
     // Preference key
     private String prefKey;
+    
     // Minimum time interval between location updates, in milliseconds
 //    private final long MIN_TIME = 300 * 1000;
-    private final long MIN_TIME = 30 * 1000;
+    private final long MIN_TIME = 10 * 1000;
+    
     // Minimum distance between location updates, in meters
-//    private final float MIN_DISTANCE = 3 * 1000;
     private final float MIN_DISTANCE = 0;
     
     
@@ -95,48 +97,28 @@ public class MeetingMapFragment extends Fragment
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		Log.v("Joinusandroid", "onCreate for MeetingMapFragment");
+		Log.v("MeetingMapFragment", "onCreate for MeetingMapFragment");
 		
 		rootView = inflater.inflate(R.layout.fragment_meeting_map,	container, false);
 		
 		// Registering as MapFragment for MeetingActivity
 		JoinusApplication.getInstance().setMapFragment(this);
-//		// Getting reference to Meeting Activity
-//		meetingActivity = JoinusApplication.getInstance().getMeetingActivity();
 		
 		joinusService = JoinusApplication.getInstance().getService();
-		joinusService.setShareLocationListener(this);
-		joinusService.setGetLocationsListener(this);
+
 		
 		m = JoinusApplication.getInstance().getMeeting();
 		u = JoinusApplication.getInstance().getUser();
 		
 		// Restore preferences
 		settings = context.getSharedPreferences(PREFS_FILE, 0);
-//		this.getActivity().getSharedPreferences(PREFS_FILE, 0);
-		prefKey = new String("sharingOwnLocation_" + m.getId());
+		prefKey = new String("sharingOwnLocation");
 		boolean sharingOwnLocation = settings.getBoolean(prefKey, false);
 		Log.v("MeetingMapFragment", ".onCreate sharedPreferences: " + sharingOwnLocation);
-		
-		// Applying preferences
 
 	    // Toggle button
 		toggle = (ToggleButton) rootView.findViewById(R.id.meeting_map_toggle_button);
 		toggle.setChecked(sharingOwnLocation);
-		
-//		toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//		    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//		        if (isChecked) {
-//		            // The toggle is enabled
-//		        	sharingOwnLocation = true;
-//		        	Log.v("joinusandroid", "toggle ON");
-//		        } else {
-//		            // The toggle is disabled
-//		        	sharingOwnLocation = false;
-//		        	Log.v("joinusandroid", "toggle OFF");
-//		        }
-//		    }
-//		});
 				
 		return rootView;
 	}
@@ -144,16 +126,24 @@ public class MeetingMapFragment extends Fragment
 	@Override
 	public void onResume() {
         super.onResume();
-        
-        Log.v("Joinusandroid", "onResume for MeetingMapFragment");
-        setUpMapIfNeeded();        
+        Log.v("MeetingMapFragment", "onResume for MeetingMapFragment");
+		joinusService.setShareLocationListener(this);
+		joinusService.setGetLocationsListener(this);
+		
+		setupMapIfNeeded();
+		
+        Log.v("MeetingMapFragment", "requestLocationUpdates for MeetingMapFragment");
+		// Register the listener with the Location Manager to receive location updates
+        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, MIN_DISTANCE, this);
+//		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, this);
+      
     }
 
 	@Override
     public void onPause() {
         super.onPause();
         
-        Log.v("Joinusandroid", "onPause for MeetingMapFragment");
+        Log.v("MeetingMapFragment", "onPause for MeetingMapFragment");
         
     }
 	
@@ -161,7 +151,7 @@ public class MeetingMapFragment extends Fragment
     public void onStop() {
        super.onStop();
        
-       Log.v("Joinusandroid", "onStop for MeetingMapFragment");
+       Log.v("MeetingMapFragment", "onStop for MeetingMapFragment");
        
        boolean sharingOwnLocation = toggle.isChecked();
        
@@ -173,10 +163,15 @@ public class MeetingMapFragment extends Fragment
 
        // Commit the edits!
        if(editor.commit())
-    	   Log.v("Joinusandroid", "sharedPreferences committed for MeetingMapFragment: " + sharingOwnLocation);
-    }
+    	   Log.v("MeetingMapFragment", "sharedPreferences committed for MeetingMapFragment: " + sharingOwnLocation);
+    
+       // Remove updates from location manager and joinusServiceImpl
+       mLocationManager.removeUpdates(this);
+       joinusService.setShareLocationListener(null);
+       joinusService.setGetLocationsListener(null);
+	}
 	
-	private void setUpMapIfNeeded() {
+	private void setupMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
         if (mMap == null) {
             // Try to obtain the map from the SupportMapFragment.
@@ -185,31 +180,15 @@ public class MeetingMapFragment extends Fragment
             
             // Acquire a reference to the system Location Manager
             mLocationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-            Log.v("Joinusandroid", "MeetingMapFragment reference for LocationManager" + mLocationManager);
+            Log.v("MeetingMapFragment", "MeetingMapFragment reference for LocationManager" + mLocationManager);
             		
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
-                setUpMap();
+        		// Enables the my-location layer
+        		mMap.setMyLocationEnabled(true);
+        		mMap.setOnMyLocationButtonClickListener(this);
             }
         }
-    }
-	
-	private void setUpMap() {
-		Log.v("Joinusandroid", "setUpMap for MeetingMapFragment");
-		
-		// Enables the my-location layer
-		mMap.setMyLocationEnabled(true);
-		mMap.setOnMyLocationButtonClickListener(this);
-
-        // Register the listener with the Location Manager to receive location updates
-        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME, MIN_DISTANCE, this);
-//		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME, MIN_DISTANCE, this);
-        Log.v("Joinusandroid", "requestLocationUpdates for MeetingMapFragment");
-        
-/*        //lastKnownLocation is null and raises nullPointerException
-        //android.location.Location lastKnownLocation = mLocationManager.getLastKnownLocation(Context.LOCATION_SERVICE);
-        //LatLng ll = new LatLng(lastKnownLocation.getLatitude(),lastKnownLocation.getLongitude());
-        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ll, 4.0f));*/
     }
 	
 	/**
@@ -224,7 +203,7 @@ public class MeetingMapFragment extends Fragment
 		
 		// Share location
     	if (sharingOwnLocation && !m.getGuests().contains(u)) {
-    		Log.v("joinusandroid", "toggle ON -> sharing location");
+    		Log.v("MeetingMapFragment", "toggle ON -> sharing location");
     		
 			UserLocation userLoc = new UserLocation();
 	    	userLoc.setLatLng(new AnnotatedLatLng(latLng));
@@ -233,7 +212,7 @@ public class MeetingMapFragment extends Fragment
 	    	userLoc.setTimestamp(timestamp);
 	    	joinusService.shareLocation(u.getPhone(), userLoc);
 		} else {
-			Log.v("joinusandroid", "toggle OFF -> nothing to share");
+			Log.v("MeetingMapFragment", "toggle OFF -> nothing to share");
 		}
     	
     	//Ask location for users
@@ -242,26 +221,17 @@ public class MeetingMapFragment extends Fragment
 	}
 
 	@Override
-	public void onProviderDisabled(String arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void onProviderDisabled(String arg0) {}
 
 	@Override
-	public void onProviderEnabled(String provider) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void onProviderEnabled(String provider) {}
 
 	@Override
-	public void onStatusChanged(String provider, int status, Bundle extras) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void onStatusChanged(String provider, int status, Bundle extras) {}
 
 	@Override
 	public boolean onMyLocationButtonClick() {
-		Log.v("Joinusandroid", "MyLocationButton clicked for MeetingMapFragment");
+		Log.v("MeetingMapFragment", "MyLocationButton clicked for MeetingMapFragment");
 		
 		// Return false so that we don't consume the event and the default behavior still occurs
         // (the camera animates to the user's current position).
@@ -298,7 +268,7 @@ public class MeetingMapFragment extends Fragment
 			mMap.addMarker(new MarkerOptions()
 				.position(loc.getLatLng().toLatLng())
     			.title(loc.getUser().getName())
-    			.snippet(diff + "ago")
+    			.snippet(diff + getString(R.string.meeting_map_ago))
     			.icon(BitmapDescriptorFactory.defaultMarker(i * 360 / (uLocs.size()+1) )));
 			
 			bounds.include(loc.getLatLng().toLatLng());
@@ -310,7 +280,7 @@ public class MeetingMapFragment extends Fragment
     	LatLng destinationLatLng = m.getLatLng().toLatLng();
     	mMap.addMarker(new MarkerOptions()
     			.position(destinationLatLng)
-    			.title("Destination")
+    			.title(getString(R.string.meeting_map_destination))
     			.icon(BitmapDescriptorFactory.defaultMarker(0)))
     			.showInfoWindow();
 	   	bounds.include(destinationLatLng);	   	

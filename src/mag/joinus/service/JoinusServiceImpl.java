@@ -42,8 +42,8 @@ public class JoinusServiceImpl implements JoinusService {
 	private FindMeetingListener findMeetingListener;
 	private GetMeetingListListener getMeetingListListener;
 	private GetUserListener getUserListener;
-	private ShareLocationListener shareLocationListener;
-	private GetLocationsListener getLocationsListener;
+	private ShareLocationListener shareLocationListener = null;
+	private GetLocationsListener getLocationsListener = null;
 
 	public JoinusServiceImpl(Context context){
 		joinusServiceLocal = OpenHelperManager.getHelper(context, JoinusServiceLocal.class);
@@ -323,8 +323,9 @@ public class JoinusServiceImpl implements JoinusService {
 									uLocs.add(u);
 								}
 							}
-
-							getLocationsListener.onLocationsRetrieved(uLocs);
+							
+							if (getLocationsListener != null)
+								getLocationsListener.onLocationsRetrieved(uLocs);
 						} catch (JSONException e) {
 							e.printStackTrace();
 						}
@@ -356,8 +357,9 @@ public class JoinusServiceImpl implements JoinusService {
 					public void onResponse(JSONObject response) {
 						Log.v("JoinusServiceImpl.shareLocation", 
 								"response received");
-
-						shareLocationListener.onLocationShared();
+						
+						if (shareLocationListener != null)
+							shareLocationListener.onLocationShared();
 					}
 				}, new Response.ErrorListener() {
 					@Override
