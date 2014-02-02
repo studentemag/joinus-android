@@ -7,7 +7,6 @@ import mag.joinus.model.Meeting;
 import mag.joinus.model.User;
 import mag.joinus.service.JoinusServiceImpl;
 import android.app.Application;
-import android.content.Context;
 
 public class JoinusApplication extends Application {
     /**

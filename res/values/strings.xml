@@ -16,7 +16,7 @@
     <string name="upcoming_events_activity_title">Upcoming Meetings</string>
     <string name="upcomingevents_noevents">You have no upcoming meetings!</string>
     
-    <!-- NewEventActivity Strings -->
+    <!-- NewMeetingActivity Strings -->
     <string name="new_event_activity_title">New Meeting</string>
     <string name="new_event_done">Done</string>
     <string name="new_event_meeting_title">Meeting Title</string>
@@ -34,28 +34,24 @@
     <string name="title_section1">Info</string>
     <string name="title_section2">Map</string>
 
-	    <!-- MeetingInfoFragment Strings -->
-	    <string name="meeting_info_date">Date</string>
-	    <string name="meeting_info_participants">Participants</string>
-	    <string name="meeting_info_address">Address</string>
-	    <string name="meeting_info_mc">Master of ceremonies</string>
-	    <string name="meeting_info_guests">Guests</string>
-	    <string name="meeting_info_accept">Accept</string>
-	    <string name="meeting_info_deny">Deny</string>
-	    <string name="meeting_info_server_request">Request to the server&#8230;</string>
-	    <string name="meeting_info_server_response">Server response received!</string>
-	    
-	    <!-- MeetingMapFragment Strings -->
-	    <string name="meeting_map_share_label">Sharing own location:</string>
-	    <string name="meeting_map_button_on">On</string>
-	    <string name="meeting_map_button_off">Off</string>
-	    <string name="meeting_map_you">You</string>
-	    
-<!-- TODO Dove vanno queste? -->	    
-	    <string name="title_activity_new_meeting">NewMeetingActivity</string>
-	    <string name="title_activity_contacts_list">ContactsList</string>
-	    <string name="title_activity_new_event_activity2">New Meeting</string>
-	    <string name="title_section3">Section 3</string>
-
+    <!-- MeetingInfoFragment Strings -->
+    <string name="meeting_info_date">Date</string>
+    <string name="meeting_info_participants">Participants</string>
+    <string name="meeting_info_address">Address</string>
+    <string name="meeting_info_mc">Master of ceremonies</string>
+    <string name="meeting_info_guests">Guests</string>
+    <string name="meeting_info_accept">Accept</string>
+    <string name="meeting_info_deny">Deny</string>
+    <string name="meeting_info_server_request">Sending request</string>
+    <string name="meeting_info_server_response">Request sent</string>
+    
+    <!-- MeetingMapFragment Strings -->
+    <string name="meeting_map_share_label">Sharing own location:</string>
+    <string name="meeting_map_button_on">On</string>
+    <string name="meeting_map_button_off">Off</string>
+    <string name="meeting_map_you">You</string>	    
+    <string name="meeting_map_ago">ago</string>
+	<string name="meeting_map_destination">Destination</string>
+    
 </resources>
 

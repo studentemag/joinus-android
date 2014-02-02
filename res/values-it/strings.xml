@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- General Strings -->
+    <string name="app_name">Join Us</string>
+    <string name="action_settings">Impostazioni</string>
+    <string name="action_newEvent">Nuovo</string>
+
+    <!-- MainActivity Strings -->
+    <string name="phoneNumber">Numero Telefonico</string>
+    <string name="signIn">Entra</string>
+    <string name="username">Username</string>
+    <string name="phoneisempty">Inserisci un numero di telefono!</string>
+    
+    <!-- UpcomingEventsActivity Strings -->
+    <string name="upcoming_events_activity_title">Prossimi appuntamenti</string>
+    <string name="upcomingevents_noevents">Non hai appuntamenti!</string>
+    
+    <!-- NewMeetingActivity Strings -->
+    <string name="new_event_activity_title">Nuovo Appuntamento</string>
+    <string name="new_event_done">Fatto</string>
+    <string name="new_event_meeting_title">Titolo Appuntamento</string>
+    <string name="new_event_meeting_address">Indirizzo</string>
+    <string name="new_event_meeting_date">Scegli una data</string>
+    <string name="new_event_meeting_time">e un\'ora</string>
+
+    <!-- NewEventActivity Strings -->
+    <string name="newmeeting_pickcontact_button">Aggiungi contatto</string>
+    <string name="newmeeting_participants">Invitati</string>
+	<string name="newmeeting_compiledata_error">Completa tutti i campi!</string>
+	
+    <!-- MeetingActivity Strings -->
+    <string name="title_activity_meeting">Appuntamento</string>
+    <string name="title_section1">Info</string>
+    <string name="title_section2">Mappa</string>
+
+    <!-- MeetingInfoFragment Strings -->
+    <string name="meeting_info_date">Data</string>
+    <string name="meeting_info_participants">Partecipanti</string>
+    <string name="meeting_info_address">Indirizzo</string>
+    <string name="meeting_info_mc">Mast e fest</string>
+    <string name="meeting_info_guests">Ospiti</string>
+    <string name="meeting_info_accept">Accetta</string>
+    <string name="meeting_info_deny">Declina</string>
+    <string name="meeting_info_server_request">Invio la richiesta</string>
+    <string name="meeting_info_server_response">Richiesta inviata</string>
+    
+    <!-- MeetingMapFragment Strings -->
+    <string name="meeting_map_share_label">Condividi la tua posizione</string>
+    <string name="meeting_map_button_on">On</string>
+    <string name="meeting_map_button_off">Off</string>
+    <string name="meeting_map_you">Tu</string>	    
+    <string name="meeting_map_ago">fa</string>
+	<string name="meeting_map_destination">Destinazione</string>
+    
+</resources>
+
