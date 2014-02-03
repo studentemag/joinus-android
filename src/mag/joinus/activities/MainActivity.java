@@ -88,4 +88,10 @@ public class MainActivity extends Activity implements GetUserListener {
 		startActivity(intent);
 	}
 
+	@Override
+	public void onUserRetrievedError() {
+		findViewById(R.id.main_progressbar).setVisibility(View.GONE);
+		Toast.makeText(getApplicationContext(), R.string.main_checkinternet, Toast.LENGTH_LONG).show();
+	}
+
 }

@@ -294,7 +294,9 @@ public class JoinusServiceImpl implements JoinusService {
 				}, new Response.ErrorListener() {
 					@Override
 					public void onErrorResponse(VolleyError error) {
-						Log.e("Error: ", error.getMessage());
+						if (error != null)
+							Log.e("Error: ", error.getMessage());
+						getUserListener.onUserRetrievedError();
 					}
 				});
 
