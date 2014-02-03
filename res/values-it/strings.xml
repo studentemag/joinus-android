@@ -39,7 +39,7 @@
     <string name="meeting_info_date">Data</string>
     <string name="meeting_info_participants">Partecipanti</string>
     <string name="meeting_info_address">Indirizzo</string>
-    <string name="meeting_info_mc">Mast e fest</string>
+    <string name="meeting_info_mc">Organizzatore</string>
     <string name="meeting_info_guests">Ospiti</string>
     <string name="meeting_info_accept">Accetta</string>
     <string name="meeting_info_deny">Declina</string>
