@@ -11,6 +11,7 @@
     <string name="signIn">Sign In</string>
     <string name="username">Username</string>
     <string name="phoneisempty">Phone number is empty!</string>
+    <string name="main_checkinternet">Check your internet connection!</string>
     
     <!-- UpcomingEventsActivity Strings -->
     <string name="upcoming_events_activity_title">Upcoming Meetings</string>

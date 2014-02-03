@@ -2,7 +2,6 @@ package mag.joinus.activities.meeting;
 
 import mag.joinus.R;
 import mag.joinus.app.JoinusApplication;
-import mag.joinus.model.Meeting;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
@@ -13,16 +12,6 @@ import android.view.View;
 
 public class MeetingActivity extends FragmentActivity implements
 		ActionBar.TabListener {
-	
-	/*
-	 * Messages required to start activity
-	 */
-	/*public static final String MEETING_ID = "meeting_id";
-
-	private int meetingId;*/
-	
-	// Actual meeting
-	private Meeting m;
 	
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -46,18 +35,20 @@ public class MeetingActivity extends FragmentActivity implements
 		
 		// Registering as MeetingActivity for application context
 		JoinusApplication.getInstance().setMeetingActivity(this);
-		
-		m = JoinusApplication.getInstance().getMeeting();
 
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		actionBar.setTitle(m.getTitle());
+		actionBar.setTitle(
+				JoinusApplication
+				.getInstance()
+				.getMeeting()
+				.getTitle());
 
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
-		mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager()/*, meetingId*/);
+		mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
 		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -117,19 +108,5 @@ public class MeetingActivity extends FragmentActivity implements
 	public void deny(View view) {
 		JoinusApplication.getInstance().getInfoFragment().deny(view);
 	}
-	
-//	public void onToggleClicked(View view) {
-//	    // Is the toggle on?
-//	    boolean on = ((ToggleButton) view).isChecked();
-//	    
-//	    if (on) {
-//	    	// The toggle is enabled
-//	    	JoinusApplication.getInstance().getMapFragment().setSharingOwnLocation(true);
-//        	Log.v("joinusandroid", "toggle ON");
-//	    } else {
-//	    	// The toggle is disabled
-//	    	JoinusApplication.getInstance().getMapFragment().setSharingOwnLocation(false);
-//        	Log.v("joinusandroid", "toggle OFF");
-//	    }
-//	}
+
 }

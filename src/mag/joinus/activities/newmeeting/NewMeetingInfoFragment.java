@@ -111,6 +111,7 @@ public class NewMeetingInfoFragment extends Fragment{
 						
 						User u = new User();
 						u.setPhone(cNumber);
+						u.setName(name);
 						this.guests.add(u);
 						
 						TextView guestsTextView = (TextView) rootView.findViewById(R.id.newmeeting_info_participants);

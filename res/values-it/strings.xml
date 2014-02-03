@@ -11,6 +11,7 @@
     <string name="signIn">Entra</string>
     <string name="username">Username</string>
     <string name="phoneisempty">Inserisci un numero di telefono!</string>
+    <string name="main_checkinternet">Controlla la connessione a internet!</string>
     
     <!-- UpcomingEventsActivity Strings -->
     <string name="upcoming_events_activity_title">Prossimi appuntamenti</string>
