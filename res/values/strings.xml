@@ -42,7 +42,7 @@
     <string name="meeting_info_guests">Guests</string>
     <string name="meeting_info_accept">Accept</string>
     <string name="meeting_info_deny">Deny</string>
-    <string name="meeting_info_server_request">Sending request</string>
+    <string name="meeting_info_server_request">Sending request&#8230;</string>
     <string name="meeting_info_server_response">Request sent</string>
     
     <!-- MeetingMapFragment Strings -->
