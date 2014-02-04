@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp" >
+    
+    <EditText
+        android:id="@+id/newmeeting_info_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="@string/new_event_meeting_title" />
+    
+    <TextView
+        android:id="@+id/newmeeting_picked_date"
+        style="@android:style/Widget.Holo.Spinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/newmeeting_info_title"
+        android:layout_toLeftOf="@+id/newmeeting_picked_time"
+        android:onClick="showDatePickerDialog"
+        android:text="@string/new_event_meeting_date" />
+    
+    <TextView
+        android:id="@id/newmeeting_picked_time"
+        style="@android:style/Widget.Holo.Spinner"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/newmeeting_picked_date"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/newmeeting_info_title"
+        android:layout_marginTop="20dp"
+        android:onClick="showTimePickerDialog"
+        android:text="@string/new_event_meeting_time"
+        android:textSize="@dimen/textSize" />
+    
+    <TextView
+        android:id="@+id/newmeeting_textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/newmeeting_picked_time"
+        android:text="@string/newmeeting_participants"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+  
+    <TextView
+        android:id="@+id/newmeeting_info_participants"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/newmeeting_textView1"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+   	<Button
+        android:id="@+id/newmeeting_pickcontact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/newmeeting_info_participants"
+        android:text="@string/newmeeting_pickcontact_button" />
+    
+</RelativeLayout>

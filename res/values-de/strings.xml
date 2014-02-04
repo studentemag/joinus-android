@@ -22,8 +22,8 @@
     <string name="new_event_done">Erledigt</string>
     <string name="new_event_meeting_title">Überschrift Termin</string>
     <string name="new_event_meeting_address">Adresse</string>
-    <string name="new_event_meeting_date">Bitte Datum</string>
-    <string name="new_event_meeting_time">und Uhrzeit auswählen</string>
+    <string name="new_event_meeting_date">Bitte Datum auswählen</string>
+    <string name="new_event_meeting_time">und Uhrzeit</string>
 
     <!-- NewEventActivity Strings -->
     <string name="newmeeting_pickcontact_button">Kontakt hinzufügen</string>

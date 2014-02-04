@@ -259,9 +259,11 @@ public class MeetingMapFragment extends Fragment
 	    	long timestamp = loc.getTimestamp();
 	    	long millis = now - timestamp;
   	
-	    	String diff = String.format("%d ", getString(R.string.meeting_map_hours),
-	    								", %02d ", getString(R.string.meeting_map_minutes),
-	    								", %02d ", getString(R.string.meeting_map_seconds), " ", 
+	    	String format = new String("%d " + getString(R.string.meeting_map_hours)
+					+ ", %02d " + getString(R.string.meeting_map_minutes)
+					+ ", %02d " + getString(R.string.meeting_map_seconds) + " ");
+	    	
+	    	String diff = String.format(format, 
 	    			TimeUnit.MILLISECONDS.toHours(millis),
 	    		    TimeUnit.MILLISECONDS.toMinutes(millis) - 
 	    		    TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
