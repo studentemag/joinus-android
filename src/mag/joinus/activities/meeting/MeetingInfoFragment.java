@@ -113,8 +113,12 @@ public class MeetingInfoFragment extends Fragment implements FindMeetingListener
 		participantsTextView.setText(participants);
 		
 		String guests = "";
-		for (int i = 0; i < m.getGuests().size(); i++)
-			guests += m.getGuests().get(i).getName() + " ";
+		for (int i = 0; i < m.getGuests().size(); i++) {
+			if (i > 0)
+				guests += ", ";
+			
+			guests += m.getGuests().get(i).getName();
+		}
 				
 		guestsTextView.setText(guests);
 		
