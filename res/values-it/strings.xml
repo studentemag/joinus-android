@@ -50,7 +50,10 @@
     <string name="meeting_map_share_label">Condividi la tua posizione</string>
     <string name="meeting_map_button_on">On</string>
     <string name="meeting_map_button_off">Off</string>
-    <string name="meeting_map_you">Tu</string>	    
+    <string name="meeting_map_you">Tu</string>
+    <string name="meeting_map_hours">ore</string>
+    <string name="meeting_map_minutes">min</string>
+    <string name="meeting_map_seconds">sec</string>
     <string name="meeting_map_ago">fa</string>
 	<string name="meeting_map_destination">Destinazione</string>
     

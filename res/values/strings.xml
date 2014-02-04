@@ -50,7 +50,10 @@
     <string name="meeting_map_share_label">Sharing own location:</string>
     <string name="meeting_map_button_on">On</string>
     <string name="meeting_map_button_off">Off</string>
-    <string name="meeting_map_you">You</string>	    
+    <string name="meeting_map_you">You</string>
+    <string name="meeting_map_hours">hrs</string>
+    <string name="meeting_map_minutes">mins</string>
+    <string name="meeting_map_seconds">secs</string>
     <string name="meeting_map_ago">ago</string>
 	<string name="meeting_map_destination">Destination</string>
     
