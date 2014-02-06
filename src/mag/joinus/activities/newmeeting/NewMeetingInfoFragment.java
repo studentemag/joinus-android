@@ -107,7 +107,7 @@ public class NewMeetingInfoFragment extends Fragment{
 										.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 						
 						cNumber=cNumber.replaceAll(" ", "");
-						cNumber=cNumber.substring(cNumber.length()-10,cNumber.length());
+						cNumber=cNumber.substring(Math.max(cNumber.length()-10,0),cNumber.length());
 						
 						User u = new User();
 						u.setPhone(cNumber);

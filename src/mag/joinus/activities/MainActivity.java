@@ -47,7 +47,7 @@ public class MainActivity extends Activity implements GetUserListener {
 		User u = new User();
 		EditText et = (EditText) findViewById(R.id.phoneNumber);
 		String phone = new String(et.getText().toString());
-		if (phone.isEmpty()) {
+		if (phone.length() < 10) {
 			Toast.makeText(getApplicationContext(), R.string.phoneisempty, Toast.LENGTH_LONG).show();
 			return;
 		}
