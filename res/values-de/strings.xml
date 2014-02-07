@@ -55,7 +55,7 @@
     <string name="meeting_map_hours">stdn</string>
     <string name="meeting_map_minutes">minn</string>
     <string name="meeting_map_seconds">sekn</string>    
-    <string name="meeting_map_ago">Vor</string>
+    <string name="meeting_map_ago">, vor</string>
 	<string name="meeting_map_destination">Zielort</string>
     
 </resources>
